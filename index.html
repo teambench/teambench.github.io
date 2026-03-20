@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TeamBench: Evaluating Agent Collaboration via Software Engineering Tasks</title>
     <meta name="description" content="TeamBench is a benchmark of 164 software engineering tasks for evaluating multi-agent collaboration with OS-enforced role separation.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#129302;</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -159,19 +160,17 @@
         .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
         .chart-card h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.15rem; }
         .chart-sub { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.25rem; }
-        .chart-wrap { position: relative; width: 100%; aspect-ratio: 16 / 10; }
+        .chart-wrap { position: relative; width: 100%; aspect-ratio: 4 / 3; }
         .chart-wrap canvas { width: 100% !important; height: 100% !important; }
-        .chart-wrap-sq { aspect-ratio: 1 / 1; }
 
         /* ── Task Categories ── */
-        .cat-grid { display: flex; flex-direction: column; gap: 0; }
+        .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.5rem; }
 
         .cat-item {
-            border: 1px solid var(--border); border-bottom: none;
+            border: 1px solid var(--border);
+            border-radius: 8px;
             transition: all 0.2s; cursor: pointer; overflow: hidden;
         }
-        .cat-item:first-child { border-radius: 10px 10px 0 0; }
-        .cat-item:last-child { border-bottom: 1px solid var(--border); border-radius: 0 0 10px 10px; }
 
         .cat-header {
             display: flex; align-items: center; justify-content: space-between;
@@ -296,7 +295,7 @@
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
             </a>
             <a href="https://huggingface.co/datasets/ybkim95/teambench" target="_blank" class="icon-btn" title="HuggingFace Dataset">
-                <svg viewBox="0 0 120 120" fill="currentColor"><path d="M35.7 58.1c-1.5-.4-3.1.5-3.5 2s.5 3.1 2 3.5c1.5.4 3.1-.5 3.5-2 .4-1.5-.5-3.1-2-3.5zm48.6 0c-1.5.4-2.4 2-2 3.5.4 1.5 2 2.4 3.5 2s2.4-2 2-3.5c-.4-1.5-2-2.4-3.5-2zM60 0C26.9 0 0 26.9 0 60s26.9 60 60 60 60-26.9 60-60S93.1 0 60 0zM30.6 42.4c2.5-5.7 7.4-9.4 12.7-9.4s10.2 3.7 12.7 9.4c.7 1.6-.1 3.4-1.7 4.1-1.6.7-3.4-.1-4.1-1.7-1.4-3.1-4-5.2-6.9-5.2s-5.5 2.1-6.9 5.2c-.7 1.6-2.5 2.4-4.1 1.7-1.6-.7-2.4-2.5-1.7-4.1zm6.4 28.2c3.5 8.4 10.4 14.2 19.4 15.5 1.7.2 2.8 1.8 2.6 3.4-.2 1.7-1.8 2.8-3.4 2.6-11.4-1.6-20.1-9-24.5-19.5-.6-1.5.1-3.3 1.7-3.9 1.5-.7 3.3.1 3.9 1.7.1.1.2.2.3.2zm27.3-20.2c-1.5-.4-3.1.5-3.5 2s.5 3.1 2 3.5 3.1-.5 3.5-2-.5-3.1-2-3.5zm18.4-8c-2.5-5.7-7.4-9.4-12.7-9.4s-10.2 3.7-12.7 9.4c-.7 1.6.1 3.4 1.7 4.1 1.6.7 3.4-.1 4.1-1.7 1.4-3.1 4-5.2 6.9-5.2s5.5 2.1 6.9 5.2c.7 1.6 2.5 2.4 4.1 1.7 1.6-.7 2.4-2.5 1.7-4.1zm-3.5 28.2c-.6-1.5-2.4-2.3-3.9-1.7-1.5.6-2.3 2.4-1.7 3.9 0 .1.1.1.1.2l.2.2c3.5 8.4 10.4 14.2 19.4 15.5 1.7.2 3.2-1 3.4-2.6.2-1.7-1-3.2-2.6-3.4-7-1-12.7-5.2-15.9-12.1z"/></svg>
+                <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HF" style="width:20px;height:20px;">
             </a>
             <button class="icon-btn theme-btn" onclick="toggleTheme()" title="Toggle theme">
                 <svg viewBox="0 0 24 24" id="theme-icon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -314,8 +313,14 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
             GitHub
         </a>
-        <a href="https://huggingface.co/datasets/ybkim95/teambench" class="btn-ghost" target="_blank">Dataset</a>
-        <a href="https://arxiv.org/abs/2512.08296" class="btn-ghost" target="_blank">Paper</a>
+        <a href="https://huggingface.co/datasets/ybkim95/teambench" class="btn-ghost" target="_blank">
+            <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HF" style="width:16px;height:16px;">
+            Dataset
+        </a>
+        <a href="https://arxiv.org/abs/2512.08296" class="btn-ghost" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            Paper
+        </a>
     </div>
     <div class="stats-bar">
         <div class="stat-item"><div class="stat-value">164</div><div class="stat-label">Tasks</div></div>
@@ -490,7 +495,7 @@
         <div class="card chart-card">
             <h3>Oracle vs Team Score (per task)</h3>
             <p class="chart-sub">Each point is a task. Points above the diagonal = team wins. Hover for details.</p>
-            <div class="chart-wrap chart-wrap-sq"><canvas id="chart-scatter"></canvas></div>
+            <div class="chart-wrap"><canvas id="chart-scatter"></canvas></div>
         </div>
         <div class="card chart-card">
             <h3>Team Uplift by Oracle Quintile</h3>
@@ -505,7 +510,7 @@
         <div class="card chart-card">
             <h3>Planning vs Verification Value</h3>
             <p class="chart-sub">Per-task component contribution. Hover to explore individual tasks.</p>
-            <div class="chart-wrap chart-wrap-sq"><canvas id="chart-planvverify"></canvas></div>
+            <div class="chart-wrap"><canvas id="chart-planvverify"></canvas></div>
         </div>
     </div>
 </section>
@@ -538,9 +543,18 @@
         <span>$ pip install teambench</span><span class="cta-copy">copy</span>
     </div>
     <div class="cta-links">
-        <a href="https://github.com/ybkim95/TeamBench" class="btn-fill" target="_blank">GitHub</a>
-        <a href="https://huggingface.co/datasets/ybkim95/teambench" class="btn-ghost" target="_blank">HuggingFace</a>
-        <a href="https://arxiv.org/abs/2512.08296" class="btn-ghost" target="_blank">Paper</a>
+        <a href="https://github.com/ybkim95/TeamBench" class="btn-fill" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            GitHub
+        </a>
+        <a href="https://huggingface.co/datasets/ybkim95/teambench" class="btn-ghost" target="_blank">
+            <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HF" style="width:16px;height:16px;">
+            HuggingFace
+        </a>
+        <a href="https://arxiv.org/abs/2512.08296" class="btn-ghost" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            Paper
+        </a>
     </div>
 </div>
 
