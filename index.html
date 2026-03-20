@@ -15,7 +15,7 @@
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         :root { --transition: 0.25s ease; }
@@ -46,7 +46,7 @@
         html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+            font-family: 'Geist', -apple-system, sans-serif;
             background: var(--bg); color: var(--text);
             line-height: 1.7;
             transition: background var(--transition), color var(--transition);
@@ -125,14 +125,14 @@
         .feature-list li { display: flex; gap: 0.6rem; font-size: 0.85rem; line-height: 1.6; }
         .feature-list .dot { flex-shrink: 0; width: 6px; height: 6px; border-radius: 50%; background: var(--text-muted); margin-top: 8px; }
         .tni-box { text-align: center; padding: 1.5rem; margin-top: 1.5rem; border: 1px solid var(--border); border-radius: 10px; }
-        .tni-eq { font-family: 'IBM Plex Mono', monospace; font-size: 1.1rem; margin-bottom: 0.4rem; }
+        .tni-eq { font-family: 'Geist Mono', monospace; font-size: 1.1rem; margin-bottom: 0.4rem; }
         .tni-desc { font-size: 0.78rem; color: var(--text-muted); }
 
         /* ── Conditions ── */
         .conditions-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem; }
         .cond-card { text-align: center; padding: 1.5rem 1rem; }
         .cond-name { font-weight: 700; font-size: 0.85rem; margin-bottom: 0.4rem; }
-        .cond-score { font-family: 'IBM Plex Mono', monospace; font-size: 1.6rem; font-weight: 800; line-height: 1.2; }
+        .cond-score { font-family: 'Geist Mono', monospace; font-size: 1.6rem; font-weight: 800; line-height: 1.2; }
         .cond-desc { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.4rem; line-height: 1.4; }
         .cond-roles { display: flex; justify-content: center; gap: 0.3rem; margin-top: 0.6rem; }
         .pill { padding: 0.15rem 0.45rem; border-radius: 3px; font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border: 1px solid var(--border); color: var(--text-secondary); }
@@ -143,7 +143,7 @@
         .findings-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
         .finding-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem; }
         .finding-card p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.7; }
-        .finding-stat { display: inline-block; margin-top: 0.75rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; font-weight: 600; padding: 0.25rem 0.6rem; border: 1px solid var(--border); border-radius: 5px; }
+        .finding-stat { display: inline-block; margin-top: 0.75rem; font-family: 'Geist Mono', monospace; font-size: 0.8rem; font-weight: 600; padding: 0.25rem 0.6rem; border: 1px solid var(--border); border-radius: 5px; }
 
         /* ── Leaderboard ── */
         .lb-wrapper { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
@@ -159,7 +159,7 @@
         tbody tr:hover { background: var(--bg-card); }
         .model-name { font-weight: 600; }
         .family-tag { font-size: 0.65rem; padding: 0.1rem 0.4rem; border-radius: 3px; font-weight: 500; border: 1px solid var(--border); color: var(--text-secondary); margin-left: 0.4rem; }
-        .mono { font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; }
+        .mono { font-family: 'Geist Mono', monospace; font-size: 0.82rem; }
         .best { font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
         .rank { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; border: 1px solid var(--border); }
         .rank-gold { border-color: var(--text-muted); }
@@ -191,7 +191,7 @@
 
         .cat-left { display: flex; align-items: center; gap: 0.75rem; }
         .cat-name { font-size: 0.85rem; font-weight: 600; }
-        .cat-count { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
+        .cat-count { font-family: 'Geist Mono', monospace; font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
 
         .cat-right { display: flex; align-items: center; gap: 0.75rem; }
         .cat-chevron {
@@ -223,7 +223,7 @@
         .task-example + .task-example { border-top: 1px solid var(--border); }
 
         .task-id {
-            font-family: 'IBM Plex Mono', monospace;
+            font-family: 'Geist Mono', monospace;
             font-size: 0.72rem; font-weight: 600;
             white-space: nowrap;
             padding: 0.2rem 0.5rem;
@@ -249,7 +249,7 @@
         .cta { text-align: center; max-width: 600px; margin: 0 auto; padding: 5rem 2rem 6rem; }
         .cta h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.75rem; letter-spacing: -0.03em; }
         .cta > p { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem; }
-        .cta-code { display: flex; align-items: center; justify-content: space-between; padding: 0.8rem 1.2rem; border: 1px solid var(--border); border-radius: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; margin-bottom: 1.5rem; cursor: pointer; transition: border-color 0.2s; }
+        .cta-code { display: flex; align-items: center; justify-content: space-between; padding: 0.8rem 1.2rem; border: 1px solid var(--border); border-radius: 8px; font-family: 'Geist Mono', monospace; font-size: 0.82rem; margin-bottom: 1.5rem; cursor: pointer; transition: border-color 0.2s; }
         .cta-code:hover { border-color: var(--border-hover); }
         .cta-copy { font-size: 0.7rem; color: var(--text-muted); }
         .cta-links { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
@@ -306,12 +306,6 @@
             </ul>
         </div>
         <div class="nav-right">
-            <a href="https://github.com/ybkim95/TeamBench" target="_blank" class="icon-btn" title="GitHub" aria-label="GitHub repository">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-            </a>
-            <a href="https://huggingface.co/datasets/ybkim95/teambench" target="_blank" class="icon-btn" title="HuggingFace Dataset" aria-label="HuggingFace dataset">
-                <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HF" class="ext-logo" style="width:20px;height:20px;">
-            </a>
             <button class="icon-btn theme-btn" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle dark/light theme">
                 <svg viewBox="0 0 24 24" id="theme-icon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
             </button>
@@ -332,9 +326,9 @@
             <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HF" class="ext-logo" style="width:16px;height:16px;">
             Dataset
         </a>
-        <a href="https://arxiv.org/abs/2512.08296" class="btn-ghost" target="_blank">
+        <a href="#" class="btn-ghost" style="cursor:default;opacity:0.5;" onclick="return false;">
             <img src="arxiv-logo.png" alt="arXiv" class="ext-logo">
-            Paper
+            Paper (TBA)
         </a>
     </div>
     <div class="stats-bar">
@@ -625,9 +619,9 @@
             <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HF" class="ext-logo" style="width:16px;height:16px;">
             HuggingFace
         </a>
-        <a href="https://arxiv.org/abs/2512.08296" class="btn-ghost" target="_blank">
+        <a href="#" class="btn-ghost" style="cursor:default;opacity:0.5;" onclick="return false;">
             <img src="arxiv-logo.png" alt="arXiv" class="ext-logo">
-            Paper
+            Paper (TBA)
         </a>
     </div>
 </div>
@@ -638,7 +632,7 @@
         <div class="footer-links">
             <a href="https://github.com/ybkim95/TeamBench" target="_blank">GitHub</a>
             <a href="https://huggingface.co/datasets/ybkim95/teambench" target="_blank">HuggingFace</a>
-            <a href="https://arxiv.org/abs/2512.08296" target="_blank">arXiv</a>
+            <a href="#" onclick="return false;">Paper (TBA)</a>
             <a href="mailto:ybkim95@mit.edu">Contact</a>
         </div>
     </div>
@@ -906,7 +900,7 @@ function buildCharts() {
     const c = gc();
     Chart.defaults.color = c.text;
     Chart.defaults.borderColor = c.grid;
-    Chart.defaults.font.family = "'IBM Plex Sans', sans-serif";
+    Chart.defaults.font.family = "'Geist', sans-serif";
 
     charts.category = new Chart(document.getElementById('chart-category'), {
         type:'bar', data:{ labels:['Multi-lang.','Integration','Incident','Long-Hor.','Operations','Testing','Policy','Negotiation','Spec.','SWE','Adversarial','Pipeline','Code Rev.','Info. Retr.','Cross-Sys.','Security','Data Eng.','Distributed'], datasets:[{data:[0.74,0.50,0.44,0.38,0.35,0.35,0.22,0.21,0.13,0.05,0.04,0.03,0.01,0.00,0.00,-0.01,-0.01,-0.10],backgroundColor:ctx=>ctx.raw>=0?c.bar:c.neg,borderRadius:3,barThickness:14}] },
