@@ -17,10 +17,10 @@
             --bg: #000000; --bg-subtle: #0a0a0a; --bg-card: #111111; --bg-card-hover: #181818;
             --text: #e8e8e8; --text-secondary: #888888; --text-muted: #555555;
             --border: #222222; --border-hover: #444444; --accent: #ffffff;
-            --chart-bar: rgba(255,255,255,0.65); --chart-bar-alt: rgba(255,255,255,0.25);
-            --chart-negative: rgba(255,255,255,0.15); --chart-grid: rgba(255,255,255,0.06);
-            --chart-highlight: rgba(255,255,255,0.85); --chart-scatter-team: rgba(255,255,255,0.7);
-            --chart-scatter-oracle: rgba(255,255,255,0.2);
+            --chart-bar: rgba(96,165,250,0.75); --chart-bar-alt: rgba(96,165,250,0.25);
+            --chart-negative: rgba(248,113,113,0.55); --chart-grid: rgba(255,255,255,0.06);
+            --chart-highlight: #ffffff; --chart-scatter-team: rgba(96,165,250,0.8);
+            --chart-scatter-oracle: rgba(248,113,113,0.6);
             --shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
 
@@ -28,10 +28,10 @@
             --bg: #ffffff; --bg-subtle: #fafafa; --bg-card: #f5f5f5; --bg-card-hover: #eeeeee;
             --text: #111111; --text-secondary: #555555; --text-muted: #999999;
             --border: #e0e0e0; --border-hover: #cccccc; --accent: #000000;
-            --chart-bar: rgba(0,0,0,0.65); --chart-bar-alt: rgba(0,0,0,0.2);
-            --chart-negative: rgba(0,0,0,0.1); --chart-grid: rgba(0,0,0,0.06);
-            --chart-highlight: rgba(0,0,0,0.85); --chart-scatter-team: rgba(0,0,0,0.7);
-            --chart-scatter-oracle: rgba(0,0,0,0.2);
+            --chart-bar: rgba(37,99,235,0.7); --chart-bar-alt: rgba(37,99,235,0.2);
+            --chart-negative: rgba(220,38,38,0.5); --chart-grid: rgba(0,0,0,0.06);
+            --chart-highlight: #000000; --chart-scatter-team: rgba(37,99,235,0.75);
+            --chart-scatter-oracle: rgba(220,38,38,0.55);
             --shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
 
@@ -79,8 +79,9 @@
         .hero-actions svg { width: 16px; height: 16px; }
         .btn-fill { background: var(--text); color: var(--bg); }
         .btn-fill:hover { opacity: 0.85; }
-        .ext-logo { width: 16px; height: 16px; border-radius: 2px; filter: grayscale(1) brightness(0); }
-        [data-theme="dark"] .ext-logo { filter: grayscale(1) invert(1); }
+        .ext-logo { width: 16px; height: 16px; border-radius: 2px; }
+        .arxiv-blend { mix-blend-mode: multiply; }
+        [data-theme="dark"] .arxiv-blend { mix-blend-mode: screen; }
         .btn-ghost { border: 1px solid var(--border); color: var(--text); }
         .btn-ghost:hover { border-color: var(--border-hover); background: var(--bg-card); }
 
@@ -322,7 +323,7 @@
             Dataset
         </a>
         <a href="https://arxiv.org/abs/2512.08296" class="btn-ghost" target="_blank">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2OXMnc5dzJNAKeOLGQDnYURnKrRPELeQOcw&s" alt="arXiv" class="ext-logo">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2OXMnc5dzJNAKeOLGQDnYURnKrRPELeQOcw&s" alt="arXiv" class="ext-logo arxiv-blend">
             Paper
         </a>
     </div>
@@ -560,7 +561,7 @@
             HuggingFace
         </a>
         <a href="https://arxiv.org/abs/2512.08296" class="btn-ghost" target="_blank">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2OXMnc5dzJNAKeOLGQDnYURnKrRPELeQOcw&s" alt="arXiv" class="ext-logo">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2OXMnc5dzJNAKeOLGQDnYURnKrRPELeQOcw&s" alt="arXiv" class="ext-logo arxiv-blend">
             Paper
         </a>
     </div>
