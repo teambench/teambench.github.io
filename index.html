@@ -202,15 +202,19 @@
 
         .cat-body {
             max-height: 0; overflow: hidden;
-            transition: max-height 0.35s ease, padding 0.35s ease;
+            transition: max-height 0.4s ease, padding 0.4s ease;
             padding: 0 1.25rem;
             border-top: 0 solid var(--border);
         }
         .cat-item.open .cat-body {
-            max-height: 500px;
-            padding: 1rem 1.25rem 1.25rem;
+            max-height: 300px;
+            padding: 0.75rem 1.25rem 1rem;
             border-top: 1px solid var(--border);
+            overflow-y: auto;
         }
+        .cat-body::-webkit-scrollbar { width: 4px; }
+        .cat-body::-webkit-scrollbar-track { background: transparent; }
+        .cat-body::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 2px; }
 
         .task-example {
             display: flex; gap: 0.75rem; align-items: flex-start;
@@ -486,6 +490,61 @@
 
 <hr class="divider">
 
+<!-- Heterogeneous Teams -->
+<section id="hetero">
+    <div class="section-header fade-up">
+        <span class="section-label">Heterogeneous Teams</span>
+        <h2 class="section-title">Mixing Stronger Models Into Specific Roles</h2>
+        <p class="section-desc">What happens when you upgrade one role to a stronger model while keeping the rest weak? 28-task subset, seed 0.</p>
+    </div>
+    <div class="lb-wrapper fade-up">
+        <table>
+            <thead>
+                <tr><th>Configuration</th><th>Planner</th><th>Executor</th><th>Verifier</th><th>Avg. Score</th><th>Pass Rate</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="model-name">Baseline (homogeneous)</td>
+                    <td>G3.1 Lite</td><td>G3.1 Lite</td><td>G3.1 Lite</td>
+                    <td class="mono">0.597</td><td class="mono">0.0%</td>
+                </tr>
+                <tr>
+                    <td class="model-name">Executor upgrade (GPT-5-Mini)</td>
+                    <td>G3.1 Lite</td><td class="best">GPT-5-Mini</td><td>G3.1 Lite</td>
+                    <td class="mono best">0.702</td><td class="mono">7.1%</td>
+                </tr>
+                <tr>
+                    <td class="model-name">Executor upgrade (G3 Flash)</td>
+                    <td>G3.1 Lite</td><td class="best">G3 Flash</td><td>G3.1 Lite</td>
+                    <td class="mono best">0.723</td><td class="mono best">10.7%</td>
+                </tr>
+                <tr>
+                    <td class="model-name">Planner upgrade (GPT-5-Mini)</td>
+                    <td class="best">GPT-5-Mini</td><td>G3.1 Lite</td><td>G3.1 Lite</td>
+                    <td class="mono">0.642</td><td class="mono">10.7%</td>
+                </tr>
+                <tr>
+                    <td class="model-name">Planner upgrade (G3 Flash)</td>
+                    <td class="best">G3 Flash</td><td>G3.1 Lite</td><td>G3.1 Lite</td>
+                    <td class="mono">0.597</td><td class="mono">0.0%</td>
+                </tr>
+                <tr>
+                    <td class="model-name">Verifier upgrade (G3 Flash)</td>
+                    <td>G3.1 Lite</td><td>G3.1 Lite</td><td class="best">G3 Flash</td>
+                    <td class="mono">0.615</td><td class="mono">7.1%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="max-width:700px;margin:1.5rem auto 0;text-align:center;">
+        <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">
+            <strong>Key insight:</strong> Upgrading the <strong>Executor</strong> yields the largest gains (+0.126 avg score), confirming that implementation capability is the primary bottleneck. Planner upgrades help with pass rate but less with partial scores. Verifier upgrades show modest improvement, consistent with the finding that verification adds limited value.
+        </p>
+    </div>
+</section>
+
+<hr class="divider">
+
 <!-- Charts -->
 <section id="results">
     <div class="section-header fade-up">
@@ -589,80 +648,170 @@
 // ── Task category data with examples ──
 const categories = [
     { name: "Security / Crypto", count: 15, tasks: [
-        { id: "SEC1_vuln_patch", desc: "Fix confirmed security vulnerabilities identified in a web application audit report." },
-        { id: "CRYPTO1_nonce_reuse", desc: "Fix 3 cryptographic bugs in AES-GCM encryption service: nonce reuse, weak iteration count, truncated tag." }
+        { id: "SEC1", desc: "Fix confirmed security vulnerabilities from web application audit report." },
+        { id: "SEC9", desc: "Triage and prioritize vulnerability findings by severity and exploitability." },
+        { id: "CRYPTO1", desc: "Fix 3 cryptographic bugs: AES-GCM nonce reuse, weak PBKDF2 iterations, truncated tag." },
+        { id: "CRYPTO2", desc: "Replace timing-unsafe secret comparisons with constant-time alternatives." },
+        { id: "CRYPTO3", desc: "Fix X.509 certificate chain validation bugs (datetime, chain check, pathLen)." },
+        { id: "CRYPTO4", desc: "Migrate password hashing from MD5 to Argon2id with format markers." },
+        { id: "CRYPTO5", desc: "Harden TLS configuration against downgrade attacks and weak ciphers." },
+        { id: "CRYPTO6", desc: "Fix JWT token validation including algorithm confusion and expiry checks." }
     ]},
     { name: "Data Engineering", count: 11, tasks: [
-        { id: "D1_schema_drift", desc: "Fix ETL pipeline to handle inconsistent CSV schemas with columns added, renamed, and reordered." },
-        { id: "D8_csv_cleanup", desc: "Apply complex data validation rules from specification to clean dataset with edge cases." }
+        { id: "D1", desc: "Fix ETL pipeline to handle inconsistent CSV schemas with columns added and renamed." },
+        { id: "D2", desc: "Process dataset according to specific data quality rules and output clean data." },
+        { id: "D7", desc: "Reconcile ETL output discrepancies between expected and actual data." },
+        { id: "D8", desc: "Apply complex validation rules from specification to clean CSV dataset." },
+        { id: "D9", desc: "Implement schema validation with constraint checking and error reporting." }
     ]},
     { name: "Incident Response", count: 11, tasks: [
-        { id: "INC1_cascade_failure", desc: "Diagnose and fix cascading service failures with multi-component impact analysis." },
-        { id: "INC2_data_corruption", desc: "Identify the root cause of data corruption from logs and apply targeted remediation." }
+        { id: "INC1", desc: "Diagnose and fix cascading service failures with multi-component impact analysis." },
+        { id: "INC2", desc: "Identify root cause of data corruption from logs and apply targeted remediation." },
+        { id: "INC4", desc: "Fix DNS misconfiguration causing intermittent service resolution failures." },
+        { id: "INC8a", desc: "Diagnose cascading timeout failures across dependent microservices." },
+        { id: "INC8b", desc: "Triage memory leak from heap analysis and apply targeted fix." },
+        { id: "INC9", desc: "Perform log forensics to reconstruct incident timeline and root cause." },
+        { id: "INC10", desc: "Create rollback plan for failed deployment with data integrity checks." }
     ]},
     { name: "Software Engineering", count: 11, tasks: [
-        { id: "GO1_concurrency_fix", desc: "Fix concurrency bugs in Go job processor to prevent hangs, races, and deadlocks." },
-        { id: "JS1_api_migration", desc: "Migrate Node.js REST API from Express v4 to v5 handling breaking API changes." }
+        { id: "S1", desc: "Fix CLI JSON tool to pass tests based on hidden specification in test cases." },
+        { id: "S2", desc: "Resolve dependency conflicts and version mismatches across packages." },
+        { id: "S4", desc: "Maintain backward compatibility while upgrading internal API." },
+        { id: "S5", desc: "Implement comprehensive error handling across service boundaries." },
+        { id: "S7", desc: "Fix environment configuration loading with fallback and validation." },
+        { id: "GO1", desc: "Fix concurrency bugs in Go job processor: hangs, races, and deadlocks." },
+        { id: "JS1", desc: "Migrate Node.js REST API from Express v4 to v5 with breaking changes." },
+        { id: "SQL1", desc: "Repair broken SQL queries with correct joins and aggregation logic." }
     ]},
     { name: "Real-World GitHub", count: 11, tasks: [
-        { id: "GH1_flask_session", desc: "Fix session data loss when test client follows redirects; session state must persist across requests." },
-        { id: "GH3_httpx_auth_leak", desc: "Fix authentication credentials leaking through HTTP redirect headers in httpx library." }
+        { id: "GH1", desc: "Fix session data loss when Flask test client follows redirects." },
+        { id: "GH2", desc: "Fix optional flag value parsing in Click CLI framework." },
+        { id: "GH3", desc: "Fix credential leak through HTTP redirect headers in httpx." },
+        { id: "GH4", desc: "Fix JSON response encoding detection in Requests library." },
+        { id: "GH5", desc: "Fix recursive model validation causing infinite loops in Pydantic." },
+        { id: "GH6", desc: "Fix QuerySet filtering after set operations (union) in Django." },
+        { id: "GH7", desc: "Fix fixture state isolation between test modules in pytest." },
+        { id: "GH8", desc: "Fix dependency cache race condition in async resolver." },
+        { id: "GH9", desc: "Fix connection pool exhaustion on query errors in SQLAlchemy." },
+        { id: "GH10", desc: "Fix task retry backoff calculation in Celery." },
+        { id: "GH11", desc: "Fix middleware error handler ordering in Werkzeug." }
     ]},
     { name: "Testing", count: 9, tasks: [
-        { id: "TEST1_spec_to_tests", desc: "Write comprehensive test suite for calculator engine from specification including edge cases." },
-        { id: "TEST5_mutation_resistant", desc: "Create mutation-resistant tests that catch subtle behavioral changes surviving code mutations." }
+        { id: "TEST1", desc: "Write comprehensive test suite for calculator engine from specification." },
+        { id: "TEST2", desc: "Create regression tests from specification to catch known failure modes." },
+        { id: "TEST4", desc: "Design property-based tests using Hypothesis for invariant checking." },
+        { id: "TEST5", desc: "Create mutation-resistant tests that survive code mutations." },
+        { id: "TEST6", desc: "Write property-based tests for data structure invariants." },
+        { id: "TEST7", desc: "Build integration test suite covering multi-service interactions." },
+        { id: "TEST8", desc: "Write focused unit tests covering boundary conditions." },
+        { id: "TEST9", desc: "Create mock-based API tests with request/response verification." }
     ]},
     { name: "Multi-language", count: 9, tasks: [
-        { id: "MULTI1_fullstack_fix", desc: "Fix bugs spanning Flask backend, JavaScript frontend, and bash deploy script in a note-taking app." },
-        { id: "MULTI2_api_frontend", desc: "Debug cross-layer issues between Python API backend and JavaScript frontend components." }
+        { id: "MULTI1", desc: "Fix bugs spanning Flask backend, JavaScript frontend, and bash deploy script." },
+        { id: "MULTI2", desc: "Debug cross-layer issues between API backend and frontend." },
+        { id: "MULTI3", desc: "Fix polyglot interface bugs across Python/JS/shell boundaries." },
+        { id: "MULTI4", desc: "Resolve monorepo dependency conflicts across language boundaries." },
+        { id: "MULTI5", desc: "Repair CI/CD pipeline with multi-language build steps." },
+        { id: "MULTI6", desc: "Fix fullstack bugs in Python/JavaScript/HTML application." },
+        { id: "MULTI7", desc: "Fix polyglot test suite spanning multiple language runtimes." },
+        { id: "MULTI8", desc: "Resolve SDK version mismatch between client and server." }
     ]},
     { name: "Operations", count: 9, tasks: [
-        { id: "O1_service_health", desc: "Fix service health endpoint to pass /health checks and return correct diagnostic information." },
-        { id: "O2_incident_rootcause", desc: "Analyze incident logs, identify API endpoint root cause, and apply minimal targeted fix." }
+        { id: "O1", desc: "Fix service health endpoint to pass /health checks with diagnostics." },
+        { id: "O2", desc: "Analyze incident logs, identify root cause, and apply minimal fix." },
+        { id: "O3", desc: "Fix log analysis pipeline for structured event processing." },
+        { id: "O4", desc: "Correct alerting rules with proper thresholds and conditions." },
+        { id: "O5", desc: "Debug containerized service startup and networking issues." },
+        { id: "O7", desc: "Plan service capacity based on traffic patterns and SLAs." },
+        { id: "O8", desc: "Fix Dockerfile build errors and optimize layer caching." },
+        { id: "O9", desc: "Configure logging levels, rotation, and output formatting." }
     ]},
     { name: "Pipeline / Integration", count: 9, tasks: [
-        { id: "PIPE1_etl_fix", desc: "Repair broken ETL pipeline to pass end-to-end integration tests with correct data flow." },
-        { id: "INT1_pipeline_repair", desc: "Fix data pipeline chain (collector, processor, reporter) with API contract mismatches between stages." }
+        { id: "PIPE1", desc: "Repair broken ETL pipeline to pass end-to-end integration tests." },
+        { id: "PIPE2", desc: "Fix data pipeline with schema validation and error handling." },
+        { id: "PIPE3", desc: "Debug stream processing pipeline with backpressure issues." },
+        { id: "INT1", desc: "Fix data pipeline chain with API contract mismatches between stages." },
+        { id: "INT2", desc: "Migrate API version with backward-compatible request routing." },
+        { id: "INT3", desc: "Fix database schema migration with foreign key constraints." }
     ]},
     { name: "Long-Horizon", count: 9, tasks: [
-        { id: "LH1_long_horizon", desc: "Execute 15-step pipeline workflow with failure recovery and budget constraints." },
-        { id: "LH2_budgeted_workflow", desc: "Multi-step migration under computational budget with phase ordering and rollback conditions." }
+        { id: "LH1", desc: "Execute 15-step pipeline workflow with failure recovery strategies." },
+        { id: "LH2", desc: "Multi-step migration under computational budget with rollback conditions." },
+        { id: "LH6", desc: "Fix audit trail bugs to ensure complete event logging." },
+        { id: "LH7", desc: "Implement zero-downtime database migration with dual-write." },
+        { id: "SCALE1", desc: "Migrate entire codebase from requests to httpx library." },
+        { id: "SYNTH1", desc: "Debug distributed system with correlated failures across nodes." }
     ]},
     { name: "Adversarial", count: 8, tasks: [
-        { id: "TRAP1_spec_conflict", desc: "Resolve spec vs secondary docs conflict: 4 endpoints need strict validation, 3 must preserve relaxed behavior." },
-        { id: "TRAP5_security_theater", desc: "10 audit findings where findings 1-4 are intentional false positives; only 5-10 are genuine vulnerabilities." }
+        { id: "TRAP1", desc: "Spec vs secondary docs conflict: 4 endpoints need validation, 3 must stay relaxed." },
+        { id: "TRAP2", desc: "Distinguish 5 genuine bugs from 3 intentional design choices." },
+        { id: "TRAP3", desc: "Fix cache measurement: warm-up hits inflate rate from ~60% to ~95%." },
+        { id: "TRAP4", desc: "v2 to v3 migration, but 2 of 6 patterns must stay as shims." },
+        { id: "TRAP5", desc: "10 audit findings: 1-4 are false positives, only 5-10 are genuine." },
+        { id: "TRAP6", desc: "Deprecated API migration with hidden backward-compatibility traps." },
+        { id: "TRAP7", desc: "Separate test pollution artifacts from real bugs." },
+        { id: "TRAP8", desc: "Audit configuration overrides to find intentional vs accidental." }
     ]},
     { name: "Info. Retrieval", count: 8, tasks: [
-        { id: "IR1_evidence_qa", desc: "Find specific information from offline corpus using evidence-based search and source verification." },
-        { id: "IR2_misinformation_trap", desc: "Navigate corpus with intentional misinformation and conflicting sources to find ground truth." }
+        { id: "IR1", desc: "Find information from offline corpus with evidence-based search." },
+        { id: "IR2", desc: "Navigate corpus with misinformation to find ground truth." },
+        { id: "IR3", desc: "Cross-reference multiple sources to resolve contradictions." },
+        { id: "IR4", desc: "Temporal priority QA: newer documents override older ones." },
+        { id: "IR5", desc: "Fix search ranking algorithm for relevance scoring." },
+        { id: "IR6", desc: "Build inverted search index with tokenization and stemming." },
+        { id: "IR7", desc: "Implement document clustering with similarity metrics." },
+        { id: "IR8", desc: "Fix search index update propagation and consistency." }
     ]},
     { name: "Policy", count: 8, tasks: [
-        { id: "P1_policy_config", desc: "Fix configuration to comply with all policy rules covering performance, security, and reliability." },
-        { id: "P6_license_check", desc: "Verify and enforce license compliance across project dependencies against policy constraints." }
+        { id: "P1", desc: "Fix configuration to comply with all policy rules." },
+        { id: "P2", desc: "Arbitrate between conflicting policy requirements." },
+        { id: "P6", desc: "Verify license compliance across project dependencies." },
+        { id: "P7", desc: "Implement data retention policy with automated cleanup." },
+        { id: "P8", desc: "Fix access control policy with proper role-permission mapping." }
     ]},
     { name: "Cross-System", count: 7, tasks: [
-        { id: "CROSS1_api_contract", desc: "Fix Python client to correctly communicate with Go server: 3 mismatches in naming, format, and error codes." },
-        { id: "CROSS2_schema_evolution", desc: "Handle schema evolution with added columns, renamed fields, and stale client models across two services." }
+        { id: "CROSS1", desc: "Fix Python client to communicate with Go server: naming, format, error code mismatches." },
+        { id: "CROSS2", desc: "Handle schema evolution: added columns, renamed fields, stale client models." },
+        { id: "CROSS3", desc: "JSON to proto3 bridge with 6 bugs: int64 truncation, bytes, oneof, enum." },
+        { id: "CROSS4", desc: "Auth gateway: HS256 accepted, timing-unsafe API key, role map, session bugs." },
+        { id: "CROSS5", desc: "Fix event schema compatibility between producer and consumer." },
+        { id: "CROSS6", desc: "Build gRPC-to-REST bridge with correct field mapping." },
+        { id: "CROSS7", desc: "Reconcile configuration drift between replicated services." }
     ]},
     { name: "Specification", count: 7, tasks: [
-        { id: "SPEC1_feature_impl", desc: "Implement feature from detailed specification with all requirements, constraints, and edge cases." },
-        { id: "SPEC7_config_schema", desc: "Build configuration schema conforming to specification with validation rules and defaults." }
+        { id: "SPEC1", desc: "Implement feature from detailed specification with all edge cases." },
+        { id: "SPEC4", desc: "Implement database schema migration from specification." },
+        { id: "SPEC5", desc: "Build worker service configuration system from RFC." },
+        { id: "SPEC6", desc: "Implement RFC-style protocol with state machine transitions." },
+        { id: "SPEC7", desc: "Build configuration schema validator with constraint rules." }
     ]},
     { name: "Code Review", count: 6, tasks: [
-        { id: "CR1_review_respond", desc: "Address code review comments, fix identified issues, and improve code quality based on reviewer feedback." },
-        { id: "CR3_perf_review", desc: "Optimize performance bottlenecks identified in code review with measurable improvement." }
+        { id: "CR1", desc: "Address code review comments and improve code quality." },
+        { id: "CR3", desc: "Optimize performance bottlenecks identified in review." },
+        { id: "CR4", desc: "Fix API design issues flagged in review." },
+        { id: "CR6", desc: "Apply code review feedback across multiple files." }
     ]},
     { name: "Distributed Systems", count: 6, tasks: [
-        { id: "DIST1_queue_race", desc: "Fix 3 race conditions in message queue: TOCTOU capacity check, missing ack, and type-unsafe priority compare." },
-        { id: "DIST2_consensus_partition", desc: "Fix Raft consensus bugs: log-up-to-date check, prevLogIndex validation, and old-term commit safety." }
+        { id: "DIST1", desc: "Fix 3 race conditions: TOCTOU capacity, missing ack, type-unsafe priority." },
+        { id: "DIST2", desc: "Fix Raft consensus: log-up-to-date, prevLogIndex, old-term commits." },
+        { id: "DIST3", desc: "Add idempotency keys to 4 payment operations (balance query must NOT get key)." },
+        { id: "DIST4", desc: "Fix Lamport clock: increment-before-send, max+1, node_id tie-breaker." },
+        { id: "DIST5", desc: "Fix bully leader election with partition tolerance." },
+        { id: "DIST6", desc: "Implement distributed lock with fencing tokens and TTL." }
     ]},
     { name: "Expertise Asymmetry", count: 5, tasks: [
-        { id: "EA1_security_scan", desc: "Fix vulnerabilities identified by Planner's Bandit static analysis scan using specialized tool access." },
-        { id: "EA5_dep_audit", desc: "Remediate dependency vulnerabilities found by Planner's pip-audit scan across 9 source files." }
+        { id: "EA1", desc: "Fix vulnerabilities found by Planner's Bandit static analysis scan." },
+        { id: "EA2", desc: "Improve test coverage for gaps identified by Planner's pytest-cov analysis." },
+        { id: "EA3", desc: "Add type annotations for mypy strict mode compliance." },
+        { id: "EA4", desc: "Fix code quality issues from Planner's ruff/pylint analysis." },
+        { id: "EA5", desc: "Remediate dependency vulnerabilities from Planner's pip-audit scan." }
     ]},
     { name: "Negotiation", count: 5, tasks: [
-        { id: "NEG1_tradeoff_config", desc: "Optimize service config satisfying 3 competing constraint categories: performance, security, reliability." },
-        { id: "NEG2_cost_perf", desc: "Balance cost-performance trade-offs under competing business requirements with Pareto-optimal solutions." }
+        { id: "NEG1", desc: "Optimize config satisfying performance, security, and reliability constraints." },
+        { id: "NEG2", desc: "Balance cost-performance trade-offs under competing requirements." },
+        { id: "NEG3", desc: "Prioritize tech debt items under time and resource constraints." },
+        { id: "NEG4", desc: "Allocate limited resources across competing service demands." },
+        { id: "NEG5", desc: "Navigate SLA trade-offs between latency, availability, and cost." }
     ]}
 ];
 
