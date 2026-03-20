@@ -303,6 +303,7 @@
                 <li><a href="#leaderboard">Leaderboard</a></li>
                 <li><a href="#results">Results</a></li>
                 <li><a href="#tasks">Tasks</a></li>
+                <li><a href="#explorer">Explorer</a></li>
             </ul>
         </div>
         <div class="nav-right">
@@ -598,6 +599,103 @@
         <div class="diff-item"><div class="diff-val">26</div><div class="diff-label">Medium</div></div>
         <div class="diff-item"><div class="diff-val">115</div><div class="diff-label">Hard</div></div>
         <div class="diff-item"><div class="diff-val">16</div><div class="diff-label">Expert</div></div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- Per-Task Results Explorer -->
+<section id="explorer">
+    <div class="section-header fade-up">
+        <span class="section-label">Task Explorer</span>
+        <h2 class="section-title">Per-Task Results</h2>
+        <p class="section-desc">Search, filter, and sort all 130 tasks with ablation data. Click column headers to sort.</p>
+    </div>
+    <div class="fade-up" style="margin-bottom:1rem;display:flex;gap:0.75rem;flex-wrap:wrap;">
+        <input type="text" id="task-search" placeholder="Search tasks..." oninput="filterTasks()" style="flex:1;min-width:200px;padding:0.6rem 1rem;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:'Geist',sans-serif;font-size:0.85rem;outline:none;transition:border-color 0.2s;">
+        <select id="cat-filter" onchange="filterTasks()" style="padding:0.6rem 1rem;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:'Geist',sans-serif;font-size:0.85rem;outline:none;cursor:pointer;">
+            <option value="">All Categories</option>
+        </select>
+    </div>
+    <div class="lb-wrapper fade-up">
+        <div class="table-wrap" style="max-height:500px;overflow-y:auto;">
+            <table id="task-table">
+                <thead style="position:sticky;top:0;background:var(--bg-card);z-index:1;">
+                    <tr>
+                        <th style="cursor:pointer;" onclick="sortTable(0)">Task ID &#8597;</th>
+                        <th style="cursor:pointer;" onclick="sortTable(1)">Category &#8597;</th>
+                        <th style="cursor:pointer;" onclick="sortTable(2)">Oracle &#8597;</th>
+                        <th style="cursor:pointer;" onclick="sortTable(3)">Restricted &#8597;</th>
+                        <th style="cursor:pointer;" onclick="sortTable(4)">No Plan &#8597;</th>
+                        <th style="cursor:pointer;" onclick="sortTable(5)">No Verify &#8597;</th>
+                        <th style="cursor:pointer;" onclick="sortTable(6)">Full Team &#8597;</th>
+                        <th style="cursor:pointer;" onclick="sortTable(7)">Uplift &#8597;</th>
+                    </tr>
+                </thead>
+                <tbody id="task-tbody"></tbody>
+            </table>
+        </div>
+        <div style="padding:0.75rem 1rem;font-size:0.75rem;color:var(--text-muted);border-top:1px solid var(--border);">
+            <span id="task-count">130</span> tasks shown &mdash; Gemini 3 Flash Preview, seed 0
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- Submission / How to Evaluate -->
+<section id="submit">
+    <div class="section-header fade-up">
+        <span class="section-label">Evaluate Your Model</span>
+        <h2 class="section-title">Submit Results</h2>
+    </div>
+    <div class="fade-up" style="max-width:700px;margin:0 auto;">
+        <div class="card" style="margin-bottom:1rem;">
+            <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:0.75rem;">Quick Start</h3>
+            <div style="font-family:'Geist Mono',monospace;font-size:0.8rem;line-height:2;background:var(--bg);padding:1rem 1.25rem;border-radius:8px;border:1px solid var(--border);overflow-x:auto;">
+                <div style="color:var(--text-muted);"># Install</div>
+                <div>pip install teambench</div>
+                <br>
+                <div style="color:var(--text-muted);"># Run on the 28-task Mini subset</div>
+                <div>teambench run --model your-model --tasks mini --seed 0</div>
+                <br>
+                <div style="color:var(--text-muted);"># Run full 164-task evaluation</div>
+                <div>teambench run --model your-model --tasks all --seed 0</div>
+                <br>
+                <div style="color:var(--text-muted);"># Grade results</div>
+                <div>teambench grade --run-dir results/</div>
+            </div>
+        </div>
+        <div class="card" style="margin-bottom:1rem;">
+            <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:0.75rem;">Leaderboard Submission</h3>
+            <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;">
+                To add your model to the leaderboard, submit a Pull Request to the
+                <a href="https://github.com/ybkim95/TeamBench" target="_blank" style="color:var(--text);text-decoration:underline;">TeamBench repository</a>
+                with your results JSON file in <code style="font-family:'Geist Mono',monospace;font-size:0.8rem;padding:0.15rem 0.4rem;background:var(--bg-card);border:1px solid var(--border);border-radius:3px;">shared/ablation_results/</code>.
+                We recommend evaluating on the <strong>TeamBench-Mini</strong> 28-task subset with all 5 ablation conditions for comparability.
+            </p>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- Citation -->
+<section id="citation">
+    <div class="section-header fade-up">
+        <span class="section-label">Citation</span>
+        <h2 class="section-title">Cite TeamBench</h2>
+    </div>
+    <div class="fade-up" style="max-width:700px;margin:0 auto;">
+        <div style="position:relative;">
+            <pre id="bibtex-block" style="font-family:'Geist Mono',monospace;font-size:0.78rem;line-height:1.7;background:var(--bg-card);padding:1.25rem 1.5rem;border-radius:10px;border:1px solid var(--border);overflow-x:auto;white-space:pre-wrap;">@article{kim2025teambench,
+  title={TeamBench: Evaluating Agent Collaboration via Software Engineering Tasks},
+  author={Kim, Yubin},
+  journal={arXiv preprint},
+  year={2025}
+}</pre>
+            <button onclick="navigator.clipboard.writeText(document.getElementById('bibtex-block').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy BibTeX',1500)})" style="position:absolute;top:0.75rem;right:0.75rem;padding:0.35rem 0.75rem;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text-secondary);font-family:'Geist',sans-serif;font-size:0.72rem;font-weight:600;cursor:pointer;transition:all 0.2s;">Copy BibTeX</button>
+        </div>
     </div>
 </section>
 
@@ -991,6 +1089,54 @@ function buildCharts() {
 
 function rebuildCharts() { Object.values(charts).forEach(ch=>ch.destroy()); charts={}; buildCharts(); }
 buildCharts();
+
+// ── Task Explorer ──
+let taskData = [];
+let sortCol = 7, sortAsc = false; // default: sort by uplift descending
+
+fetch('task_results.json').then(r=>r.json()).then(data=>{
+    taskData = data;
+    // Populate category filter
+    const cats = [...new Set(data.map(d=>d.cat))].sort();
+    const sel = document.getElementById('cat-filter');
+    cats.forEach(c=>{ const o=document.createElement('option'); o.value=c; o.textContent=c; sel.appendChild(o); });
+    renderTasks();
+});
+
+function renderTasks() {
+    const search = document.getElementById('task-search').value.toLowerCase();
+    const catF = document.getElementById('cat-filter').value;
+    let filtered = taskData.filter(d => {
+        if (search && !d.id.toLowerCase().includes(search) && !d.cat.toLowerCase().includes(search)) return false;
+        if (catF && d.cat !== catF) return false;
+        return true;
+    });
+    // Sort
+    const keys = ['id','cat','oracle','restr','noPlan','noVer','full','uplift'];
+    const key = keys[sortCol];
+    filtered.sort((a,b) => {
+        const va = typeof a[key]==='string' ? a[key].toLowerCase() : a[key];
+        const vb = typeof b[key]==='string' ? b[key].toLowerCase() : b[key];
+        return sortAsc ? (va > vb ? 1 : -1) : (va < vb ? 1 : -1);
+    });
+    const tbody = document.getElementById('task-tbody');
+    tbody.innerHTML = filtered.map(d => {
+        const best = Math.max(d.oracle, d.restr, d.noPlan, d.noVer, d.full);
+        const s = v => `<td class="mono${v===best&&v>0?' best':''}">${v.toFixed(2)}</td>`;
+        const u = d.uplift;
+        const ucls = u > 0.05 ? 'color:var(--chart-bar)' : u < -0.05 ? 'color:var(--chart-negative)' : '';
+        return `<tr><td class="model-name">${d.id}</td><td><span class="family-tag">${d.cat}</span></td>${s(d.oracle)}${s(d.restr)}${s(d.noPlan)}${s(d.noVer)}${s(d.full)}<td class="mono" style="${ucls}">${u>=0?'+':''}${u.toFixed(2)}</td></tr>`;
+    }).join('');
+    document.getElementById('task-count').textContent = filtered.length;
+}
+
+function filterTasks() { renderTasks(); }
+
+function sortTable(col) {
+    if (sortCol === col) sortAsc = !sortAsc;
+    else { sortCol = col; sortAsc = col < 2; }
+    renderTasks();
+}
 </script>
 </body>
 </html>
