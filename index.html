@@ -160,6 +160,7 @@
         .model-name { font-weight: 600; }
         .family-tag { font-size: 0.65rem; padding: 0.1rem 0.4rem; border-radius: 3px; font-weight: 500; border: 1px solid var(--border); color: var(--text-secondary); margin-left: 0.4rem; display: inline-flex; align-items: center; gap: 0.3rem; }
         .family-tag img { width: 12px; height: 12px; vertical-align: middle; }
+        [data-theme="dark"] .logo-invert { filter: invert(1); }
         .mono { font-family: 'Geist Mono', monospace; font-size: 0.82rem; }
         .best { font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
         .rank { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; border: 1px solid var(--border); }
@@ -458,10 +459,10 @@
                 <tbody>
                     <tr><td><span class="rank rank-gold">1</span></td><td class="model-name">Claude Sonnet 4.6</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">21.4</td><td class="mono">17.9</td><td class="mono">35.7</td><td class="mono">35.7</td><td class="mono best">42.9</td><td class="mono">+21.4</td></tr>
                     <tr><td><span class="rank rank-gold">1</span></td><td class="model-name">Claude Haiku 4.5</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">10.7</td><td class="mono">10.7</td><td class="mono">17.9</td><td class="mono">21.4</td><td class="mono best">42.9</td><td class="mono">+32.1</td></tr>
-                    <tr><td><span class="rank">3</span></td><td class="model-name">GPT-5-Mini</td><td><span class="family-tag"><img src="openai-logo.png" alt="">OpenAI</span></td><td class="mono">17.9</td><td class="mono">10.7</td><td class="mono">28.6</td><td class="mono">32.1</td><td class="mono best">35.7</td><td class="mono">+17.9</td></tr>
+                    <tr><td><span class="rank">3</span></td><td class="model-name">GPT-5-Mini</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">17.9</td><td class="mono">10.7</td><td class="mono">28.6</td><td class="mono">32.1</td><td class="mono best">35.7</td><td class="mono">+17.9</td></tr>
                     <tr><td><span class="rank">3</span></td><td class="model-name">Gemini 3 Flash</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">17.9</td><td class="mono">17.9</td><td class="mono">14.3</td><td class="mono">25.0</td><td class="mono best">35.7</td><td class="mono">+17.9</td></tr>
                     <tr><td><span class="rank">5</span></td><td class="model-name">Gemini 3.1 Lite</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">10.7</td><td class="mono">14.3</td><td class="mono">14.3</td><td class="mono">21.4</td><td class="mono best">32.1</td><td class="mono">+21.4</td></tr>
-                    <tr><td><span class="rank">6</span></td><td class="model-name">GPT-5-Nano</td><td><span class="family-tag"><img src="openai-logo.png" alt="">OpenAI</span></td><td class="mono">14.3</td><td class="mono">0.0</td><td class="mono">14.3</td><td class="mono">7.1</td><td class="mono best">17.9</td><td class="mono">+3.6</td></tr>
+                    <tr><td><span class="rank">6</span></td><td class="model-name">GPT-5-Nano</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">14.3</td><td class="mono">0.0</td><td class="mono">14.3</td><td class="mono">7.1</td><td class="mono best">17.9</td><td class="mono">+3.6</td></tr>
                     <tr style="background:var(--bg-card);font-weight:600;"><td></td><td style="font-style:italic;">Average</td><td></td><td class="mono">15.5</td><td class="mono">11.9</td><td class="mono">20.8</td><td class="mono">23.8</td><td class="mono best">34.5</td><td class="mono">+19.1</td></tr>
                 </tbody>
             </table>
