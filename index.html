@@ -1,55 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TeamBench: Evaluating Agent Collaboration via Software Engineering Tasks</title>
     <meta name="description" content="TeamBench is a benchmark of 164 software engineering tasks for evaluating multi-agent collaboration with OS-enforced role separation.">
-    <meta name="keywords" content="TeamBench, multi-agent, benchmark, LLM, software engineering, collaboration, evaluation">
-    <meta property="og:title" content="TeamBench: Evaluating Agent Collaboration">
-    <meta property="og:description" content="A benchmark of 164 software engineering tasks spanning 19 categories with Docker-enforced role separation.">
-    <meta property="og:type" content="website">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
+        /* ── Theme Variables ── */
         :root {
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #12121a;
-            --bg-card: #1a1a2e;
-            --bg-card-hover: #22223a;
-            --accent-blue: #4f8ef7;
-            --accent-cyan: #00d4ff;
-            --accent-purple: #a855f7;
-            --accent-green: #22c55e;
-            --accent-orange: #f59e0b;
-            --accent-red: #ef4444;
-            --accent-pink: #ec4899;
-            --text-primary: #f0f0f5;
-            --text-secondary: #a0a0b8;
-            --text-muted: #6b6b80;
-            --border: #2a2a3e;
-            --gradient-1: linear-gradient(135deg, #4f8ef7 0%, #a855f7 100%);
-            --gradient-2: linear-gradient(135deg, #00d4ff 0%, #4f8ef7 100%);
-            --gradient-3: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
-            --glow-blue: 0 0 30px rgba(79, 142, 247, 0.15);
-            --glow-purple: 0 0 30px rgba(168, 85, 247, 0.15);
+            --transition: 0.25s ease;
+        }
+
+        [data-theme="dark"] {
+            --bg: #000000;
+            --bg-subtle: #0a0a0a;
+            --bg-card: #111111;
+            --bg-card-hover: #181818;
+            --text: #e8e8e8;
+            --text-secondary: #888888;
+            --text-muted: #555555;
+            --border: #222222;
+            --border-hover: #444444;
+            --accent: #ffffff;
+            --chart-bar: rgba(255,255,255,0.65);
+            --chart-bar-alt: rgba(255,255,255,0.25);
+            --chart-negative: rgba(255,255,255,0.15);
+            --chart-grid: rgba(255,255,255,0.06);
+            --shadow: 0 1px 3px rgba(0,0,0,0.5);
+            --icon-filter: none;
+        }
+
+        [data-theme="light"] {
+            --bg: #ffffff;
+            --bg-subtle: #fafafa;
+            --bg-card: #f5f5f5;
+            --bg-card-hover: #eeeeee;
+            --text: #111111;
+            --text-secondary: #555555;
+            --text-muted: #999999;
+            --border: #e0e0e0;
+            --border-hover: #cccccc;
+            --accent: #000000;
+            --chart-bar: rgba(0,0,0,0.65);
+            --chart-bar-alt: rgba(0,0,0,0.2);
+            --chart-negative: rgba(0,0,0,0.1);
+            --chart-grid: rgba(0,0,0,0.06);
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+            --icon-filter: invert(1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html {
-            scroll-behavior: smooth;
-            font-size: 16px;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.7;
-            overflow-x: hidden;
+            transition: background var(--transition), color var(--transition);
         }
 
         /* ── Navigation ── */
@@ -58,175 +70,114 @@
             top: 0;
             width: 100%;
             z-index: 1000;
-            background: rgba(10, 10, 15, 0.85);
-            backdrop-filter: blur(20px);
+            background: var(--bg);
             border-bottom: 1px solid var(--border);
-            transition: all 0.3s ease;
+            transition: background var(--transition), border-color var(--transition);
         }
 
-        nav .nav-inner {
-            max-width: 1280px;
+        .nav-inner {
+            max-width: 1100px;
             margin: 0 auto;
             padding: 0 2rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 64px;
+            height: 56px;
         }
 
-        nav .logo {
-            font-weight: 800;
-            font-size: 1.3rem;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.02em;
-        }
-
-        nav .nav-links {
+        .nav-left {
             display: flex;
-            gap: 2rem;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: -0.03em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.75rem;
             list-style: none;
         }
 
-        nav .nav-links a {
+        .nav-links a {
             color: var(--text-secondary);
             text-decoration: none;
-            font-size: 0.875rem;
+            font-size: 0.82rem;
             font-weight: 500;
             transition: color 0.2s;
         }
 
-        nav .nav-links a:hover { color: var(--text-primary); }
+        .nav-links a:hover { color: var(--text); }
 
-        nav .nav-cta {
+        .nav-right {
             display: flex;
-            gap: 0.75rem;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        nav .nav-cta a {
-            padding: 0.5rem 1rem;
+        .icon-btn {
+            width: 36px;
+            height: 36px;
             border-radius: 8px;
-            text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-
-        .btn-outline {
-            color: var(--text-secondary);
             border: 1px solid var(--border);
-        }
-        .btn-outline:hover {
-            border-color: var(--accent-blue);
-            color: var(--accent-blue);
-        }
-
-        .btn-primary {
-            background: var(--gradient-1);
-            color: white !important;
-            border: none;
-        }
-        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
-
-        /* ── Hero ── */
-        .hero {
-            position: relative;
-            min-height: 100vh;
+            background: transparent;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 8rem 2rem 4rem;
-            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+            text-decoration: none;
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 20%, rgba(79, 142, 247, 0.08) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 60%, rgba(168, 85, 247, 0.06) 0%, transparent 50%),
-                        radial-gradient(circle at 50% 80%, rgba(0, 212, 255, 0.04) 0%, transparent 50%);
-            animation: heroGlow 15s ease-in-out infinite alternate;
+        .icon-btn:hover {
+            border-color: var(--border-hover);
+            color: var(--text);
+            background: var(--bg-card);
         }
 
-        @keyframes heroGlow {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(-2%, 2%) rotate(3deg); }
+        .icon-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
         }
 
-        .hero-grid {
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(79, 142, 247, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(79, 142, 247, 0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
-            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
-        }
+        .theme-btn svg { fill: none; stroke: currentColor; stroke-width: 2; }
 
-        .hero-content {
-            position: relative;
-            z-index: 2;
+        /* ── Hero ── */
+        .hero {
+            padding: 10rem 2rem 5rem;
             text-align: center;
-            max-width: 900px;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.4rem 1rem;
-            background: rgba(79, 142, 247, 0.1);
-            border: 1px solid rgba(79, 142, 247, 0.2);
-            border-radius: 100px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: var(--accent-blue);
-            margin-bottom: 2rem;
-        }
-
-        .hero-badge .pulse {
-            width: 8px;
-            height: 8px;
-            background: var(--accent-green);
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.5); }
+            max-width: 820px;
+            margin: 0 auto;
         }
 
         .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-size: clamp(2.5rem, 5.5vw, 4rem);
             font-weight: 900;
-            line-height: 1.1;
-            letter-spacing: -0.03em;
-            margin-bottom: 1.5rem;
-        }
-
-        .hero h1 .gradient-text {
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            line-height: 1.08;
+            letter-spacing: -0.04em;
+            margin-bottom: 1.25rem;
         }
 
         .hero .subtitle {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: var(--text-secondary);
-            max-width: 700px;
+            max-width: 580px;
             margin: 0 auto 2.5rem;
             line-height: 1.8;
+            font-weight: 400;
         }
 
         .hero-actions {
             display: flex;
-            gap: 1rem;
+            gap: 0.75rem;
             justify-content: center;
             flex-wrap: wrap;
             margin-bottom: 4rem;
@@ -236,197 +187,177 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.85rem 1.75rem;
-            border-radius: 12px;
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.3s;
+            font-size: 0.875rem;
+            transition: all 0.2s;
         }
 
-        .hero-actions .primary {
-            background: var(--gradient-1);
-            color: white;
-            box-shadow: 0 4px 20px rgba(79, 142, 247, 0.3);
+        .btn-fill {
+            background: var(--text);
+            color: var(--bg);
         }
-        .hero-actions .primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(79, 142, 247, 0.4);
-        }
+        .btn-fill:hover { opacity: 0.85; }
 
-        .hero-actions .secondary {
-            background: var(--bg-card);
-            color: var(--text-primary);
+        .btn-ghost {
             border: 1px solid var(--border);
+            color: var(--text);
         }
-        .hero-actions .secondary:hover {
-            border-color: var(--accent-purple);
-            background: var(--bg-card-hover);
-        }
+        .btn-ghost:hover { border-color: var(--border-hover); background: var(--bg-card); }
 
-        .hero-actions svg {
-            width: 18px;
-            height: 18px;
-        }
+        .hero-actions svg { width: 16px; height: 16px; }
 
-        /* ── Stats Bar ── */
+        /* ── Stats ── */
         .stats-bar {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 1px;
             background: var(--border);
-            border-radius: 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
             overflow: hidden;
-            max-width: 800px;
+            max-width: 680px;
             margin: 0 auto;
-            box-shadow: var(--glow-blue);
         }
 
         .stat-item {
-            background: var(--bg-card);
-            padding: 1.5rem;
+            background: var(--bg);
+            padding: 1.25rem 1rem;
             text-align: center;
+            transition: background var(--transition);
         }
 
-        .stat-item .stat-value {
-            font-size: 2rem;
+        .stat-value {
+            font-size: 1.75rem;
             font-weight: 800;
-            background: var(--gradient-2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
             line-height: 1.2;
         }
 
-        .stat-item .stat-label {
-            font-size: 0.75rem;
+        .stat-label {
+            font-size: 0.7rem;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-top: 0.25rem;
+            letter-spacing: 0.1em;
+            margin-top: 0.2rem;
         }
 
         /* ── Sections ── */
         section {
-            padding: 6rem 2rem;
-            max-width: 1280px;
+            padding: 5rem 2rem;
+            max-width: 1100px;
             margin: 0 auto;
+        }
+
+        .divider {
+            max-width: 1100px;
+            margin: 0 auto;
+            border: none;
+            border-top: 1px solid var(--border);
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
         }
 
         .section-label {
-            display: inline-block;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--accent-blue);
-            margin-bottom: 1rem;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            display: block;
         }
 
         .section-title {
-            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
             font-weight: 800;
-            letter-spacing: -0.02em;
-            margin-bottom: 1rem;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.75rem;
+            line-height: 1.2;
         }
 
         .section-desc {
             color: var(--text-secondary);
-            max-width: 600px;
+            max-width: 560px;
             margin: 0 auto;
-            font-size: 1.05rem;
+            font-size: 0.95rem;
+        }
+
+        /* ── Cards ── */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.75rem;
+            transition: all 0.2s;
+        }
+
+        .card:hover {
+            border-color: var(--border-hover);
         }
 
         /* ── Architecture ── */
-        .arch-container {
+        .arch-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 3rem;
-            align-items: center;
+            align-items: start;
         }
 
-        .arch-visual {
-            position: relative;
-            padding: 3rem;
-        }
-
-        .arch-diagram {
+        .arch-roles {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
-            align-items: center;
+            gap: 1rem;
         }
 
-        .arch-role {
-            width: 100%;
-            max-width: 320px;
-            padding: 1.25rem 1.5rem;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            background: var(--bg-card);
-            position: relative;
-            transition: all 0.3s;
-        }
-
-        .arch-role:hover {
-            border-color: var(--accent-blue);
-            box-shadow: var(--glow-blue);
-            transform: translateX(4px);
-        }
-
-        .arch-role .role-header {
+        .role-card {
             display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.5rem;
+            gap: 1rem;
+            align-items: flex-start;
         }
 
-        .arch-role .role-icon {
-            width: 36px;
-            height: 36px;
+        .role-num {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
             border-radius: 8px;
+            border: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
-        }
-
-        .role-planner .role-icon { background: rgba(79, 142, 247, 0.15); }
-        .role-executor .role-icon { background: rgba(34, 197, 94, 0.15); }
-        .role-verifier .role-icon { background: rgba(168, 85, 247, 0.15); }
-
-        .arch-role .role-name {
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.8rem;
+            margin-top: 2px;
         }
 
-        .arch-role .role-desc {
+        .role-card h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .role-card p {
             font-size: 0.8rem;
             color: var(--text-secondary);
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
-        .arch-arrow {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            font-size: 1.2rem;
-        }
-
-        .arch-details h3 {
-            font-size: 1.5rem;
+        .arch-text h3 {
+            font-size: 1.25rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
         }
 
-        .arch-details p {
+        .arch-text p {
             color: var(--text-secondary);
-            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            margin-bottom: 1.25rem;
             line-height: 1.8;
         }
 
@@ -434,167 +365,165 @@
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.75rem;
         }
 
         .feature-list li {
             display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            font-size: 0.9rem;
+            gap: 0.6rem;
+            font-size: 0.85rem;
+            line-height: 1.6;
         }
 
-        .feature-list .check {
+        .feature-list .dot {
             flex-shrink: 0;
-            width: 22px;
-            height: 22px;
-            border-radius: 6px;
-            background: rgba(34, 197, 94, 0.15);
-            color: var(--accent-green);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            margin-top: 2px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            margin-top: 8px;
         }
 
-        /* ── Key Findings ── */
+        /* ── TNI ── */
+        .tni-box {
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+
+        .tni-eq {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .tni-desc {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        /* ── Conditions ── */
+        .conditions-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.75rem;
+        }
+
+        .cond-card {
+            text-align: center;
+            padding: 1.5rem 1rem;
+        }
+
+        .cond-name {
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .cond-score {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.6rem;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .cond-desc {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 0.4rem;
+            line-height: 1.4;
+        }
+
+        .cond-roles {
+            display: flex;
+            justify-content: center;
+            gap: 0.3rem;
+            margin-top: 0.6rem;
+        }
+
+        .pill {
+            padding: 0.15rem 0.45rem;
+            border-radius: 3px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .cond-best { border-color: var(--text-muted); }
+        .cond-best .cond-score { text-decoration: underline; text-underline-offset: 4px; }
+
+        /* ── Findings ── */
         .findings-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        .finding-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .finding-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--gradient-1);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .finding-card:hover {
-            border-color: rgba(79, 142, 247, 0.3);
-            transform: translateY(-4px);
-            box-shadow: var(--glow-blue);
-        }
-
-        .finding-card:hover::before { opacity: 1; }
-
-        .finding-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            margin-bottom: 1.25rem;
+            gap: 1rem;
         }
 
         .finding-card h3 {
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             font-weight: 700;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
         }
 
         .finding-card p {
-            font-size: 0.875rem;
+            font-size: 0.82rem;
             color: var(--text-secondary);
             line-height: 1.7;
         }
 
         .finding-stat {
-            display: inline-flex;
-            align-items: baseline;
-            gap: 0.25rem;
-            margin-top: 1rem;
-            padding: 0.35rem 0.75rem;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.85rem;
-        }
-
-        .stat-positive {
-            background: rgba(34, 197, 94, 0.1);
-            color: var(--accent-green);
-        }
-
-        .stat-negative {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--accent-red);
-        }
-
-        .stat-neutral {
-            background: rgba(79, 142, 247, 0.1);
-            color: var(--accent-blue);
+            display: inline-block;
+            margin-top: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.25rem 0.6rem;
+            border: 1px solid var(--border);
+            border-radius: 5px;
         }
 
         /* ── Leaderboard ── */
-        .leaderboard-section {
-            padding: 6rem 2rem;
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-
-        .leaderboard-wrapper {
-            background: var(--bg-card);
+        .lb-wrapper {
             border: 1px solid var(--border);
-            border-radius: 16px;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: var(--glow-purple);
         }
 
-        .leaderboard-tabs {
+        .lb-tabs {
             display: flex;
             border-bottom: 1px solid var(--border);
-            padding: 0 1.5rem;
         }
 
-        .leaderboard-tab {
-            padding: 1rem 1.5rem;
-            font-size: 0.85rem;
+        .lb-tab {
+            padding: 0.75rem 1.25rem;
+            font-size: 0.8rem;
             font-weight: 600;
             color: var(--text-muted);
             cursor: pointer;
             border-bottom: 2px solid transparent;
             transition: all 0.2s;
+            background: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
         }
 
-        .leaderboard-tab.active {
-            color: var(--accent-blue);
-            border-bottom-color: var(--accent-blue);
-        }
+        .lb-tab.active { color: var(--text); border-bottom-color: var(--text); }
+        .lb-tab:hover { color: var(--text-secondary); }
 
-        .leaderboard-tab:hover { color: var(--text-secondary); }
+        .table-wrap { overflow-x: auto; }
 
-        .table-container {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+        table { width: 100%; border-collapse: collapse; }
 
         thead th {
-            padding: 1rem 1.25rem;
+            padding: 0.8rem 1rem;
             text-align: left;
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.08em;
@@ -604,752 +533,419 @@
         }
 
         tbody td {
-            padding: 0.9rem 1.25rem;
-            font-size: 0.875rem;
-            border-bottom: 1px solid rgba(42, 42, 62, 0.5);
-        }
-
-        tbody tr {
-            transition: background 0.2s;
-        }
-
-        tbody tr:hover {
-            background: rgba(79, 142, 247, 0.03);
-        }
-
-        .model-name {
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .model-family {
-            font-size: 0.7rem;
-            padding: 0.15rem 0.5rem;
-            border-radius: 4px;
-            font-weight: 500;
-        }
-
-        .family-anthropic { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
-        .family-openai { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
-        .family-google { background: rgba(79, 142, 247, 0.15); color: #93bbfd; }
-
-        .score-cell {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 500;
+            padding: 0.7rem 1rem;
             font-size: 0.85rem;
+            border-bottom: 1px solid var(--border);
         }
 
-        .score-best {
-            color: var(--accent-green);
-            font-weight: 700;
+        tbody tr:last-child td { border-bottom: none; }
+        tbody tr:hover { background: var(--bg-card); }
+
+        .model-name { font-weight: 600; }
+
+        .family-tag {
+            font-size: 0.65rem;
+            padding: 0.1rem 0.4rem;
+            border-radius: 3px;
+            font-weight: 500;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            margin-left: 0.4rem;
         }
 
-        .uplift-positive { color: var(--accent-green); }
-        .uplift-negative { color: var(--accent-red); }
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+        }
 
-        .rank-badge {
+        .best { font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+
+        .rank {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
-            font-size: 0.8rem;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            font-size: 0.75rem;
             font-weight: 700;
+            border: 1px solid var(--border);
         }
 
-        .rank-1 { background: linear-gradient(135deg, #ffd700, #ffb300); color: #000; }
-        .rank-2 { background: linear-gradient(135deg, #c0c0c0, #a0a0a0); color: #000; }
-        .rank-3 { background: linear-gradient(135deg, #cd7f32, #b06a28); color: #fff; }
-        .rank-other { background: var(--bg-secondary); color: var(--text-muted); }
+        .rank-gold { border-color: var(--text-muted); }
 
         /* ── Charts ── */
         .charts-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
-
-        .chart-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem;
+            gap: 1rem;
         }
 
         .chart-card h3 {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 700;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.15rem;
         }
 
-        .chart-card .chart-subtitle {
-            font-size: 0.8rem;
+        .chart-sub {
+            font-size: 0.75rem;
             color: var(--text-muted);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
 
-        .chart-wrapper {
+        .chart-wrap {
             position: relative;
             width: 100%;
             aspect-ratio: 16 / 10;
         }
 
-        .chart-wrapper canvas {
-            width: 100% !important;
-            height: 100% !important;
-        }
+        .chart-wrap canvas { width: 100% !important; height: 100% !important; }
 
-        /* ── Task Categories ── */
-        .categories-visual {
+        /* ── Categories ── */
+        .cat-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 0.75rem;
+            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+            gap: 0.5rem;
         }
 
         .cat-item {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 1rem 1.25rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            transition: all 0.2s;
+            padding: 0.7rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: border-color 0.2s;
         }
 
-        .cat-item:hover {
-            border-color: var(--accent-blue);
-            transform: translateY(-2px);
-        }
+        .cat-item:hover { border-color: var(--border-hover); }
 
-        .cat-name {
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
+        .cat-name { font-size: 0.82rem; font-weight: 500; }
 
         .cat-count {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            color: var(--accent-blue);
+            font-size: 0.78rem;
+            color: var(--text-muted);
             font-weight: 600;
         }
 
-        /* ── Comparison Table ── */
-        .comparison-wrapper {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-        }
-
-        .comparison-wrapper table {
-            font-size: 0.85rem;
-        }
-
-        .comparison-wrapper thead th {
-            background: var(--bg-secondary);
-        }
-
-        .check-mark { color: var(--accent-green); font-weight: 700; }
-        .cross-mark { color: var(--accent-red); opacity: 0.5; }
-        .partial-mark { color: var(--accent-orange); }
-
-        /* ── Ablation Conditions ── */
-        .conditions-grid {
+        .diff-bar {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 1rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+            margin-top: 1.5rem;
         }
 
-        .condition-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
+        .diff-item {
             text-align: center;
-            transition: all 0.3s;
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
         }
 
-        .condition-card:hover {
-            border-color: var(--accent-purple);
-            box-shadow: var(--glow-purple);
+        .diff-val {
+            font-size: 1.5rem;
+            font-weight: 800;
         }
 
-        .condition-name {
-            font-weight: 700;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
+        .diff-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 0.15rem;
         }
 
-        .condition-score {
-            font-family: 'JetBrains Mono', monospace;
+        /* ── Comparison ── */
+        .cmp-table { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+        .check { font-weight: 600; }
+        .cross { color: var(--text-muted); }
+
+        /* ── CTA ── */
+        .cta {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 5rem 2rem 6rem;
+        }
+
+        .cta h2 {
             font-size: 1.8rem;
             font-weight: 800;
-            background: var(--gradient-2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.03em;
         }
 
-        .condition-desc {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 0.5rem;
-            line-height: 1.5;
-        }
-
-        .condition-roles {
-            display: flex;
-            justify-content: center;
-            gap: 0.35rem;
-            margin-top: 0.75rem;
-        }
-
-        .role-pill {
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.65rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .pill-plan { background: rgba(79, 142, 247, 0.15); color: var(--accent-blue); }
-        .pill-exec { background: rgba(34, 197, 94, 0.15); color: var(--accent-green); }
-        .pill-verify { background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); }
-        .pill-all { background: rgba(255, 255, 255, 0.08); color: var(--text-secondary); }
-
-        /* ── CTA / Get Started ── */
-        .cta-section {
-            text-align: center;
-            padding: 6rem 2rem 8rem;
-        }
-
-        .cta-box {
-            max-width: 700px;
-            margin: 0 auto;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 4rem 3rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--gradient-1);
-        }
-
-        .cta-box h2 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-        }
-
-        .cta-box p {
+        .cta > p {
             color: var(--text-secondary);
-            margin-bottom: 2rem;
-            font-size: 1.05rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
         }
 
         .cta-code {
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 1rem 1.5rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            color: var(--accent-cyan);
-            margin-bottom: 2rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 0.8rem 1.2rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            margin-bottom: 1.5rem;
             cursor: pointer;
             transition: border-color 0.2s;
         }
 
-        .cta-code:hover { border-color: var(--accent-cyan); }
-
-        .cta-code .copy-icon {
-            color: var(--text-muted);
-            font-size: 0.75rem;
-        }
+        .cta-code:hover { border-color: var(--border-hover); }
+        .cta-copy { font-size: 0.7rem; color: var(--text-muted); }
 
         .cta-links {
             display: flex;
-            gap: 1rem;
+            gap: 0.75rem;
             justify-content: center;
             flex-wrap: wrap;
-        }
-
-        .cta-links a {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s;
         }
 
         /* ── Footer ── */
         footer {
             border-top: 1px solid var(--border);
-            padding: 3rem 2rem;
-            text-align: center;
+            padding: 2rem;
+            transition: border-color var(--transition);
         }
 
-        footer .footer-inner {
-            max-width: 1280px;
+        .footer-inner {
+            max-width: 1100px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        footer .footer-text {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--text-muted);
         }
 
-        footer .footer-links {
-            display: flex;
-            gap: 1.5rem;
-        }
+        .footer-links { display: flex; gap: 1.5rem; }
+        .footer-links a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+        .footer-links a:hover { color: var(--text); }
 
-        footer .footer-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.8rem;
-            transition: color 0.2s;
+        /* ── Scroll Anim ── */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
-
-        footer .footer-links a:hover { color: var(--text-primary); }
-
-        /* ── TNI Equation ── */
-        .tni-equation {
-            text-align: center;
-            padding: 2rem;
-            margin: 2rem 0;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-        }
-
-        .tni-equation .equation {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.3rem;
-            color: var(--accent-cyan);
-            margin-bottom: 0.75rem;
-        }
-
-        .tni-equation .equation-desc {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        /* ── Divider ── */
-        .section-divider {
-            max-width: 1280px;
-            margin: 0 auto;
-            border: none;
-            border-top: 1px solid var(--border);
-        }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
 
         /* ── Responsive ── */
         @media (max-width: 1024px) {
-            .arch-container { grid-template-columns: 1fr; }
+            .arch-grid { grid-template-columns: 1fr; }
             .charts-grid { grid-template-columns: 1fr; }
             .conditions-grid { grid-template-columns: repeat(3, 1fr); }
-            .findings-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 768px) {
+            .nav-links { display: none; }
             .stats-bar { grid-template-columns: repeat(2, 1fr); }
-            .conditions-grid { grid-template-columns: repeat(2, 1fr); }
             .findings-grid { grid-template-columns: 1fr; }
-            nav .nav-links { display: none; }
-            .hero h1 { font-size: 2.2rem; }
-            .hero-actions { flex-direction: column; align-items: center; }
-            footer .footer-inner { flex-direction: column; gap: 1rem; }
-            .categories-visual { grid-template-columns: repeat(2, 1fr); }
+            .conditions-grid { grid-template-columns: repeat(2, 1fr); }
+            .diff-bar { grid-template-columns: repeat(2, 1fr); }
+            .footer-inner { flex-direction: column; gap: 0.75rem; }
         }
 
         @media (max-width: 480px) {
             .stats-bar { grid-template-columns: 1fr; }
             .conditions-grid { grid-template-columns: 1fr; }
         }
-
-        /* ── Scroll Animations ── */
-        .fade-up {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .fade-up.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ── Mobile Menu ── */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .mobile-menu-btn { display: block; }
-        }
     </style>
 </head>
 <body>
 
-<!-- Navigation -->
+<!-- Nav -->
 <nav>
     <div class="nav-inner">
-        <a href="#" class="logo">TeamBench</a>
-        <ul class="nav-links">
-            <li><a href="#overview">Overview</a></li>
-            <li><a href="#architecture">Architecture</a></li>
-            <li><a href="#findings">Findings</a></li>
-            <li><a href="#leaderboard">Leaderboard</a></li>
-            <li><a href="#results">Results</a></li>
-            <li><a href="#tasks">Tasks</a></li>
-        </ul>
-        <div class="nav-cta">
-            <a href="https://huggingface.co/datasets/ybkim95/teambench" class="btn-outline" target="_blank">Dataset</a>
-            <a href="https://github.com/ybkim95/TeamBench" class="btn-primary" target="_blank">GitHub</a>
+        <div class="nav-left">
+            <a href="#" class="logo">TeamBench</a>
+            <ul class="nav-links">
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#architecture">Architecture</a></li>
+                <li><a href="#findings">Findings</a></li>
+                <li><a href="#leaderboard">Leaderboard</a></li>
+                <li><a href="#results">Results</a></li>
+                <li><a href="#tasks">Tasks</a></li>
+            </ul>
         </div>
-        <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').style.display = document.querySelector('.nav-links').style.display === 'flex' ? 'none' : 'flex'">&#9776;</button>
+        <div class="nav-right">
+            <a href="https://github.com/ybkim95/TeamBench" target="_blank" class="icon-btn" title="GitHub">
+                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            </a>
+            <a href="https://huggingface.co/datasets/ybkim95/teambench" target="_blank" class="icon-btn" title="HuggingFace">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            </a>
+            <button class="icon-btn theme-btn" onclick="toggleTheme()" title="Toggle theme">
+                <svg viewBox="0 0 24 24" id="theme-icon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+        </div>
     </div>
 </nav>
 
 <!-- Hero -->
-<section class="hero">
-    <div class="hero-grid"></div>
-    <div class="hero-content">
-        <div class="hero-badge">
-            <span class="pulse"></span>
-            NeurIPS 2025 Submission
+<div class="hero">
+    <h1>TeamBench</h1>
+    <p class="subtitle">
+        A benchmark of 164 software engineering tasks with OS-enforced role separation
+        for measuring when multi-agent collaboration genuinely helps.
+    </p>
+    <div class="hero-actions">
+        <a href="https://github.com/ybkim95/TeamBench" class="btn-fill" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            GitHub
+        </a>
+        <a href="https://huggingface.co/datasets/ybkim95/teambench" class="btn-ghost" target="_blank">Dataset</a>
+        <a href="https://arxiv.org/abs/2512.08296" class="btn-ghost" target="_blank">Paper</a>
+    </div>
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-value">164</div>
+            <div class="stat-label">Tasks</div>
         </div>
-        <h1>
-            Evaluating <span class="gradient-text">Agent Collaboration</span><br>
-            via Software Engineering Tasks
-        </h1>
-        <p class="subtitle">
-            The first multi-agent benchmark with OS-enforced role separation, ablation controls,
-            and contamination-resistant parameterized generators. 164 tasks across 19 categories,
-            3,376 evaluated runs across 13 models.
-        </p>
-        <div class="hero-actions">
-            <a href="https://github.com/ybkim95/TeamBench" class="primary" target="_blank">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                View on GitHub
-            </a>
-            <a href="https://huggingface.co/datasets/ybkim95/teambench" class="secondary" target="_blank">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1.5 14.5h3v-3h-3v3zm0-4.5h3V7h-3v5z"/></svg>
-                HuggingFace Dataset
-            </a>
-            <a href="https://arxiv.org/abs/2512.08296" class="secondary" target="_blank">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                Read Paper
-            </a>
+        <div class="stat-item">
+            <div class="stat-value">19</div>
+            <div class="stat-label">Categories</div>
         </div>
-
-        <div class="stats-bar">
-            <div class="stat-item">
-                <div class="stat-value">164</div>
-                <div class="stat-label">Tasks</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">19</div>
-                <div class="stat-label">Categories</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">3,376</div>
-                <div class="stat-label">Eval Runs</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">13</div>
-                <div class="stat-label">Models Tested</div>
-            </div>
+        <div class="stat-item">
+            <div class="stat-value">3,376</div>
+            <div class="stat-label">Eval Runs</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">13</div>
+            <div class="stat-label">Models</div>
         </div>
     </div>
-</section>
+</div>
 
-<!-- Overview -->
+<hr class="divider">
+
+<!-- Overview / Comparison -->
 <section id="overview">
     <div class="section-header fade-up">
-        <span class="section-label">Why TeamBench?</span>
-        <h2 class="section-title">The First Structurally Enforced<br>Multi-Agent Benchmark</h2>
-        <p class="section-desc">
-            Existing benchmarks assign roles through system prompts that agents can ignore.
-            TeamBench enforces role boundaries at the OS level through Docker container bind mounts.
-        </p>
+        <span class="section-label">Why TeamBench</span>
+        <h2 class="section-title">The First Structurally Enforced Multi-Agent Benchmark</h2>
+        <p class="section-desc">Existing benchmarks assign roles through system prompts that agents can ignore. TeamBench enforces boundaries at the OS level.</p>
     </div>
-
-    <div class="comparison-wrapper fade-up" style="max-width: 1000px; margin: 0 auto;">
+    <div class="cmp-table fade-up">
         <table>
             <thead>
-                <tr>
-                    <th></th>
-                    <th>Benchmark</th>
-                    <th>Structural Enf.</th>
-                    <th>Role Ablation</th>
-                    <th>Collab. Metric</th>
-                    <th>Contam. Resist.</th>
-                    <th>Cross-Model</th>
-                </tr>
+                <tr><th></th><th>Benchmark</th><th>Structural Enf.</th><th>Role Ablation</th><th>Collab. Metric</th><th>Contam. Resist.</th><th>Cross-Model</th></tr>
             </thead>
             <tbody>
-                <tr>
-                    <td rowspan="5" style="font-size:0.7rem;color:var(--text-muted);writing-mode:vertical-lr;text-align:center;">Single-Agent</td>
-                    <td class="model-name">SWE-Bench</td>
-                    <td class="cross-mark">&mdash;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="check-mark">&#10003;</td>
-                </tr>
-                <tr>
-                    <td class="model-name">TerminalBench</td>
-                    <td class="cross-mark">&mdash;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="check-mark">&#10003;</td>
-                </tr>
-                <tr>
-                    <td class="model-name">LiveCodeBench</td>
-                    <td class="cross-mark">&mdash;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="check-mark">&#10003;</td>
-                    <td class="check-mark">&#10003;</td>
-                </tr>
-                <tr>
-                    <td class="model-name">GAIA</td>
-                    <td class="cross-mark">&mdash;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="check-mark">&#10003;</td>
-                </tr>
-                <tr>
-                    <td class="model-name">MLE-Bench</td>
-                    <td class="cross-mark">&mdash;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="check-mark">&#10003;</td>
-                </tr>
-                <tr>
-                    <td rowspan="6" style="font-size:0.7rem;color:var(--text-muted);writing-mode:vertical-lr;text-align:center;">Multi-Agent</td>
-                    <td class="model-name">MultiAgentBench</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="check-mark">&#10003;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="check-mark">&#10003;</td>
-                </tr>
-                <tr>
-                    <td class="model-name">AgentCoder</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="partial-mark">~</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="partial-mark">~</td>
-                </tr>
-                <tr>
-                    <td class="model-name">DevBench</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="partial-mark">~</td>
-                </tr>
-                <tr>
-                    <td class="model-name">CAMEL</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                </tr>
-                <tr>
-                    <td class="model-name">GPTSwarm</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                    <td class="cross-mark">&times;</td>
-                </tr>
-                <tr style="background: rgba(79, 142, 247, 0.05);">
-                    <td class="model-name" style="color: var(--accent-blue);">TeamBench (Ours)</td>
-                    <td class="check-mark">&#10003;</td>
-                    <td class="check-mark">&#10003;</td>
-                    <td class="check-mark">&#10003;</td>
-                    <td class="check-mark">&#10003;</td>
-                    <td class="check-mark">&#10003;</td>
-                </tr>
+                <tr><td rowspan="5" style="font-size:0.65rem;color:var(--text-muted);writing-mode:vertical-lr;text-align:center;padding:0.5rem;">SA</td><td>SWE-Bench</td><td class="cross">&mdash;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check">&#10003;</td></tr>
+                <tr><td>TerminalBench</td><td class="cross">&mdash;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check">&#10003;</td></tr>
+                <tr><td>LiveCodeBench</td><td class="cross">&mdash;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+                <tr><td>GAIA</td><td class="cross">&mdash;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check">&#10003;</td></tr>
+                <tr><td>MLE-Bench</td><td class="cross">&mdash;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check">&#10003;</td></tr>
+                <tr><td rowspan="6" style="font-size:0.65rem;color:var(--text-muted);writing-mode:vertical-lr;text-align:center;padding:0.5rem;">MA</td><td>MultiAgentBench</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check">&#10003;</td><td class="cross">&times;</td><td class="check">&#10003;</td></tr>
+                <tr><td>AgentCoder</td><td class="cross">&times;</td><td class="cross">~</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">~</td></tr>
+                <tr><td>DevBench</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">~</td></tr>
+                <tr><td>CAMEL</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td></tr>
+                <tr><td>GPTSwarm</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td></tr>
+                <tr style="background: var(--bg-card);"><td class="model-name">TeamBench (Ours)</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
             </tbody>
         </table>
     </div>
 </section>
 
-<hr class="section-divider">
+<hr class="divider">
 
 <!-- Architecture -->
 <section id="architecture">
     <div class="section-header fade-up">
-        <span class="section-label">How it works</span>
-        <h2 class="section-title">Three-Role Pipeline with<br>Container-Level Isolation</h2>
-        <p class="section-desc">
-            Each role runs in an isolated Docker container with strictly scoped filesystem access.
-            No single container can read the full specification, modify the workspace, <em>and</em> produce the verification attestation.
-        </p>
+        <span class="section-label">Architecture</span>
+        <h2 class="section-title">Three-Role Pipeline with Container Isolation</h2>
+        <p class="section-desc">Each role runs in an isolated Docker container. No single container can access everything.</p>
     </div>
-
-    <div class="arch-container fade-up">
-        <div class="arch-visual">
-            <div class="arch-diagram">
-                <div class="arch-role role-planner">
-                    <div class="role-header">
-                        <div class="role-icon">&#128270;</div>
-                        <span class="role-name">Planner</span>
-                    </div>
-                    <div class="role-desc">Reads spec.md. Decomposes requirements, identifies edge cases, creates execution plan. Cannot execute code or modify workspace.</div>
+    <div class="arch-grid fade-up">
+        <div class="arch-roles">
+            <div class="role-card">
+                <div class="role-num">1</div>
+                <div>
+                    <h4>Planner</h4>
+                    <p>Reads the full specification (spec.md). Decomposes requirements, identifies hidden constraints and edge cases, creates an execution plan. Cannot execute code or modify the workspace.</p>
                 </div>
-                <div class="arch-arrow">&#8595; sends plan via message</div>
-                <div class="arch-role role-executor">
-                    <div class="role-header">
-                        <div class="role-icon">&#9997;&#65039;</div>
-                        <span class="role-name">Executor</span>
-                    </div>
-                    <div class="role-desc">Reads brief.md only. Runs commands, modifies workspace code. Cannot access full specification. Follows Planner's instructions.</div>
+            </div>
+            <div class="role-card">
+                <div class="role-num">2</div>
+                <div>
+                    <h4>Executor</h4>
+                    <p>Reads only a brief summary (brief.md). Runs commands and modifies workspace code following the Planner's instructions. Cannot access the full specification.</p>
                 </div>
-                <div class="arch-arrow">&#8595; workspace submitted</div>
-                <div class="arch-role role-verifier">
-                    <div class="role-header">
-                        <div class="role-icon">&#9989;</div>
-                        <span class="role-name">Verifier</span>
-                    </div>
-                    <div class="role-desc">Reads spec.md + workspace (read-only). Checks compliance, writes attestation.json. Cannot modify workspace or run commands.</div>
+            </div>
+            <div class="role-card">
+                <div class="role-num">3</div>
+                <div>
+                    <h4>Verifier</h4>
+                    <p>Reads spec.md and workspace (read-only). Checks compliance against requirements and writes attestation.json. Cannot modify the workspace or run commands.</p>
                 </div>
             </div>
         </div>
-        <div class="arch-details">
+        <div class="arch-text">
             <h3>Structural Enforcement, Not Prompt Compliance</h3>
-            <p>
-                Unlike prompt-based honor systems where a "Planner" agent retains full technical capability,
-                TeamBench enforces role boundaries through <strong>Docker bind mounts</strong>. Each container only mounts
-                the directories it needs. Attempting to access a restricted path returns a permission error.
-            </p>
+            <p>Container bind mounts create a controlled experiment where role boundaries are physically enforced by the operating system. Without structural enforcement, performance differences cannot be attributed to genuine collaboration versus varying degrees of model compliance.</p>
             <ul class="feature-list">
-                <li>
-                    <span class="check">&#10003;</span>
-                    <span><strong>Information Asymmetry by Design</strong> &mdash; Specification contains details absent from the brief, making Planner relay structurally necessary</span>
-                </li>
-                <li>
-                    <span class="check">&#10003;</span>
-                    <span><strong>Five Ablation Conditions</strong> &mdash; Systematically remove roles to isolate each component's marginal contribution</span>
-                </li>
-                <li>
-                    <span class="check">&#10003;</span>
-                    <span><strong>Parameterized Generators</strong> &mdash; 153 generators produce deterministic but distinct instances from different seeds, preventing memorization</span>
-                </li>
-                <li>
-                    <span class="check">&#10003;</span>
-                    <span><strong>Partial Scoring</strong> &mdash; Deterministic graders produce scores in [0,1], enabling fine-grained comparison</span>
-                </li>
-                <li>
-                    <span class="check">&#10003;</span>
-                    <span><strong>Teamwork Necessity Index</strong> &mdash; Measures how much of the oracle-vs-restricted gap the team recovers</span>
-                </li>
+                <li><span class="dot"></span><span><strong>Information asymmetry by design</strong> &mdash; Specification contains critical details absent from the brief</span></li>
+                <li><span class="dot"></span><span><strong>Five ablation conditions</strong> &mdash; Systematically remove roles to isolate marginal contribution</span></li>
+                <li><span class="dot"></span><span><strong>Parameterized generators</strong> &mdash; 153 generators produce distinct instances from different seeds</span></li>
+                <li><span class="dot"></span><span><strong>Partial scoring</strong> &mdash; Deterministic graders produce scores in [0, 1]</span></li>
             </ul>
-
-            <div class="tni-equation" style="margin-top: 2rem;">
-                <div class="equation">TNI = (S<sub>team</sub> - S<sub>restricted</sub>) / max(&epsilon;, S<sub>oracle</sub> - S<sub>restricted</sub>)</div>
-                <div class="equation-desc">TNI = 1.0 means full recovery; TNI > 1.0 means team exceeds oracle ceiling</div>
+            <div class="tni-box">
+                <div class="tni-eq">TNI = (S<sub>team</sub> &minus; S<sub>restricted</sub>) / max(&epsilon;, S<sub>oracle</sub> &minus; S<sub>restricted</sub>)</div>
+                <div class="tni-desc">TNI = 1.0 means full recovery of the oracle-restricted gap; TNI &gt; 1.0 means team exceeds oracle</div>
             </div>
         </div>
     </div>
 </section>
 
-<hr class="section-divider">
+<hr class="divider">
 
 <!-- Ablation Conditions -->
 <section id="ablation">
     <div class="section-header fade-up">
         <span class="section-label">Ablation Design</span>
         <h2 class="section-title">Five Conditions to Decompose Team Value</h2>
-        <p class="section-desc">Each condition removes or restricts a structural component, enabling isolation of planning and verification contributions.</p>
     </div>
-
     <div class="conditions-grid fade-up">
-        <div class="condition-card">
-            <div class="condition-name">Oracle</div>
-            <div class="condition-score">0.575</div>
-            <div class="condition-desc">Single agent, full tool access, unrestricted</div>
-            <div class="condition-roles">
-                <span class="role-pill pill-all">All Access</span>
-            </div>
+        <div class="card cond-card">
+            <div class="cond-name">Oracle</div>
+            <div class="cond-score">0.575</div>
+            <div class="cond-desc">Single agent, full access</div>
+            <div class="cond-roles"><span class="pill">All Access</span></div>
         </div>
-        <div class="condition-card">
-            <div class="condition-name">Restricted</div>
-            <div class="condition-score">0.571</div>
-            <div class="condition-desc">Single agent, executor-only tools, no spec</div>
-            <div class="condition-roles">
-                <span class="role-pill pill-exec">Exec</span>
-            </div>
+        <div class="card cond-card">
+            <div class="cond-name">Restricted</div>
+            <div class="cond-score">0.571</div>
+            <div class="cond-desc">Single agent, no spec</div>
+            <div class="cond-roles"><span class="pill">Exec only</span></div>
         </div>
-        <div class="condition-card">
-            <div class="condition-name">No Plan</div>
-            <div class="condition-score">0.544</div>
-            <div class="condition-desc">Two-role team, skip planning phase</div>
-            <div class="condition-roles">
-                <span class="role-pill pill-exec">Exec</span>
-                <span class="role-pill pill-verify">Verify</span>
-            </div>
+        <div class="card cond-card">
+            <div class="cond-name">No Plan</div>
+            <div class="cond-score">0.544</div>
+            <div class="cond-desc">Two-role, skip planning</div>
+            <div class="cond-roles"><span class="pill">Exec</span><span class="pill">Verify</span></div>
         </div>
-        <div class="condition-card" style="border-color: rgba(34, 197, 94, 0.3);">
-            <div class="condition-name">No Verify</div>
-            <div class="condition-score" style="background: linear-gradient(135deg, #22c55e, #4f8ef7); -webkit-background-clip: text;">0.592</div>
-            <div class="condition-desc">Two-role team, skip verification</div>
-            <div class="condition-roles">
-                <span class="role-pill pill-plan">Plan</span>
-                <span class="role-pill pill-exec">Exec</span>
-            </div>
+        <div class="card cond-card cond-best">
+            <div class="cond-name">No Verify</div>
+            <div class="cond-score">0.592</div>
+            <div class="cond-desc">Two-role, skip verification</div>
+            <div class="cond-roles"><span class="pill">Plan</span><span class="pill">Exec</span></div>
         </div>
-        <div class="condition-card" style="border-color: rgba(34, 197, 94, 0.3);">
-            <div class="condition-name">Full Team</div>
-            <div class="condition-score" style="background: linear-gradient(135deg, #22c55e, #4f8ef7); -webkit-background-clip: text;">0.592</div>
-            <div class="condition-desc">Three-role team, complete pipeline</div>
-            <div class="condition-roles">
-                <span class="role-pill pill-plan">Plan</span>
-                <span class="role-pill pill-exec">Exec</span>
-                <span class="role-pill pill-verify">Verify</span>
-            </div>
+        <div class="card cond-card cond-best">
+            <div class="cond-name">Full Team</div>
+            <div class="cond-score">0.592</div>
+            <div class="cond-desc">Three-role, complete pipeline</div>
+            <div class="cond-roles"><span class="pill">Plan</span><span class="pill">Exec</span><span class="pill">Verify</span></div>
         </div>
     </div>
 </section>
 
-<hr class="section-divider">
+<hr class="divider">
 
 <!-- Key Findings -->
 <section id="findings">
@@ -1358,308 +954,139 @@
         <h2 class="section-title">When Does Multi-Agent Collaboration Help?</h2>
         <p class="section-desc">Team benefit is conditional, not universal. It concentrates on the hardest tasks and weakest models.</p>
     </div>
-
     <div class="findings-grid fade-up">
-        <div class="finding-card">
-            <div class="finding-icon" style="background: rgba(79, 142, 247, 0.12);">&#9878;&#65039;</div>
+        <div class="card finding-card">
             <h3>The Equalizer Effect</h3>
-            <p>Team coordination helps most when single agents fail. The weakest model (Claude Haiku 4.5) shows the largest team uplift, while the strongest models see minimal gains.</p>
-            <div class="finding-stat stat-positive">+32.1% uplift for weakest model</div>
+            <p>Team coordination helps most when single agents fail. The weakest model shows the largest team uplift, while the strongest see minimal gains.</p>
+            <span class="finding-stat">+32.1% weakest model</span>
         </div>
-        <div class="finding-card">
-            <div class="finding-icon" style="background: rgba(34, 197, 94, 0.12);">&#128200;</div>
+        <div class="card finding-card">
             <h3>Planning Drives Value</h3>
-            <p>Planning adds +4.8% on average (p=0.02). The Planner's specification relay guides executors with knowledge they cannot independently access.</p>
-            <div class="finding-stat stat-positive">+4.8% planning value</div>
+            <p>Planning adds +4.8% on average (p=0.02). The Planner's specification relay provides knowledge executors cannot independently access.</p>
+            <span class="finding-stat">+4.8% planning value</span>
         </div>
-        <div class="finding-card">
-            <div class="finding-icon" style="background: rgba(239, 68, 68, 0.12);">&#9888;&#65039;</div>
-            <h3>Verification Hurts</h3>
-            <p>Current LLM verifiers add no net value on average and actively hurt 31% of tasks. The most common failure: false rejection of valid solutions.</p>
-            <div class="finding-stat stat-negative">-5.8% verification value</div>
+        <div class="card finding-card">
+            <h3>Verification Overhead</h3>
+            <p>Current LLM verifiers add no net value and actively hurt 31% of tasks. The most common failure mode is false rejection of valid solutions.</p>
+            <span class="finding-stat">&minus;5.8% verification</span>
         </div>
-        <div class="finding-card">
-            <div class="finding-icon" style="background: rgba(168, 85, 247, 0.12);">&#127919;</div>
+        <div class="card finding-card">
             <h3>Hardest Tasks Benefit Most</h3>
-            <p>Tasks in the hardest quintile (oracle &lt; 22%) show +15.3% team uplift (p &lt; 0.05). Easy tasks show negative uplift as coordination adds overhead.</p>
-            <div class="finding-stat stat-positive">+15.3% on Q1 hardest</div>
+            <p>Tasks in the hardest quintile (oracle &lt; 22%) show +15.3% team uplift. Easy tasks show negative uplift as coordination adds overhead.</p>
+            <span class="finding-stat">+15.3% on Q1 hardest</span>
         </div>
-        <div class="finding-card">
-            <div class="finding-icon" style="background: rgba(245, 158, 11, 0.12);">&#128101;</div>
+        <div class="card finding-card">
             <h3>Universal Across Families</h3>
-            <p>All six closed-source models from three provider families (Google, OpenAI, Anthropic) show positive team uplift. Zero tasks consistently suffer.</p>
-            <div class="finding-stat stat-neutral">6/6 models benefit</div>
+            <p>All six closed-source models from three provider families show positive team uplift on pass rate. Zero tasks consistently suffer across all models.</p>
+            <span class="finding-stat">6/6 models benefit</span>
         </div>
-        <div class="finding-card">
-            <div class="finding-icon" style="background: rgba(0, 212, 255, 0.12);">&#128300;</div>
-            <h3>Tool Specialization Works</h3>
-            <p>When roles have specialized tools (Bandit, Mypy, Ruff for Planner; pytest for Verifier), the team achieves 72% vs 32% oracle, with TNI = 1.25.</p>
-            <div class="finding-stat stat-positive">TNI = 1.25 (exceeds oracle)</div>
+        <div class="card finding-card">
+            <h3>Tool Specialization</h3>
+            <p>When roles have specialized tools (static analyzers for Planner, test runners for Verifier), the team achieves 72% vs 32% oracle.</p>
+            <span class="finding-stat">TNI = 1.25</span>
         </div>
     </div>
 </section>
 
-<hr class="section-divider">
+<hr class="divider">
 
 <!-- Leaderboard -->
-<section class="leaderboard-section" id="leaderboard">
+<section id="leaderboard">
     <div class="section-header fade-up">
         <span class="section-label">Leaderboard</span>
         <h2 class="section-title">Cross-Model Results</h2>
-        <p class="section-desc">28-task TeamBench-Mini subset. Pass rate (%) under each condition across three provider families.</p>
+        <p class="section-desc">28-task TeamBench-Mini subset. Pass rate (%) under each ablation condition.</p>
     </div>
-
-    <div class="leaderboard-wrapper fade-up">
-        <div class="leaderboard-tabs">
-            <div class="leaderboard-tab active" onclick="showTable('closed')">Closed-Source Models</div>
-            <div class="leaderboard-tab" onclick="showTable('open')">Open-Source Models</div>
+    <div class="lb-wrapper fade-up">
+        <div class="lb-tabs">
+            <button class="lb-tab active" onclick="showTable('closed')">Closed-Source</button>
+            <button class="lb-tab" onclick="showTable('open')">Open-Source</button>
         </div>
-
-        <div class="table-container" id="table-closed">
+        <div class="table-wrap" id="table-closed">
             <table>
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Model</th>
-                        <th>Family</th>
-                        <th>Oracle</th>
-                        <th>Restricted</th>
-                        <th>No Plan</th>
-                        <th>No Verify</th>
-                        <th>Full Team</th>
-                        <th>Uplift</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>#</th><th>Model</th><th>Family</th><th>Oracle</th><th>Restr.</th><th>NoPlan</th><th>NoVer.</th><th>Full</th><th>Uplift</th></tr></thead>
                 <tbody>
-                    <tr>
-                        <td><span class="rank-badge rank-1">1</span></td>
-                        <td class="model-name">Claude Sonnet 4.6</td>
-                        <td><span class="model-family family-anthropic">Anthropic</span></td>
-                        <td class="score-cell">21.4</td>
-                        <td class="score-cell">17.9</td>
-                        <td class="score-cell">35.7</td>
-                        <td class="score-cell">35.7</td>
-                        <td class="score-cell score-best">42.9</td>
-                        <td class="score-cell uplift-positive">+21.4</td>
-                    </tr>
-                    <tr>
-                        <td><span class="rank-badge rank-1">1</span></td>
-                        <td class="model-name">Claude Haiku 4.5</td>
-                        <td><span class="model-family family-anthropic">Anthropic</span></td>
-                        <td class="score-cell">10.7</td>
-                        <td class="score-cell">10.7</td>
-                        <td class="score-cell">17.9</td>
-                        <td class="score-cell">21.4</td>
-                        <td class="score-cell score-best">42.9</td>
-                        <td class="score-cell uplift-positive">+32.1</td>
-                    </tr>
-                    <tr>
-                        <td><span class="rank-badge rank-2">3</span></td>
-                        <td class="model-name">GPT-5-Mini</td>
-                        <td><span class="model-family family-openai">OpenAI</span></td>
-                        <td class="score-cell">17.9</td>
-                        <td class="score-cell">10.7</td>
-                        <td class="score-cell">28.6</td>
-                        <td class="score-cell">32.1</td>
-                        <td class="score-cell score-best">35.7</td>
-                        <td class="score-cell uplift-positive">+17.9</td>
-                    </tr>
-                    <tr>
-                        <td><span class="rank-badge rank-2">3</span></td>
-                        <td class="model-name">Gemini 3 Flash</td>
-                        <td><span class="model-family family-google">Google</span></td>
-                        <td class="score-cell">17.9</td>
-                        <td class="score-cell">17.9</td>
-                        <td class="score-cell">14.3</td>
-                        <td class="score-cell">25.0</td>
-                        <td class="score-cell score-best">35.7</td>
-                        <td class="score-cell uplift-positive">+17.9</td>
-                    </tr>
-                    <tr>
-                        <td><span class="rank-badge rank-3">5</span></td>
-                        <td class="model-name">Gemini 3.1 Lite</td>
-                        <td><span class="model-family family-google">Google</span></td>
-                        <td class="score-cell">10.7</td>
-                        <td class="score-cell">14.3</td>
-                        <td class="score-cell">14.3</td>
-                        <td class="score-cell">21.4</td>
-                        <td class="score-cell score-best">32.1</td>
-                        <td class="score-cell uplift-positive">+21.4</td>
-                    </tr>
-                    <tr>
-                        <td><span class="rank-badge rank-other">6</span></td>
-                        <td class="model-name">GPT-5-Nano</td>
-                        <td><span class="model-family family-openai">OpenAI</span></td>
-                        <td class="score-cell">14.3</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">14.3</td>
-                        <td class="score-cell">7.1</td>
-                        <td class="score-cell score-best">17.9</td>
-                        <td class="score-cell uplift-positive">+3.6</td>
-                    </tr>
-                    <tr style="background: rgba(79, 142, 247, 0.04); font-weight: 600;">
-                        <td></td>
-                        <td class="model-name" style="font-style:italic;">Closed avg.</td>
-                        <td></td>
-                        <td class="score-cell">15.5</td>
-                        <td class="score-cell">11.9</td>
-                        <td class="score-cell">20.8</td>
-                        <td class="score-cell">23.8</td>
-                        <td class="score-cell score-best">34.5</td>
-                        <td class="score-cell uplift-positive">+19.1</td>
-                    </tr>
+                    <tr><td><span class="rank rank-gold">1</span></td><td class="model-name">Claude Sonnet 4.6</td><td><span class="family-tag">Anthropic</span></td><td class="mono">21.4</td><td class="mono">17.9</td><td class="mono">35.7</td><td class="mono">35.7</td><td class="mono best">42.9</td><td class="mono">+21.4</td></tr>
+                    <tr><td><span class="rank rank-gold">1</span></td><td class="model-name">Claude Haiku 4.5</td><td><span class="family-tag">Anthropic</span></td><td class="mono">10.7</td><td class="mono">10.7</td><td class="mono">17.9</td><td class="mono">21.4</td><td class="mono best">42.9</td><td class="mono">+32.1</td></tr>
+                    <tr><td><span class="rank">3</span></td><td class="model-name">GPT-5-Mini</td><td><span class="family-tag">OpenAI</span></td><td class="mono">17.9</td><td class="mono">10.7</td><td class="mono">28.6</td><td class="mono">32.1</td><td class="mono best">35.7</td><td class="mono">+17.9</td></tr>
+                    <tr><td><span class="rank">3</span></td><td class="model-name">Gemini 3 Flash</td><td><span class="family-tag">Google</span></td><td class="mono">17.9</td><td class="mono">17.9</td><td class="mono">14.3</td><td class="mono">25.0</td><td class="mono best">35.7</td><td class="mono">+17.9</td></tr>
+                    <tr><td><span class="rank">5</span></td><td class="model-name">Gemini 3.1 Lite</td><td><span class="family-tag">Google</span></td><td class="mono">10.7</td><td class="mono">14.3</td><td class="mono">14.3</td><td class="mono">21.4</td><td class="mono best">32.1</td><td class="mono">+21.4</td></tr>
+                    <tr><td><span class="rank">6</span></td><td class="model-name">GPT-5-Nano</td><td><span class="family-tag">OpenAI</span></td><td class="mono">14.3</td><td class="mono">0.0</td><td class="mono">14.3</td><td class="mono">7.1</td><td class="mono best">17.9</td><td class="mono">+3.6</td></tr>
+                    <tr style="background:var(--bg-card);font-weight:600;"><td></td><td style="font-style:italic;">Average</td><td></td><td class="mono">15.5</td><td class="mono">11.9</td><td class="mono">20.8</td><td class="mono">23.8</td><td class="mono best">34.5</td><td class="mono">+19.1</td></tr>
                 </tbody>
             </table>
         </div>
-
-        <div class="table-container" id="table-open" style="display: none;">
+        <div class="table-wrap" id="table-open" style="display:none;">
             <table>
-                <thead>
-                    <tr>
-                        <th>Model</th>
-                        <th>Params</th>
-                        <th>Oracle</th>
-                        <th>Restricted</th>
-                        <th>No Plan</th>
-                        <th>No Verify</th>
-                        <th>Full Team</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>Model</th><th>Params</th><th>Oracle</th><th>Restr.</th><th>NoPlan</th><th>NoVer.</th><th>Full</th></tr></thead>
                 <tbody>
-                    <tr>
-                        <td class="model-name">Qwen3-14B</td>
-                        <td class="score-cell">14B</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">7.1</td>
-                    </tr>
-                    <tr>
-                        <td class="model-name">Qwen3-8B</td>
-                        <td class="score-cell">8B</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">3.6</td>
-                    </tr>
-                    <tr>
-                        <td class="model-name">Qwen3.5-27B</td>
-                        <td class="score-cell">27B</td>
-                        <td class="score-cell">3.6</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">3.6</td>
-                        <td class="score-cell">3.6</td>
-                    </tr>
-                    <tr>
-                        <td class="model-name">Qwen3-Coder-30B</td>
-                        <td class="score-cell">30B (3B active)</td>
-                        <td class="score-cell">3.6</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">3.6</td>
-                        <td class="score-cell">0.0</td>
-                    </tr>
-                    <tr>
-                        <td class="model-name">Qwen3-32B</td>
-                        <td class="score-cell">32B</td>
-                        <td class="score-cell">3.6</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">0.0</td>
-                    </tr>
-                    <tr>
-                        <td class="model-name">Qwen3-4B</td>
-                        <td class="score-cell">4B</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">3.6</td>
-                        <td class="score-cell">0.0</td>
-                    </tr>
-                    <tr>
-                        <td class="model-name">DeepSeek-R1-Distill-32B</td>
-                        <td class="score-cell">32B</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">0.0</td>
-                        <td class="score-cell">0.0</td>
-                    </tr>
+                    <tr><td class="model-name">Qwen3-14B</td><td class="mono">14B</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">7.1</td></tr>
+                    <tr><td class="model-name">Qwen3-8B</td><td class="mono">8B</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">3.6</td></tr>
+                    <tr><td class="model-name">Qwen3.5-27B</td><td class="mono">27B</td><td class="mono">3.6</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono">3.6</td></tr>
+                    <tr><td class="model-name">Qwen3-Coder-30B</td><td class="mono">30B</td><td class="mono">3.6</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono">0.0</td></tr>
+                    <tr><td class="model-name">Qwen3-32B</td><td class="mono">32B</td><td class="mono">3.6</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td></tr>
+                    <tr><td class="model-name">Qwen3-4B</td><td class="mono">4B</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono">0.0</td></tr>
+                    <tr><td class="model-name">DeepSeek-R1-Distill-32B</td><td class="mono">32B</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td></tr>
                 </tbody>
             </table>
-            <div style="padding: 1.5rem; font-size: 0.8rem; color: var(--text-muted); text-align: center;">
-                Open-source models achieve near-zero pass rates due to tool-use infrastructure failures (malformed calls, context overflow), not capability limitations. All served via vLLM with max_model_len=8192.
-            </div>
+            <div style="padding:1.25rem;font-size:0.78rem;color:var(--text-muted);text-align:center;">Near-zero pass rates reflect tool-use infrastructure failures (malformed calls, context overflow), not capability limitations. All served via vLLM with max_model_len=8192.</div>
         </div>
     </div>
 </section>
 
-<hr class="section-divider">
+<hr class="divider">
 
-<!-- Results Charts -->
+<!-- Charts -->
 <section id="results">
     <div class="section-header fade-up">
-        <span class="section-label">Detailed Results</span>
-        <h2 class="section-title">Visualizing Team Benefit Patterns</h2>
+        <span class="section-label">Results</span>
+        <h2 class="section-title">Visualizing Team Benefit</h2>
     </div>
-
     <div class="charts-grid fade-up">
-        <div class="chart-card">
-            <h3>Team Uplift by Task Category</h3>
-            <p class="chart-subtitle">Full Team score minus Oracle score, averaged per category</p>
-            <div class="chart-wrapper">
-                <canvas id="chart-category"></canvas>
-            </div>
+        <div class="card chart-card">
+            <h3>Team Uplift by Category</h3>
+            <p class="chart-sub">Full Team score minus Oracle score, averaged per category</p>
+            <div class="chart-wrap"><canvas id="chart-category"></canvas></div>
         </div>
-        <div class="chart-card">
+        <div class="card chart-card">
             <h3>Full Team Score by Model</h3>
-            <p class="chart-subtitle">Pass rate (%) on 28-task cross-model subset</p>
-            <div class="chart-wrapper">
-                <canvas id="chart-models"></canvas>
-            </div>
+            <p class="chart-sub">Pass rate (%) on 28-task cross-model subset</p>
+            <div class="chart-wrap"><canvas id="chart-models"></canvas></div>
         </div>
-        <div class="chart-card">
+        <div class="card chart-card">
             <h3>Ablation Condition Scores</h3>
-            <p class="chart-subtitle">Average partial score across 147 tasks (Gemini 3 Flash)</p>
-            <div class="chart-wrapper">
-                <canvas id="chart-ablation"></canvas>
-            </div>
+            <p class="chart-sub">Average partial score across 147 tasks (Gemini 3 Flash)</p>
+            <div class="chart-wrap"><canvas id="chart-ablation"></canvas></div>
         </div>
-        <div class="chart-card">
+        <div class="card chart-card">
             <h3>Team Uplift by Oracle Quintile</h3>
-            <p class="chart-subtitle">Hardest tasks (Q1) benefit most from team coordination</p>
-            <div class="chart-wrapper">
-                <canvas id="chart-quintile"></canvas>
-            </div>
+            <p class="chart-sub">Hardest tasks benefit most from team coordination</p>
+            <div class="chart-wrap"><canvas id="chart-quintile"></canvas></div>
         </div>
     </div>
 </section>
 
-<hr class="section-divider">
+<hr class="divider">
 
-<!-- Task Categories -->
+<!-- Tasks -->
 <section id="tasks">
     <div class="section-header fade-up">
-        <span class="section-label">Benchmark Coverage</span>
+        <span class="section-label">Coverage</span>
         <h2 class="section-title">164 Tasks Across 19 Categories</h2>
         <p class="section-desc">Weighted toward hard and expert tasks (80%) where multi-agent collaboration is most likely to provide value.</p>
     </div>
-
-    <div class="categories-visual fade-up">
+    <div class="cat-grid fade-up">
         <div class="cat-item"><span class="cat-name">Security / Crypto</span><span class="cat-count">15</span></div>
         <div class="cat-item"><span class="cat-name">Data Engineering</span><span class="cat-count">11</span></div>
         <div class="cat-item"><span class="cat-name">Incident Response</span><span class="cat-count">11</span></div>
         <div class="cat-item"><span class="cat-name">Software Eng.</span><span class="cat-count">11</span></div>
+        <div class="cat-item"><span class="cat-name">Real-World (GitHub)</span><span class="cat-count">11</span></div>
         <div class="cat-item"><span class="cat-name">Testing</span><span class="cat-count">9</span></div>
         <div class="cat-item"><span class="cat-name">Multi-language</span><span class="cat-count">9</span></div>
         <div class="cat-item"><span class="cat-name">Operations</span><span class="cat-count">9</span></div>
         <div class="cat-item"><span class="cat-name">Pipeline / Integration</span><span class="cat-count">9</span></div>
         <div class="cat-item"><span class="cat-name">Long-Horizon</span><span class="cat-count">9</span></div>
-        <div class="cat-item"><span class="cat-name">Adversarial (TRAP)</span><span class="cat-count">8</span></div>
+        <div class="cat-item"><span class="cat-name">Adversarial</span><span class="cat-count">8</span></div>
         <div class="cat-item"><span class="cat-name">Info. Retrieval</span><span class="cat-count">8</span></div>
         <div class="cat-item"><span class="cat-name">Policy</span><span class="cat-count">8</span></div>
         <div class="cat-item"><span class="cat-name">Cross-System</span><span class="cat-count">7</span></div>
@@ -1668,63 +1095,36 @@
         <div class="cat-item"><span class="cat-name">Distributed Sys.</span><span class="cat-count">6</span></div>
         <div class="cat-item"><span class="cat-name">Expertise Asym.</span><span class="cat-count">5</span></div>
         <div class="cat-item"><span class="cat-name">Negotiation</span><span class="cat-count">5</span></div>
-        <div class="cat-item"><span class="cat-name">Real-World (GH)</span><span class="cat-count">11</span></div>
     </div>
-
-    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 2rem;" class="fade-up">
-        <div style="text-align: center; padding: 1.5rem; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border);">
-            <div style="font-size: 1.8rem; font-weight: 800; color: var(--accent-green);">7</div>
-            <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;">Easy</div>
-        </div>
-        <div style="text-align: center; padding: 1.5rem; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border);">
-            <div style="font-size: 1.8rem; font-weight: 800; color: var(--accent-blue);">26</div>
-            <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;">Medium</div>
-        </div>
-        <div style="text-align: center; padding: 1.5rem; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border);">
-            <div style="font-size: 1.8rem; font-weight: 800; color: var(--accent-orange);">115</div>
-            <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;">Hard</div>
-        </div>
-        <div style="text-align: center; padding: 1.5rem; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border);">
-            <div style="font-size: 1.8rem; font-weight: 800; color: var(--accent-red);">16</div>
-            <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;">Expert</div>
-        </div>
+    <div class="diff-bar fade-up">
+        <div class="diff-item"><div class="diff-val">7</div><div class="diff-label">Easy</div></div>
+        <div class="diff-item"><div class="diff-val">26</div><div class="diff-label">Medium</div></div>
+        <div class="diff-item"><div class="diff-val">115</div><div class="diff-label">Hard</div></div>
+        <div class="diff-item"><div class="diff-val">16</div><div class="diff-label">Expert</div></div>
     </div>
 </section>
 
-<hr class="section-divider">
+<hr class="divider">
 
-<!-- Get Started CTA -->
-<section class="cta-section">
-    <div class="cta-box fade-up">
-        <h2>Get Started with TeamBench</h2>
-        <p>Install from PyPI, download from HuggingFace, or clone the repository to start evaluating multi-agent collaboration.</p>
-
-        <div class="cta-code" onclick="navigator.clipboard.writeText('pip install teambench')">
-            <span>$ pip install teambench</span>
-            <span class="copy-icon">&#128203; copy</span>
-        </div>
-
-        <div class="cta-links">
-            <a href="https://github.com/ybkim95/TeamBench" class="primary" target="_blank" style="background: var(--gradient-1); color: white; box-shadow: 0 4px 20px rgba(79, 142, 247, 0.3);">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                GitHub Repository
-            </a>
-            <a href="https://huggingface.co/datasets/ybkim95/teambench" class="secondary" target="_blank" style="background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border);">
-                &#129303; HuggingFace Dataset
-            </a>
-            <a href="https://arxiv.org/abs/2512.08296" class="secondary" target="_blank" style="background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border);">
-                &#128196; arXiv Paper
-            </a>
-        </div>
+<!-- CTA -->
+<div class="cta">
+    <h2>Get Started</h2>
+    <p>Install from PyPI, download from HuggingFace, or clone the repository.</p>
+    <div class="cta-code" onclick="navigator.clipboard.writeText('pip install teambench')">
+        <span>$ pip install teambench</span>
+        <span class="cta-copy">copy</span>
     </div>
-</section>
+    <div class="cta-links">
+        <a href="https://github.com/ybkim95/TeamBench" class="btn-fill" target="_blank">GitHub</a>
+        <a href="https://huggingface.co/datasets/ybkim95/teambench" class="btn-ghost" target="_blank">HuggingFace</a>
+        <a href="https://arxiv.org/abs/2512.08296" class="btn-ghost" target="_blank">Paper</a>
+    </div>
+</div>
 
 <!-- Footer -->
 <footer>
     <div class="footer-inner">
-        <div class="footer-text">
-            TeamBench &copy; 2025 &mdash; Yubin Kim, Massachusetts Institute of Technology
-        </div>
+        <span>TeamBench &copy; 2025 &mdash; Yubin Kim, MIT</span>
         <div class="footer-links">
             <a href="https://github.com/ybkim95/TeamBench" target="_blank">GitHub</a>
             <a href="https://huggingface.co/datasets/ybkim95/teambench" target="_blank">HuggingFace</a>
@@ -1735,164 +1135,121 @@
 </footer>
 
 <script>
-// ── Table Switching ──
+// Theme
+function toggleTheme() {
+    const html = document.documentElement;
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    updateThemeIcon(next);
+    rebuildCharts();
+}
+
+function updateThemeIcon(theme) {
+    const icon = document.getElementById('theme-icon');
+    if (theme === 'light') {
+        icon.innerHTML = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+    } else {
+        icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+    }
+}
+
+// Restore saved theme
+const saved = localStorage.getItem('theme');
+if (saved) {
+    document.documentElement.setAttribute('data-theme', saved);
+    updateThemeIcon(saved);
+}
+
+// Table tabs
 function showTable(type) {
     document.getElementById('table-closed').style.display = type === 'closed' ? 'block' : 'none';
     document.getElementById('table-open').style.display = type === 'open' ? 'block' : 'none';
-    document.querySelectorAll('.leaderboard-tab').forEach((tab, i) => {
+    document.querySelectorAll('.lb-tab').forEach((tab, i) => {
         tab.classList.toggle('active', (type === 'closed' && i === 0) || (type === 'open' && i === 1));
     });
 }
 
-// ── Scroll Animations ──
+// Scroll animations
 const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-        }
-    });
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.1 });
-
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-// ── Chart.js Config ──
-Chart.defaults.color = '#a0a0b8';
-Chart.defaults.borderColor = 'rgba(42, 42, 62, 0.5)';
-Chart.defaults.font.family = "'Inter', sans-serif";
+// Charts
+let charts = {};
 
-// Category Uplift Chart
-new Chart(document.getElementById('chart-category'), {
-    type: 'bar',
-    data: {
-        labels: ['Multi-lang.', 'Integration', 'Incident', 'Long-Hor.', 'Operations', 'Testing', 'Policy', 'Negotiation', 'Spec.', 'SWE', 'Adversarial', 'Pipeline', 'Code Rev.', 'Info. Retr.', 'Cross-Sys.', 'Security', 'Data Eng.', 'Distributed'],
-        datasets: [{
-            label: 'Team Uplift',
-            data: [0.74, 0.50, 0.44, 0.38, 0.35, 0.35, 0.22, 0.21, 0.13, 0.05, 0.04, 0.03, 0.01, 0.00, 0.00, -0.01, -0.01, -0.10],
-            backgroundColor: ctx => {
-                const val = ctx.raw;
-                return val >= 0 ? 'rgba(79, 142, 247, 0.7)' : 'rgba(239, 68, 68, 0.7)';
-            },
-            borderRadius: 4,
-            barThickness: 16
-        }]
-    },
-    options: {
-        indexAxis: 'y',
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: {
-            x: {
-                grid: { color: 'rgba(42, 42, 62, 0.3)' },
-                ticks: { font: { size: 11 } }
-            },
-            y: {
-                grid: { display: false },
-                ticks: { font: { size: 10 } }
-            }
-        }
-    }
-});
+function getChartColors() {
+    const style = getComputedStyle(document.documentElement);
+    return {
+        bar: style.getPropertyValue('--chart-bar').trim(),
+        barAlt: style.getPropertyValue('--chart-bar-alt').trim(),
+        neg: style.getPropertyValue('--chart-negative').trim(),
+        grid: style.getPropertyValue('--chart-grid').trim(),
+        text: style.getPropertyValue('--text-secondary').trim(),
+        muted: style.getPropertyValue('--text-muted').trim(),
+    };
+}
 
-// Models Chart
-new Chart(document.getElementById('chart-models'), {
-    type: 'bar',
-    data: {
-        labels: ['Sonnet 4.6', 'Haiku 4.5', 'G3 Flash', 'G3.1 Lite', 'GPT5-Mini', 'GPT5-Nano'],
-        datasets: [
-            {
-                label: 'Oracle',
-                data: [21.4, 10.7, 17.9, 10.7, 17.9, 14.3],
-                backgroundColor: 'rgba(160, 160, 184, 0.4)',
-                borderRadius: 4,
-                barThickness: 18
-            },
-            {
-                label: 'Full Team',
-                data: [42.9, 42.9, 35.7, 32.1, 35.7, 17.9],
-                backgroundColor: 'rgba(79, 142, 247, 0.7)',
-                borderRadius: 4,
-                barThickness: 18
-            }
-        ]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: 'top',
-                labels: { boxWidth: 12, padding: 15, font: { size: 11 } }
-            }
+function buildCharts() {
+    const c = getChartColors();
+
+    Chart.defaults.color = c.text;
+    Chart.defaults.borderColor = c.grid;
+    Chart.defaults.font.family = "'Inter', sans-serif";
+
+    // Category
+    charts.category = new Chart(document.getElementById('chart-category'), {
+        type: 'bar',
+        data: {
+            labels: ['Multi-lang.', 'Integration', 'Incident', 'Long-Hor.', 'Operations', 'Testing', 'Policy', 'Negotiation', 'Spec.', 'SWE', 'Adversarial', 'Pipeline', 'Code Rev.', 'Info. Retr.', 'Cross-Sys.', 'Security', 'Data Eng.', 'Distributed'],
+            datasets: [{ data: [0.74,0.50,0.44,0.38,0.35,0.35,0.22,0.21,0.13,0.05,0.04,0.03,0.01,0.00,0.00,-0.01,-0.01,-0.10], backgroundColor: ctx => ctx.raw >= 0 ? c.bar : c.neg, borderRadius: 3, barThickness: 14 }]
         },
-        scales: {
-            x: { grid: { display: false }, ticks: { font: { size: 10 } } },
-            y: {
-                grid: { color: 'rgba(42, 42, 62, 0.3)' },
-                ticks: { callback: v => v + '%', font: { size: 11 } }
-            }
-        }
-    }
-});
+        options: { indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ x:{grid:{color:c.grid},ticks:{font:{size:10}}}, y:{grid:{display:false},ticks:{font:{size:9}}} } }
+    });
 
-// Ablation Chart
-new Chart(document.getElementById('chart-ablation'), {
-    type: 'bar',
-    data: {
-        labels: ['Oracle', 'Restricted', 'No Plan', 'No Verify', 'Full Team'],
-        datasets: [{
-            label: 'Avg. Partial Score',
-            data: [0.575, 0.571, 0.544, 0.592, 0.592],
-            backgroundColor: ['rgba(160,160,184,0.5)', 'rgba(160,160,184,0.5)', 'rgba(239,68,68,0.5)', 'rgba(34,197,94,0.6)', 'rgba(79,142,247,0.7)'],
-            borderRadius: 6,
-            barThickness: 40
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: {
-            x: { grid: { display: false }, ticks: { font: { size: 11 } } },
-            y: {
-                min: 0.5,
-                max: 0.62,
-                grid: { color: 'rgba(42, 42, 62, 0.3)' },
-                ticks: { font: { size: 11 } }
-            }
-        }
-    }
-});
+    // Models
+    charts.models = new Chart(document.getElementById('chart-models'), {
+        type: 'bar',
+        data: {
+            labels: ['Sonnet 4.6','Haiku 4.5','G3 Flash','G3.1 Lite','GPT5-Mini','GPT5-Nano'],
+            datasets: [
+                { label:'Oracle', data:[21.4,10.7,17.9,10.7,17.9,14.3], backgroundColor:c.barAlt, borderRadius:3, barThickness:16 },
+                { label:'Full Team', data:[42.9,42.9,35.7,32.1,35.7,17.9], backgroundColor:c.bar, borderRadius:3, barThickness:16 }
+            ]
+        },
+        options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'top',labels:{boxWidth:10,padding:12,font:{size:10}}}}, scales:{ x:{grid:{display:false},ticks:{font:{size:9}}}, y:{grid:{color:c.grid},ticks:{callback:v=>v+'%',font:{size:10}}} } }
+    });
 
-// Quintile Chart
-new Chart(document.getElementById('chart-quintile'), {
-    type: 'bar',
-    data: {
-        labels: ['Q1 (Hardest)', 'Q2', 'Q3', 'Q4', 'Q5 (Easiest)'],
-        datasets: [{
-            label: 'Team Uplift',
-            data: [0.153, 0.062, -0.013, -0.036, -0.074],
-            backgroundColor: ctx => ctx.raw >= 0 ? 'rgba(34, 197, 94, 0.6)' : 'rgba(239, 68, 68, 0.5)',
-            borderRadius: 6,
-            barThickness: 36
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: {
-            x: { grid: { display: false }, ticks: { font: { size: 11 } } },
-            y: {
-                grid: { color: 'rgba(42, 42, 62, 0.3)' },
-                ticks: {
-                    callback: v => (v >= 0 ? '+' : '') + (v * 100).toFixed(1) + '%',
-                    font: { size: 11 }
-                }
-            }
-        }
-    }
-});
+    // Ablation
+    charts.ablation = new Chart(document.getElementById('chart-ablation'), {
+        type: 'bar',
+        data: {
+            labels: ['Oracle','Restricted','No Plan','No Verify','Full Team'],
+            datasets: [{ data:[0.575,0.571,0.544,0.592,0.592], backgroundColor:[c.barAlt,c.barAlt,c.neg,c.bar,c.bar], borderRadius:4, barThickness:36 }]
+        },
+        options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ x:{grid:{display:false},ticks:{font:{size:10}}}, y:{min:0.5,max:0.62,grid:{color:c.grid},ticks:{font:{size:10}}} } }
+    });
+
+    // Quintile
+    charts.quintile = new Chart(document.getElementById('chart-quintile'), {
+        type: 'bar',
+        data: {
+            labels: ['Q1 (Hardest)','Q2','Q3','Q4','Q5 (Easiest)'],
+            datasets: [{ data:[0.153,0.062,-0.013,-0.036,-0.074], backgroundColor: ctx => ctx.raw >= 0 ? c.bar : c.neg, borderRadius:4, barThickness:32 }]
+        },
+        options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ x:{grid:{display:false},ticks:{font:{size:10}}}, y:{grid:{color:c.grid},ticks:{callback:v=>(v>=0?'+':'')+(v*100).toFixed(1)+'%',font:{size:10}}} } }
+    });
+}
+
+function rebuildCharts() {
+    Object.values(charts).forEach(ch => ch.destroy());
+    charts = {};
+    buildCharts();
+}
+
+buildCharts();
 </script>
 
 </body>
