@@ -162,7 +162,7 @@
         .chart-sub { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.25rem; }
         .chart-wrap { position: relative; width: 100%; aspect-ratio: 16 / 10; }
         .chart-wrap canvas { width: 100% !important; height: 100% !important; }
-        .chart-wrap-scatter { aspect-ratio: 1 / 1; max-height: 480px; }
+        .chart-wrap-scatter { aspect-ratio: 1 / 1; max-height: 520px; margin: 0 auto; }
         .charts-row-scatter { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
 
         /* ── Task Categories ── */
@@ -320,7 +320,7 @@
             Dataset
         </a>
         <a href="https://arxiv.org/abs/2512.08296" class="btn-ghost" target="_blank">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <svg viewBox="0 0 100 100" fill="currentColor" style="width:16px;height:16px;"><path d="M87.5 18.7L67.8 50l19.7 31.3H72.8L60 63.5 47.2 81.3H32.5L52.2 50 32.5 18.7h14.7L60 36.5l12.8-17.8h14.7z"/></svg>
             Paper
         </a>
     </div>
@@ -558,7 +558,7 @@
             HuggingFace
         </a>
         <a href="https://arxiv.org/abs/2512.08296" class="btn-ghost" target="_blank">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <svg viewBox="0 0 100 100" fill="currentColor" style="width:16px;height:16px;"><path d="M87.5 18.7L67.8 50l19.7 31.3H72.8L60 63.5 47.2 81.3H32.5L52.2 50 32.5 18.7h14.7L60 36.5l12.8-17.8h14.7z"/></svg>
             Paper
         </a>
     </div>
@@ -776,21 +776,29 @@ function buildCharts() {
         type:'scatter',
         data:{
             datasets:[
-                { label:'Team > Oracle', data:scatterData.filter(d=>d.y>d.x+0.05), backgroundColor:c.st, pointRadius:5, pointHoverRadius:8 },
-                { label:'Oracle > Team', data:scatterData.filter(d=>d.x>d.y+0.05), backgroundColor:c.so, pointRadius:5, pointHoverRadius:8 },
-                { label:'Neutral', data:scatterData.filter(d=>Math.abs(d.x-d.y)<=0.05), backgroundColor:c.neg, pointRadius:5, pointHoverRadius:8 },
-                { label:'Diagonal', data:[{x:0,y:0},{x:1,y:1}], type:'line', borderColor:c.grid, borderDash:[4,4], borderWidth:1, pointRadius:0, fill:false }
+                { label:'Team > Oracle', data:scatterData.filter(d=>d.y>d.x+0.05), backgroundColor:c.st, pointRadius:6, pointHoverRadius:10, pointHoverBackgroundColor:c.hl, pointHitRadius:12 },
+                { label:'Oracle > Team', data:scatterData.filter(d=>d.x>d.y+0.05), backgroundColor:c.so, pointRadius:6, pointHoverRadius:10, pointHoverBackgroundColor:c.hl, pointHitRadius:12 },
+                { label:'Neutral', data:scatterData.filter(d=>Math.abs(d.x-d.y)<=0.05), backgroundColor:c.neg, pointRadius:6, pointHoverRadius:10, pointHoverBackgroundColor:c.hl, pointHitRadius:12 },
+                { label:'y = x', data:[{x:0,y:0},{x:1,y:1}], type:'line', borderColor:c.grid, borderDash:[4,4], borderWidth:1, pointRadius:0, fill:false, tooltip:{enabled:false} }
             ]
         },
         options:{
-            responsive:true,maintainAspectRatio:true,
+            responsive:true, maintainAspectRatio:false, aspectRatio:1,
+            interaction:{ mode:'nearest', intersect:true },
             plugins:{
-                legend:{position:'top',labels:{boxWidth:8,padding:10,font:{size:9}}},
-                tooltip:{callbacks:{label:ctx=>{ const d=ctx.raw; return d.l ? `${d.l}: Oracle ${d.x.toFixed(2)}, Team ${d.y.toFixed(2)}` : ''; }}}
+                legend:{position:'top',labels:{boxWidth:8,padding:10,font:{size:10},filter:item=>item.text!=='y = x'}},
+                tooltip:{
+                    enabled:true, padding:10, cornerRadius:6,
+                    titleFont:{size:12,weight:'bold'}, bodyFont:{size:11},
+                    callbacks:{
+                        title:ctx=>{ const d=ctx[0]?.raw; return d?.l || ''; },
+                        label:ctx=>{ const d=ctx.raw; if(!d.l) return null; return ['Oracle: '+d.x.toFixed(2),'Team: '+d.y.toFixed(2),'Diff: '+(d.y-d.x>=0?'+':'')+(d.y-d.x).toFixed(2)]; }
+                    }
+                }
             },
             scales:{
-                x:{title:{display:true,text:'Oracle Score',font:{size:11}},min:0,max:1,grid:{color:c.grid},ticks:{font:{size:9}}},
-                y:{title:{display:true,text:'Full Team Score',font:{size:11}},min:0,max:1.05,grid:{color:c.grid},ticks:{font:{size:9}}}
+                x:{title:{display:true,text:'Oracle Score',font:{size:11,weight:'bold'}},min:0,max:1.02,grid:{color:c.grid},ticks:{stepSize:0.2,font:{size:10}}},
+                y:{title:{display:true,text:'Full Team Score',font:{size:11,weight:'bold'}},min:0,max:1.05,grid:{color:c.grid},ticks:{stepSize:0.2,font:{size:10}}}
             }
         }
     });
@@ -800,23 +808,31 @@ function buildCharts() {
         type:'scatter',
         data:{
             datasets:[
-                { label:'Both help', data:pvData.filter(d=>d.x>0.02&&d.y>0.02), backgroundColor:c.st, pointRadius:5, pointHoverRadius:8 },
-                { label:'Plan helps, Verify hurts', data:pvData.filter(d=>d.x>0.02&&d.y<=-0.02), backgroundColor:c.bar, pointRadius:5, pointHoverRadius:8 },
-                { label:'Verify helps, Plan hurts', data:pvData.filter(d=>d.x<=-0.02&&d.y>0.02), backgroundColor:c.barAlt, pointRadius:5, pointHoverRadius:8 },
-                { label:'Both hurt', data:pvData.filter(d=>d.x<=-0.02&&d.y<=-0.02), backgroundColor:c.neg, pointRadius:5, pointHoverRadius:8 },
-                { label:'', data:[{x:-1,y:0},{x:1,y:0}], type:'line', borderColor:c.grid, borderDash:[3,3], borderWidth:1, pointRadius:0, fill:false },
-                { label:'', data:[{x:0,y:-1},{x:0,y:1}], type:'line', borderColor:c.grid, borderDash:[3,3], borderWidth:1, pointRadius:0, fill:false }
+                { label:'Both help', data:pvData.filter(d=>d.x>0.02&&d.y>0.02), backgroundColor:c.st, pointRadius:6, pointHoverRadius:10, pointHoverBackgroundColor:c.hl, pointHitRadius:12 },
+                { label:'Plan+, Verify\u2212', data:pvData.filter(d=>d.x<=-0.02&&d.y>0.02), backgroundColor:c.bar, pointRadius:6, pointHoverRadius:10, pointHoverBackgroundColor:c.hl, pointHitRadius:12 },
+                { label:'Verify+, Plan\u2212', data:pvData.filter(d=>d.x>0.02&&d.y<=-0.02), backgroundColor:c.barAlt, pointRadius:6, pointHoverRadius:10, pointHoverBackgroundColor:c.hl, pointHitRadius:12 },
+                { label:'Both hurt', data:pvData.filter(d=>d.x<=-0.02&&d.y<=-0.02), backgroundColor:c.neg, pointRadius:6, pointHoverRadius:10, pointHoverBackgroundColor:c.hl, pointHitRadius:12 },
+                { label:'x-axis', data:[{x:-1.1,y:0},{x:1.1,y:0}], type:'line', borderColor:c.grid, borderDash:[3,3], borderWidth:1, pointRadius:0, fill:false, tooltip:{enabled:false} },
+                { label:'y-axis', data:[{x:0,y:-1.1},{x:0,y:1.1}], type:'line', borderColor:c.grid, borderDash:[3,3], borderWidth:1, pointRadius:0, fill:false, tooltip:{enabled:false} }
             ]
         },
         options:{
-            responsive:true,maintainAspectRatio:true,
+            responsive:true, maintainAspectRatio:false, aspectRatio:1,
+            interaction:{ mode:'nearest', intersect:true },
             plugins:{
-                legend:{position:'top',labels:{boxWidth:8,padding:10,font:{size:9},filter:item=>item.text!==''}},
-                tooltip:{callbacks:{label:ctx=>{ const d=ctx.raw; return d.l ? `${d.l}: Plan ${d.y>=0?'+':''}${d.y.toFixed(2)}, Verify ${d.x>=0?'+':''}${d.x.toFixed(2)}` : ''; }}}
+                legend:{position:'top',labels:{boxWidth:8,padding:10,font:{size:10},filter:item=>!['x-axis','y-axis'].includes(item.text)}},
+                tooltip:{
+                    enabled:true, padding:10, cornerRadius:6,
+                    titleFont:{size:12,weight:'bold'}, bodyFont:{size:11},
+                    callbacks:{
+                        title:ctx=>{ const d=ctx[0]?.raw; return d?.l || ''; },
+                        label:ctx=>{ const d=ctx.raw; if(!d.l) return null; return ['Planning: '+(d.y>=0?'+':'')+d.y.toFixed(2),'Verification: '+(d.x>=0?'+':'')+d.x.toFixed(2)]; }
+                    }
+                }
             },
             scales:{
-                x:{title:{display:true,text:'Verification Value',font:{size:11}},min:-1.1,max:1.1,grid:{color:c.grid},ticks:{font:{size:9}}},
-                y:{title:{display:true,text:'Planning Value',font:{size:11}},min:-1.1,max:1.1,grid:{color:c.grid},ticks:{font:{size:9}}}
+                x:{title:{display:true,text:'Verification Value (Full \u2212 No Verifier)',font:{size:10,weight:'bold'}},min:-1.1,max:1.1,grid:{color:c.grid},ticks:{stepSize:0.5,font:{size:10}}},
+                y:{title:{display:true,text:'Planning Value (Full \u2212 No Planner)',font:{size:10,weight:'bold'}},min:-1.1,max:1.1,grid:{color:c.grid},ticks:{stepSize:0.5,font:{size:10}}}
             }
         }
     });
