@@ -160,8 +160,10 @@
         .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
         .chart-card h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.15rem; }
         .chart-sub { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.25rem; }
-        .chart-wrap { position: relative; width: 100%; aspect-ratio: 4 / 3; }
+        .chart-wrap { position: relative; width: 100%; aspect-ratio: 16 / 10; }
         .chart-wrap canvas { width: 100% !important; height: 100% !important; }
+        .chart-wrap-scatter { aspect-ratio: 1 / 1; max-height: 480px; }
+        .charts-row-scatter { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
 
         /* ── Task Categories ── */
         .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.5rem; }
@@ -492,11 +494,20 @@
             <p class="chart-sub">Pass rate (%) &mdash; Oracle vs Full Team on 28-task subset</p>
             <div class="chart-wrap"><canvas id="chart-models"></canvas></div>
         </div>
+    </div>
+    <div class="charts-row-scatter fade-up">
         <div class="card chart-card">
             <h3>Oracle vs Team Score (per task)</h3>
-            <p class="chart-sub">Each point is a task. Points above the diagonal = team wins. Hover for details.</p>
-            <div class="chart-wrap"><canvas id="chart-scatter"></canvas></div>
+            <p class="chart-sub">Each dot is one task. Above diagonal = team wins. Hover for task name and scores.</p>
+            <div class="chart-wrap chart-wrap-scatter"><canvas id="chart-scatter"></canvas></div>
         </div>
+        <div class="card chart-card">
+            <h3>Planning vs Verification Value</h3>
+            <p class="chart-sub">Per-task component contribution. Four quadrants show where each helps or hurts.</p>
+            <div class="chart-wrap chart-wrap-scatter"><canvas id="chart-planvverify"></canvas></div>
+        </div>
+    </div>
+    <div class="charts-grid fade-up" style="margin-top:1rem;">
         <div class="card chart-card">
             <h3>Team Uplift by Oracle Quintile</h3>
             <p class="chart-sub">Hardest tasks benefit most from team coordination</p>
@@ -506,11 +517,6 @@
             <h3>Ablation Condition Scores</h3>
             <p class="chart-sub">Average partial score across 147 tasks (Gemini 3 Flash)</p>
             <div class="chart-wrap"><canvas id="chart-ablation"></canvas></div>
-        </div>
-        <div class="card chart-card">
-            <h3>Planning vs Verification Value</h3>
-            <p class="chart-sub">Per-task component contribution. Hover to explore individual tasks.</p>
-            <div class="chart-wrap"><canvas id="chart-planvverify"></canvas></div>
         </div>
     </div>
 </section>
