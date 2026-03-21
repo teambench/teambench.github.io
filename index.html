@@ -638,7 +638,7 @@
             </table>
         </div>
         <div style="padding:0.75rem 1rem;font-size:0.75rem;color:var(--text-muted);border-top:1px solid var(--border);">
-            <span id="task-count">130</span> tasks shown &mdash; Gemini 3 Flash Preview, seed 0
+            <span id="task-count">130</span> tasks shown &mdash; Gemini 3 Flash Preview, seed 0 &mdash; <a href="#task-counts" style="color:var(--text-muted);text-decoration:underline;">Why 130?</a>
         </div>
     </div>
 </section>
@@ -698,6 +698,142 @@
 }</pre>
             <button onclick="navigator.clipboard.writeText(document.getElementById('bibtex-block').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy BibTeX',1500)})" style="position:absolute;top:0.75rem;right:0.75rem;padding:0.35rem 0.75rem;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text-secondary);font-family:'Geist',sans-serif;font-size:0.72rem;font-weight:600;cursor:pointer;transition:all 0.2s;">Copy BibTeX</button>
         </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- Governance -->
+<section id="governance">
+    <div class="section-header fade-up">
+        <span class="section-label">Benchmark Infrastructure</span>
+        <h2 class="section-title">Governance</h2>
+    </div>
+    <div class="fade-up" style="max-width:800px;margin:0 auto;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <div class="card">
+                <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:0.5rem;">Version &amp; Changelog</h3>
+                <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">
+                    <strong>Current version:</strong> v1.0 (March 2025)<br>
+                    <strong>Tasks:</strong> 164 across 19 categories<br>
+                    <strong>Generators:</strong> 153 parameterized + 11 static (GitHub)<br>
+                    All tasks produce deterministic instances from arbitrary seeds.
+                </p>
+            </div>
+            <div class="card">
+                <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:0.5rem;">Submission Policy</h3>
+                <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">
+                    <strong>Official track:</strong> TeamBench-Mini (28 tasks), all 5 conditions, seed 0<br>
+                    <strong>Hidden-seed track:</strong> Seeds 3+ are reserved for holdout evaluation<br>
+                    <strong>Format:</strong> Submit PR with results JSON to the repository
+                </p>
+            </div>
+            <div class="card">
+                <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:0.5rem;">Grader Audit</h3>
+                <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">
+                    All 164 graders are deterministic shell scripts producing partial scores in [0, 1]. Each grader was validated against both correct and incorrect reference solutions during development.
+                </p>
+            </div>
+            <div class="card" id="task-counts">
+                <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:0.5rem;">Task Counts Explained</h3>
+                <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">
+                    <strong>164</strong> total tasks in the benchmark<br>
+                    <strong>147</strong> with complete 5-condition reference ablation (seed 0)<br>
+                    <strong>130</strong> shown in the explorer (tasks with data across all conditions)<br>
+                    <strong>28</strong> in TeamBench-Mini (cross-model comparison subset)
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- FAQ -->
+<section id="faq">
+    <div class="section-header fade-up">
+        <span class="section-label">Frequently Asked</span>
+        <h2 class="section-title">FAQ</h2>
+    </div>
+    <div class="fade-up" style="max-width:750px;margin:0 auto;">
+        <div class="cat-grid" id="faq-grid" style="grid-template-columns:1fr;">
+            <div class="cat-item">
+                <div class="cat-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="cat-left"><span class="cat-name">Why only one team decomposition (Planner-Executor-Verifier)?</span></div>
+                    <div class="cat-right"><svg class="cat-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+                </div>
+                <div class="cat-body"><p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">TeamBench is evaluation infrastructure, not a deployment prescription. The three-role decomposition represents one natural factorization of understanding, implementation, and validation. We additionally evaluate four alternative topologies (Verify-First, Iterative, Dual-Exec, Self-Check) in a topology ablation. Future versions will add multi-round dialogue and router-worker patterns as first-class evaluation modes.</p></div>
+            </div>
+            <div class="cat-item">
+                <div class="cat-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="cat-left"><span class="cat-name">Is the "oracle" baseline fairly optimized?</span></div>
+                    <div class="cat-right"><svg class="cat-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+                </div>
+                <div class="cat-body"><p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">The oracle is an unrestricted single agent with full access to specification, workspace, and all tools. We tested two enhanced variants (Oracle-CoT and Oracle-2Pass) on the 28-task Mini subset; neither improved over the standard oracle. This establishes that team benefit is structural and cannot be recovered by prompt engineering alone. The oracle label refers to "unrestricted access," not a theoretical upper bound.</p></div>
+            </div>
+            <div class="cat-item">
+                <div class="cat-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="cat-left"><span class="cat-name">Why do open-source models score near zero?</span></div>
+                    <div class="cat-right"><svg class="cat-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+                </div>
+                <div class="cat-body"><p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">Near-zero performance for the seven open-source models we tested reflects tool-use infrastructure failures (malformed function calls, context overflow at 8K tokens), not model capability limitations. All were served via vLLM with max_model_len=8192. Models with native function-calling support and longer context windows should perform better. We are actively evaluating newer open-source models with improved tool-use capabilities.</p></div>
+            </div>
+            <div class="cat-item">
+                <div class="cat-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="cat-left"><span class="cat-name">Could task authorship bias the results?</span></div>
+                    <div class="cat-right"><svg class="cat-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+                </div>
+                <div class="cat-body"><p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">All 164 tasks were authored by a single developer over six person-months. To mitigate authorship bias: (1) 11 tasks are sourced from real GitHub issues across 8 popular open-source libraries, (2) the strongest findings (negative verification value, conditional team benefit on hard tasks) are the opposite of what a pro-teamwork bias would predict, and (3) cross-model validation across 6 closed-source models from 3 provider families confirms the patterns are not model-specific.</p></div>
+            </div>
+            <div class="cat-item">
+                <div class="cat-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="cat-left"><span class="cat-name">How contamination-resistant are the parameterized generators?</span></div>
+                    <div class="cat-right"><svg class="cat-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+                </div>
+                <div class="cat-body"><p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">Each of the 153 generators randomizes surface parameters (variable names, config values, API field names, bug locations) while preserving structural complexity. Seeds 0-2 are used for public evaluation; seeds 3+ are reserved for hidden holdout. A model that memorizes seed-0 solutions gains no advantage on seed-3 instances because the specific values, names, and locations differ. The 11 static GitHub tasks cannot be parameterized but serve as real-world anchors.</p></div>
+            </div>
+            <div class="cat-item">
+                <div class="cat-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="cat-left"><span class="cat-name">Can labs optimize on the Mini subset to inflate leaderboard scores?</span></div>
+                    <div class="cat-right"><svg class="cat-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+                </div>
+                <div class="cat-body"><p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">The Mini subset is balanced across all 19 categories and uses parameterized generators. Optimizing for 28 specific task structures is unlikely to transfer to the full 164-task benchmark. For high-stakes comparisons, we recommend the full evaluation or the hidden-seed track (seeds 3+), where the specific task instances have never been publicly evaluated.</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- Known Limitations -->
+<section id="limitations">
+    <div class="section-header fade-up">
+        <span class="section-label">Transparency</span>
+        <h2 class="section-title">Known Limitations</h2>
+    </div>
+    <div class="fade-up" style="max-width:700px;margin:0 auto;">
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.75rem;">
+            <li style="display:flex;gap:0.6rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">
+                <span style="flex-shrink:0;color:var(--text-muted);">1.</span>
+                <span><strong>Single team topology.</strong> All experiments use a fixed three-role pipeline with single-turn, file-based communication. Multi-round dialogue, shared-memory, and debate-style teams may yield different patterns.</span>
+            </li>
+            <li style="display:flex;gap:0.6rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">
+                <span style="flex-shrink:0;color:var(--text-muted);">2.</span>
+                <span><strong>Software engineering scope only.</strong> All 164 tasks are deterministic SE tasks with programmatic grading. Findings may not generalize to creative writing, medical diagnosis, or other subjective domains.</span>
+            </li>
+            <li style="display:flex;gap:0.6rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">
+                <span style="flex-shrink:0;color:var(--text-muted);">3.</span>
+                <span><strong>No human team baseline.</strong> We cannot yet distinguish task-intrinsic coordination effects from model-specific quirks. A human pilot study is planned.</span>
+            </li>
+            <li style="display:flex;gap:0.6rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">
+                <span style="flex-shrink:0;color:var(--text-muted);">4.</span>
+                <span><strong>Single-author task design.</strong> All tasks were designed by one developer, which may encode systematic biases in where coordination appears useful.</span>
+            </li>
+            <li style="display:flex;gap:0.6rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">
+                <span style="flex-shrink:0;color:var(--text-muted);">5.</span>
+                <span><strong>Aggregate team benefit is not statistically significant.</strong> The +1.7% team-to-oracle difference (p=0.20) does not reach significance. The significant effects are conditional: planning (+4.8%, uncorrected p=0.02), hardest-quintile uplift (+15.3%, p&lt;0.05), and per-category effects (testing, GitHub, multi-layer).</span>
+            </li>
+        </ul>
     </div>
 </section>
 
