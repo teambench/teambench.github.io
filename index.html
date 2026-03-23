@@ -17,6 +17,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <style>
         :root { --transition: 0.25s ease; }
 
@@ -1086,6 +1087,8 @@ function buildCharts() {
     Chart.defaults.color = c.text;
     Chart.defaults.borderColor = c.grid;
     Chart.defaults.font.family = "'Geist', sans-serif";
+    // Disable datalabels globally (enable only on pie chart)
+    Chart.defaults.plugins.datalabels = { display: false };
 
     charts.category = new Chart(document.getElementById('chart-category'), {
         type:'bar', data:{ labels:['Multi-lang.','Integration','Incident','Long-Hor.','Operations','Testing','Policy','Negotiation','Spec.','SWE','Adversarial','Pipeline','Code Rev.','Info. Retr.','Cross-Sys.','Security','Data Eng.','Distributed'], datasets:[{data:[0.74,0.50,0.44,0.38,0.35,0.35,0.22,0.21,0.13,0.05,0.04,0.03,0.01,0.00,0.00,-0.01,-0.01,-0.10],backgroundColor:ctx=>ctx.raw>=0?c.bar:c.neg,borderRadius:3,barThickness:14}] },
@@ -1205,6 +1208,21 @@ function buildCharts() {
                     bodyFont: { size: 11 },
                     callbacks: {
                         label: ctx => `${ctx.raw} tasks (${(ctx.raw / total * 100).toFixed(1)}%)`
+                    }
+                },
+                datalabels: {
+                    color: function(ctx) { return isDark ? '#e8e8e8' : '#111'; },
+                    font: { size: 9, weight: '500', family: "'Geist', sans-serif" },
+                    formatter: function(value, ctx) {
+                        const pct = (value / total * 100).toFixed(0);
+                        if (pct < 4) return '';
+                        const name = ctx.chart.data.labels[ctx.dataIndex];
+                        const abbr = name.length > 12 ? name.substring(0, 10) + '..' : name;
+                        return abbr + '\n' + pct + '%';
+                    },
+                    textAlign: 'center',
+                    display: function(ctx) {
+                        return ctx.dataset.data[ctx.dataIndex] / total > 0.035;
                     }
                 }
             },
