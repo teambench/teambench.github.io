@@ -6,7 +6,7 @@
     <title>TeamBench: Evaluating Agent Collaboration via Software Engineering Tasks</title>
     <meta name="description" content="TeamBench is a benchmark of 164 software engineering tasks for evaluating multi-agent collaboration with OS-enforced role separation.">
     <meta property="og:title" content="TeamBench: Evaluating Agent Collaboration via Software Engineering Tasks">
-    <meta property="og:description" content="164 software engineering tasks with OS-enforced role separation. 3,376 runs across 13 models from 3 provider families.">
+    <meta property="og:description" content="164 software engineering tasks with OS-enforced role separation. 4,200+ runs across 18 models from 3 provider families.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://teambench.github.io">
     <meta name="twitter:card" content="summary">
@@ -337,8 +337,8 @@
     <div class="stats-bar">
         <div class="stat-item"><div class="stat-value">164</div><div class="stat-label">Tasks</div></div>
         <div class="stat-item"><div class="stat-value">19</div><div class="stat-label">Categories</div></div>
-        <div class="stat-item"><div class="stat-value">3,376</div><div class="stat-label">Eval Runs</div></div>
-        <div class="stat-item"><div class="stat-value">13</div><div class="stat-label">Models</div></div>
+        <div class="stat-item"><div class="stat-value">4,200+</div><div class="stat-label">Eval Runs</div></div>
+        <div class="stat-item"><div class="stat-value">18</div><div class="stat-label">Models</div></div>
     </div>
 </div>
 
@@ -457,13 +457,14 @@
             <table>
                 <thead><tr><th>#</th><th>Model</th><th>Family</th><th>Oracle</th><th>Restr.</th><th>NoPlan</th><th>NoVer.</th><th>Full</th><th>Uplift</th></tr></thead>
                 <tbody>
-                    <tr><td><span class="rank rank-gold">1</span></td><td class="model-name">Claude Sonnet 4.6</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">21.4</td><td class="mono">17.9</td><td class="mono">35.7</td><td class="mono">35.7</td><td class="mono best">42.9</td><td class="mono">+21.4</td></tr>
-                    <tr><td><span class="rank rank-gold">1</span></td><td class="model-name">Claude Haiku 4.5</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">10.7</td><td class="mono">10.7</td><td class="mono">17.9</td><td class="mono">21.4</td><td class="mono best">42.9</td><td class="mono">+32.1</td></tr>
-                    <tr><td><span class="rank">3</span></td><td class="model-name">GPT-5-Mini</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">17.9</td><td class="mono">10.7</td><td class="mono">28.6</td><td class="mono">32.1</td><td class="mono best">35.7</td><td class="mono">+17.9</td></tr>
-                    <tr><td><span class="rank">3</span></td><td class="model-name">Gemini 3 Flash</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">17.9</td><td class="mono">17.9</td><td class="mono">14.3</td><td class="mono">25.0</td><td class="mono best">35.7</td><td class="mono">+17.9</td></tr>
-                    <tr><td><span class="rank">5</span></td><td class="model-name">Gemini 3.1 Lite</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">10.7</td><td class="mono">14.3</td><td class="mono">14.3</td><td class="mono">21.4</td><td class="mono best">32.1</td><td class="mono">+21.4</td></tr>
-                    <tr><td><span class="rank">6</span></td><td class="model-name">GPT-5-Nano</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">14.3</td><td class="mono">0.0</td><td class="mono">14.3</td><td class="mono">7.1</td><td class="mono best">17.9</td><td class="mono">+3.6</td></tr>
-                    <tr style="background:var(--bg-card);font-weight:600;"><td></td><td style="font-style:italic;">Average</td><td></td><td class="mono">15.5</td><td class="mono">11.9</td><td class="mono">20.8</td><td class="mono">23.8</td><td class="mono best">34.5</td><td class="mono">+19.1</td></tr>
+                    <tr><td><span class="rank rank-gold">1</span></td><td class="model-name">GPT-5.4</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">0.735</td><td class="mono">0.610</td><td class="mono">0.610</td><td class="mono">0.804</td><td class="mono best">0.858</td><td class="mono">+0.123</td></tr>
+                    <tr><td><span class="rank">2</span></td><td class="model-name">Claude Haiku 4.5</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">0.681</td><td class="mono">0.582</td><td class="mono">0.617</td><td class="mono">0.770</td><td class="mono best">0.849</td><td class="mono">+0.168</td></tr>
+                    <tr><td><span class="rank">3</span></td><td class="model-name">Gemini 3.1 Lite</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">0.673</td><td class="mono">0.582</td><td class="mono">0.604</td><td class="mono">0.735</td><td class="mono best">0.770</td><td class="mono">+0.097</td></tr>
+                    <tr><td><span class="rank">4</span></td><td class="model-name">GPT-5-Mini</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">0.711</td><td class="mono">0.592</td><td class="mono">0.618</td><td class="mono">0.721</td><td class="mono best">0.756</td><td class="mono">+0.045</td></tr>
+                    <tr><td><span class="rank">5</span></td><td class="model-name">Gemini 3 Flash</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">0.699</td><td class="mono">0.600</td><td class="mono">0.582</td><td class="mono">0.718</td><td class="mono best">0.754</td><td class="mono">+0.055</td></tr>
+                    <tr><td><span class="rank">6</span></td><td class="model-name">GPT-5-Nano</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">0.689</td><td class="mono">0.553</td><td class="mono">0.571</td><td class="mono">0.671</td><td class="mono best">0.678</td><td class="mono">&minus;0.011</td></tr>
+                    <tr><td><span class="rank">7</span></td><td class="model-name">GPT-5.3-chat</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">0.611</td><td class="mono">0.503</td><td class="mono">0.504</td><td class="mono">0.686</td><td class="mono best">0.667</td><td class="mono">+0.055</td></tr>
+                    <tr><td><span class="rank">8</span></td><td class="model-name">Claude Sonnet 4.6</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">0.766</td><td class="mono">0.621</td><td class="mono">0.614</td><td class="mono">0.654</td><td class="mono best">0.669</td><td class="mono">&minus;0.097</td></tr>
                 </tbody>
             </table>
         </div>
@@ -471,13 +472,12 @@
             <table>
                 <thead><tr><th>Model</th><th>Family</th><th>Oracle</th><th>Restr.</th><th>NoPlan</th><th>NoVer.</th><th>Full</th></tr></thead>
                 <tbody>
-                    <tr><td class="model-name">Qwen3-14B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Qwen</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">7.1</td></tr>
-                    <tr><td class="model-name">Qwen3-8B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Qwen</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">3.6</td></tr>
-                    <tr><td class="model-name">Qwen3.5-27B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Qwen</span></td><td class="mono">3.6</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono">3.6</td></tr>
-                    <tr><td class="model-name">Qwen3-Coder-30B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Qwen</span></td><td class="mono">3.6</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono">0.0</td></tr>
-                    <tr><td class="model-name">Qwen3-32B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Qwen</span></td><td class="mono">3.6</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td></tr>
-                    <tr><td class="model-name">Qwen3-4B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Qwen</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono">0.0</td></tr>
-                    <tr><td class="model-name">DeepSeek-R1-Distill-32B</td><td><span class="family-tag"><img src="deepseek-logo.png" alt="">DeepSeek</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td></tr>
+                    <tr><td class="model-name">Qwen2.5-Coder-32B <span style="font-size:0.7rem;color:var(--text-muted);">32B</span></td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono best">0.350</td><td class="mono">0.336</td><td class="mono">0.338</td><td class="mono">0.425</td><td class="mono">0.335</td></tr>
+                    <tr><td class="model-name">DeepSeek-R1-Distill-32B <span style="font-size:0.7rem;color:var(--text-muted);">32B</span></td><td><span class="family-tag"><img src="deepseek-logo.png" alt="">DeepSeek</span></td><td class="mono">0.326</td><td class="mono">0.232</td><td class="mono">0.214</td><td class="mono">0.223</td><td class="mono">0.127</td></tr>
+                    <tr><td class="model-name">Qwen3-8B <span style="font-size:0.7rem;color:var(--text-muted);">8B</span></td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.320</td><td class="mono">0.284</td><td class="mono">0.251</td><td class="mono">0.278</td><td class="mono">0.295</td></tr>
+                    <tr><td class="model-name">Qwen3-14B <span style="font-size:0.7rem;color:var(--text-muted);">14B</span></td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.295</td><td class="mono">0.264</td><td class="mono">0.251</td><td class="mono">0.292</td><td class="mono">0.328</td></tr>
+                    <tr><td class="model-name">Qwen3-4B <span style="font-size:0.7rem;color:var(--text-muted);">4B</span></td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.260</td><td class="mono">0.236</td><td class="mono">0.189</td><td class="mono">0.236</td><td class="mono">0.181</td></tr>
+                    <tr><td class="model-name">Gemma 3 27B <span style="font-size:0.7rem;color:var(--text-muted);">27B</span></td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">0.172</td><td class="mono">0.192</td><td class="mono">0.267</td><td class="mono">0.000</td><td class="mono">0.000</td></tr>
                 </tbody>
             </table>
             <div style="padding:1.25rem;font-size:0.78rem;color:var(--text-muted);text-align:center;">Near-zero pass rates reflect tool-use infrastructure failures (malformed calls, context overflow), not capability limitations.</div>
