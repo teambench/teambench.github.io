@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TeamBench: Evaluating Agent Collaboration via Software Engineering Tasks</title>
-    <meta name="description" content="TeamBench is a benchmark of 164 software engineering tasks for evaluating multi-agent collaboration with OS-enforced role separation.">
+    <meta name="description" content="TeamBench is a benchmark of 174 software engineering tasks for evaluating multi-agent collaboration with OS-enforced role separation.">
     <meta property="og:title" content="TeamBench: Evaluating Agent Collaboration via Software Engineering Tasks">
-    <meta property="og:description" content="164 software engineering tasks with OS-enforced role separation. 4,200+ runs across 18 models from 3 provider families.">
+    <meta property="og:description" content="174 software engineering tasks with OS-enforced role separation. 4,200+ runs across 18 models from 3 provider families.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://teambench.github.io">
     <meta name="twitter:card" content="summary">
@@ -319,7 +319,7 @@
 <!-- Hero -->
 <div class="hero">
     <h1>TeamBench</h1>
-    <p class="subtitle">A benchmark of 164 software engineering tasks with OS-enforced role separation for measuring when multi-agent collaboration genuinely helps.</p>
+    <p class="subtitle">A benchmark of 174 software engineering tasks with OS-enforced role separation for measuring when multi-agent collaboration genuinely helps.</p>
     <div class="hero-actions">
         <a href="https://github.com/ybkim95/TeamBench" class="btn-fill" target="_blank">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
@@ -446,7 +446,7 @@
     <div class="section-header fade-up">
         <span class="section-label">Leaderboard</span>
         <h2 class="section-title">Cross-Model Results</h2>
-        <p class="section-desc">28-task TeamBench-Mini subset. Pass rate (%) under each ablation condition. Best frontier model solves only 42.9% of tasks.</p>
+        <p class="section-desc">28-task TeamBench-Mini subset. Pass rate (%) under each ablation condition.</p>
     </div>
     <div class="lb-wrapper fade-up">
         <div class="table-wrap" style="max-height:600px;overflow-y:auto;">
@@ -455,20 +455,20 @@
                     <tr><th>#</th><th>Model</th><th>Org</th><th>Oracle</th><th>Restr.</th><th>NoPlan</th><th>NoVer.</th><th>Full</th><th>Uplift</th><th>Date</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank rank-gold">1</span></td><td class="model-name">GPT-5.4</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono">10.7</td><td class="mono">35.7</td><td class="mono best">42.9</td><td class="mono">+42.9</td><td style="font-size:0.7rem;color:var(--text-muted);">Mar 22</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank" style="background:linear-gradient(135deg,#c0c0c0,#a0a0a0);color:#000;">2</span></td><td class="model-name">Claude Haiku 4.5</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">10.7</td><td class="mono">10.7</td><td class="mono">17.9</td><td class="mono">21.4</td><td class="mono best">42.9</td><td class="mono">+32.1</td><td style="font-size:0.7rem;color:var(--text-muted);">Mar 9</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank" style="background:linear-gradient(135deg,#cd7f32,#b06a28);color:#fff;">3</span></td><td class="model-name">Claude Sonnet 4.6</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">21.4</td><td class="mono">17.9</td><td class="mono">35.7</td><td class="mono">35.7</td><td class="mono best">42.9</td><td class="mono">+21.4</td><td style="font-size:0.7rem;color:var(--text-muted);">Mar 9</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">4</span></td><td class="model-name">Gemini 3 Flash</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">17.9</td><td class="mono">17.9</td><td class="mono">14.3</td><td class="mono">25.0</td><td class="mono best">35.7</td><td class="mono">+17.9</td><td style="font-size:0.7rem;color:var(--text-muted);">Mar 6</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">4</span></td><td class="model-name">GPT-5-Mini</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">17.9</td><td class="mono">10.7</td><td class="mono">28.6</td><td class="mono">32.1</td><td class="mono best">35.7</td><td class="mono">+17.9</td><td style="font-size:0.7rem;color:var(--text-muted);">Mar 9</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">6</span></td><td class="model-name">Gemini 3.1 Lite</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">10.7</td><td class="mono">14.3</td><td class="mono">14.3</td><td class="mono">21.4</td><td class="mono best">32.1</td><td class="mono">+21.4</td><td style="font-size:0.7rem;color:var(--text-muted);">Mar 9</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">7</span></td><td class="model-name">GPT-5.3-chat</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">14.3</td><td class="mono">7.1</td><td class="mono">7.1</td><td class="mono">21.4</td><td class="mono best">28.6</td><td class="mono">+14.3</td><td style="font-size:0.7rem;color:var(--text-muted);">Mar 23</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">8</span></td><td class="model-name">GPT-5-Nano</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">14.3</td><td class="mono">0.0</td><td class="mono">14.3</td><td class="mono">7.1</td><td class="mono best">17.9</td><td class="mono">+3.6</td><td style="font-size:0.7rem;color:var(--text-muted);">Mar 9</td></tr>
-                    <tr style="border-top:2px solid var(--border);"><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">9</span></td><td class="model-name">Qwen3-14B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono best">7.1</td><td class="mono">+7.1</td><td style="font-size:0.7rem;color:var(--text-muted);">Mar 17</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">10</span></td><td class="model-name">Qwen3-8B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono">+3.6</td><td style="font-size:0.7rem;color:var(--text-muted);">Mar 17</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">11</span></td><td class="model-name">Qwen2.5-Coder-32B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">Mar 22</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">11</span></td><td class="model-name">DeepSeek-R1-Distill-32B</td><td><span class="family-tag"><img src="deepseek-logo.png" alt="">DeepSeek</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">Mar 16</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">11</span></td><td class="model-name">Qwen3-4B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono">0.0</td><td class="mono">0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">Mar 17</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">11</span></td><td class="model-name">Gemma 3 27B</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">Mar 22</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank rank-gold">1</span></td><td class="model-name">GPT-5.4</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono">10.7</td><td class="mono">35.7</td><td class="mono best">42.9</td><td class="mono">+42.9</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-22</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank" style="background:linear-gradient(135deg,#c0c0c0,#a0a0a0);color:#000;">2</span></td><td class="model-name">Claude Haiku 4.5</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">10.7</td><td class="mono">10.7</td><td class="mono">17.9</td><td class="mono">21.4</td><td class="mono best">42.9</td><td class="mono">+32.1</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-09</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank" style="background:linear-gradient(135deg,#cd7f32,#b06a28);color:#fff;">3</span></td><td class="model-name">Claude Sonnet 4.6</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">21.4</td><td class="mono">17.9</td><td class="mono">35.7</td><td class="mono">35.7</td><td class="mono best">42.9</td><td class="mono">+21.4</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-09</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">4</span></td><td class="model-name">Gemini 3 Flash</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">17.9</td><td class="mono">17.9</td><td class="mono">14.3</td><td class="mono">25.0</td><td class="mono best">35.7</td><td class="mono">+17.9</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-06</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">4</span></td><td class="model-name">GPT-5-Mini</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">17.9</td><td class="mono">10.7</td><td class="mono">28.6</td><td class="mono">32.1</td><td class="mono best">35.7</td><td class="mono">+17.9</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-09</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">6</span></td><td class="model-name">Gemini 3.1 Lite</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">10.7</td><td class="mono">14.3</td><td class="mono">14.3</td><td class="mono">21.4</td><td class="mono best">32.1</td><td class="mono">+21.4</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-09</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">7</span></td><td class="model-name">GPT-5.3-chat</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">14.3</td><td class="mono">7.1</td><td class="mono">7.1</td><td class="mono">21.4</td><td class="mono best">28.6</td><td class="mono">+14.3</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-23</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">8</span></td><td class="model-name">GPT-5-Nano</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">14.3</td><td class="mono">0.0</td><td class="mono">14.3</td><td class="mono">7.1</td><td class="mono best">17.9</td><td class="mono">+3.6</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-09</td></tr>
+                    <tr style="border-top:2px solid var(--border);"><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">9</span></td><td class="model-name">Qwen3-14B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono best">7.1</td><td class="mono">+7.1</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-17</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">10</span></td><td class="model-name">Qwen3-8B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono">+3.6</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-17</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">11</span></td><td class="model-name">Qwen2.5-Coder-32B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-22</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">11</span></td><td class="model-name">DeepSeek-R1-Distill-32B</td><td><span class="family-tag"><img src="deepseek-logo.png" alt="">DeepSeek</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-16</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">11</span></td><td class="model-name">Qwen3-4B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono">0.0</td><td class="mono">0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-17</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">11</span></td><td class="model-name">Gemma 3 27B</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-22</td></tr>
                 </tbody>
             </table>
         </div>
@@ -588,12 +588,15 @@
         <h2 class="section-title">174 Tasks Across 21 Categories</h2>
         <p class="section-desc">Click any category to see example tasks. Weighted toward hard and expert difficulty (80%).</p>
     </div>
+    <div class="fade-up" style="max-width:400px;margin:0 auto 2rem;">
+        <div style="aspect-ratio:1/1;max-height:350px;"><canvas id="chart-pie"></canvas></div>
+    </div>
     <div class="cat-grid fade-up" id="cat-grid"></div>
     <div class="diff-bar fade-up">
         <div class="diff-item"><div class="diff-val">7</div><div class="diff-label">Easy</div></div>
-        <div class="diff-item"><div class="diff-val">26</div><div class="diff-label">Medium</div></div>
-        <div class="diff-item"><div class="diff-val">115</div><div class="diff-label">Hard</div></div>
-        <div class="diff-item"><div class="diff-val">16</div><div class="diff-label">Expert</div></div>
+        <div class="diff-item"><div class="diff-val">27</div><div class="diff-label">Medium</div></div>
+        <div class="diff-item"><div class="diff-val">122</div><div class="diff-label">Hard</div></div>
+        <div class="diff-item"><div class="diff-val">18</div><div class="diff-label">Expert</div></div>
     </div>
 </section>
 
@@ -1166,6 +1169,36 @@ function buildCharts() {
             scales:{
                 x:{title:{display:true,text:'Verification Value (Full \u2212 No Verifier)',font:{size:10,weight:'bold'}},min:-1.1,max:1.1,grid:{color:c.grid},ticks:{stepSize:0.5,font:{size:10}}},
                 y:{title:{display:true,text:'Planning Value (Full \u2212 No Planner)',font:{size:10,weight:'bold'}},min:-1.1,max:1.1,grid:{color:c.grid},ticks:{stepSize:0.5,font:{size:10}}}
+            }
+        }
+    });
+
+    // Category distribution pie chart
+    const pieCats = categories.map(c => c.name);
+    const pieCounts = categories.map(c => c.count);
+    charts.pie = new Chart(document.getElementById('chart-pie'), {
+        type: 'doughnut',
+        data: {
+            labels: pieCats,
+            datasets: [{
+                data: pieCounts,
+                backgroundColor: pieCats.map((_, i) => {
+                    const opacity = 0.3 + (i / pieCats.length) * 0.5;
+                    return `rgba(${getComputedStyle(document.documentElement).getPropertyValue('--text').trim() === '#e8e8e8' ? '255,255,255' : '0,0,0'},${opacity})`;
+                }),
+                borderColor: 'var(--border)',
+                borderWidth: 1,
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: ctx => `${ctx.label}: ${ctx.raw} tasks (${(ctx.raw / pieCounts.reduce((a,b)=>a+b,0) * 100).toFixed(1)}%)`
+                    }
+                }
             }
         }
     });
