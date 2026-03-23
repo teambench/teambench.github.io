@@ -586,7 +586,7 @@
     <div class="section-header fade-up">
         <span class="section-label">Coverage</span>
         <h2 class="section-title">174 Tasks Across 21 Categories</h2>
-        <p class="section-desc">Click any category to see example tasks. Weighted toward hard and expert difficulty (80%).</p>
+        <p class="section-desc">Weighted toward hard and expert difficulty (80%). Click categories below for task details.</p>
     </div>
     <div class="fade-up" style="max-width:400px;margin:0 auto 2rem;">
         <div style="aspect-ratio:1/1;max-height:350px;"><canvas id="chart-pie"></canvas></div>
@@ -657,7 +657,7 @@
                 <div style="color:var(--text-muted);"># Run on the 28-task Mini subset</div>
                 <div>teambench run --model your-model --tasks mini --seed 0</div>
                 <br>
-                <div style="color:var(--text-muted);"># Run full 164-task evaluation</div>
+                <div style="color:var(--text-muted);"># Run full 174-task evaluation</div>
                 <div>teambench run --model your-model --tasks all --seed 0</div>
                 <br>
                 <div style="color:var(--text-muted);"># Grade results</div>
@@ -711,7 +711,7 @@
                 <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:0.5rem;">Version &amp; Changelog</h3>
                 <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">
                     <strong>Current version:</strong> v1.0 (March 2025)<br>
-                    <strong>Tasks:</strong> 164 across 19 categories<br>
+                    <strong>Tasks:</strong> 174 across 21 categories<br>
                     <strong>Generators:</strong> 153 parameterized + 11 static (GitHub)<br>
                     All tasks produce deterministic instances from arbitrary seeds.
                 </p>
@@ -727,13 +727,13 @@
             <div class="card">
                 <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:0.5rem;">Grader Audit</h3>
                 <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">
-                    All 164 graders are deterministic shell scripts producing partial scores in [0, 1]. Each grader was validated against both correct and incorrect reference solutions during development.
+                    All 174 graders are deterministic shell scripts producing partial scores in [0, 1]. Each grader was validated against both correct and incorrect reference solutions during development.
                 </p>
             </div>
             <div class="card" id="task-counts">
                 <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:0.5rem;">Task Counts Explained</h3>
                 <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">
-                    <strong>164</strong> total tasks in the benchmark<br>
+                    <strong>174</strong> total tasks in the benchmark<br>
                     <strong>147</strong> with complete 5-condition reference ablation (seed 0)<br>
                     <strong>130</strong> shown in the explorer (tasks with data across all conditions)<br>
                     <strong>28</strong> in TeamBench-Mini (cross-model comparison subset)
@@ -786,7 +786,7 @@
                     <div class="cat-left"><span class="cat-name">Can labs optimize on the Mini subset to inflate leaderboard scores?</span></div>
                     <div class="cat-right"><svg class="cat-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
                 </div>
-                <div class="cat-body"><p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">The Mini subset is balanced across all 19 categories and uses parameterized generators. Optimizing for 28 specific task structures is unlikely to transfer to the full 164-task benchmark. For high-stakes comparisons, we recommend the full evaluation or the hidden-seed track (seeds 3+), where the specific task instances have never been publicly evaluated.</p></div>
+                <div class="cat-body"><p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">The Mini subset is balanced across all 21 categories and uses parameterized generators. Optimizing for 28 specific task structures is unlikely to transfer to the full 174-task benchmark. For high-stakes comparisons, we recommend the full evaluation or the hidden-seed track (seeds 3+), where the specific task instances have never been publicly evaluated.</p></div>
             </div>
         </div>
     </div>
@@ -1176,6 +1176,8 @@ function buildCharts() {
     // Category distribution pie chart
     const pieCats = categories.map(c => c.name);
     const pieCounts = categories.map(c => c.count);
+    const total = pieCounts.reduce((a,b) => a+b, 0);
+    const isDark = getComputedStyle(document.documentElement).getPropertyValue('--text').trim() === '#e8e8e8';
     charts.pie = new Chart(document.getElementById('chart-pie'), {
         type: 'doughnut',
         data: {
@@ -1183,22 +1185,49 @@ function buildCharts() {
             datasets: [{
                 data: pieCounts,
                 backgroundColor: pieCats.map((_, i) => {
-                    const opacity = 0.3 + (i / pieCats.length) * 0.5;
-                    return `rgba(${getComputedStyle(document.documentElement).getPropertyValue('--text').trim() === '#e8e8e8' ? '255,255,255' : '0,0,0'},${opacity})`;
+                    const opacity = 0.15 + (i / pieCats.length) * 0.55;
+                    return isDark ? `rgba(255,255,255,${opacity})` : `rgba(0,0,0,${opacity})`;
                 }),
-                borderColor: 'var(--border)',
+                borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
                 borderWidth: 1,
+                hoverBorderColor: isDark ? '#fff' : '#000',
+                hoverBorderWidth: 2,
             }]
         },
         options: {
             responsive: true, maintainAspectRatio: true,
+            cutout: '55%',
             plugins: {
                 legend: { display: false },
                 tooltip: {
+                    padding: 10, cornerRadius: 6,
+                    titleFont: { size: 12, weight: 'bold' },
+                    bodyFont: { size: 11 },
                     callbacks: {
-                        label: ctx => `${ctx.label}: ${ctx.raw} tasks (${(ctx.raw / pieCounts.reduce((a,b)=>a+b,0) * 100).toFixed(1)}%)`
+                        label: ctx => `${ctx.raw} tasks (${(ctx.raw / total * 100).toFixed(1)}%)`
                     }
                 }
+            },
+            onClick: (evt, elements) => {
+                if (elements.length > 0) {
+                    const idx = elements[0].index;
+                    const catItems = document.querySelectorAll('#cat-grid .cat-item');
+                    if (catItems[idx]) {
+                        catItems[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        catItems[idx].classList.add('open');
+                        catItems[idx].style.borderColor = isDark ? '#fff' : '#000';
+                        setTimeout(() => catItems[idx].style.borderColor = '', 2000);
+                    }
+                }
+            },
+            onHover: (evt, elements) => {
+                const catItems = document.querySelectorAll('#cat-grid .cat-item');
+                catItems.forEach(el => el.style.borderColor = '');
+                if (elements.length > 0) {
+                    const idx = elements[0].index;
+                    if (catItems[idx]) catItems[idx].style.borderColor = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.3)';
+                }
+                evt.native.target.style.cursor = elements.length ? 'pointer' : 'default';
             }
         }
     });
