@@ -447,7 +447,7 @@
     <div class="section-header fade-up">
         <span class="section-label">Leaderboard</span>
         <h2 class="section-title">Evaluation Results</h2>
-        <p class="section-desc">28-task TeamBench-Mini subset. Pass rate (%) under each ablation condition.</p>
+        <p class="section-desc">28-task TeamBench-Mini subset. Pass rate (%) under each ablation condition. Pass@k shows reliability over multiple attempts.</p>
     </div>
     <div class="lb-wrapper fade-up">
         <div class="table-wrap" style="max-height:600px;overflow-y:auto;">
@@ -474,7 +474,7 @@
             </table>
         </div>
         <div style="padding:0.75rem 1rem;font-size:0.75rem;color:var(--text-muted);border-top:1px solid var(--border);">
-            14 models &mdash; 28-task TeamBench-Mini, seed 0, pass rate (%) &mdash; sorted by Full Team (ties broken by avg partial score)
+            14 models &mdash; 28-task TeamBench-Mini, seed 0, pass rate (%) &mdash; sorted by Full Team (ties broken by avg partial score)<br>Pass@3: GPT-5.4 Full Team 82.9% vs Oracle 0.0% &mdash; team coordination scales dramatically with retries
         </div>
     </div>
 </section>
@@ -662,6 +662,36 @@
 </section>
 
 <hr class="divider">
+
+
+<hr class="divider">
+
+<!-- Benchmark Comparison -->
+<section id="comparison">
+    <div class="section-header fade-up">
+        <span class="section-label">Why TeamBench</span>
+        <h2 class="section-title">Benchmark Comparison</h2>
+        <p class="section-desc">TeamBench fills the "does teamwork help?" gap that no other benchmark addresses.</p>
+    </div>
+    <div class="cmp-table fade-up" style="max-width:1000px;margin:0 auto;">
+        <table style="font-size:0.78rem;">
+            <thead>
+                <tr><th>Feature</th><th>SWE-Bench Pro</th><th>Terminal-Bench</th><th>TAU-Bench</th><th>GAIA</th><th>MLE-Bench</th><th style="background:var(--bg-card);">TeamBench</th></tr>
+            </thead>
+            <tbody>
+                <tr><td style="font-weight:600;">Tasks</td><td>1,865</td><td>89</td><td>~200</td><td>466</td><td>75</td><td style="background:var(--bg-card);font-weight:600;">549</td></tr>
+                <tr><td style="font-weight:600;">Domains</td><td>SE only</td><td>SE only</td><td>Airline/Retail</td><td>General QA</td><td>ML/Kaggle</td><td style="background:var(--bg-card);font-weight:600;">SE + DS + ML</td></tr>
+                <tr><td style="font-weight:600;">Team Evaluation</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check" style="background:var(--bg-card);">&#10003; 5 conditions</td></tr>
+                <tr><td style="font-weight:600;">Role Enforcement</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check" style="background:var(--bg-card);">&#10003; OS-level</td></tr>
+                <tr><td style="font-weight:600;">Teamwork Metric</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check" style="background:var(--bg-card);">&#10003; TNI</td></tr>
+                <tr><td style="font-weight:600;">Contamination Resist.</td><td>GPL + commercial</td><td>Docker envs</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check" style="background:var(--bg-card);">&#10003; Param. generators</td></tr>
+                <tr><td style="font-weight:600;">Pass@k Reporting</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check">&#10003;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check" style="background:var(--bg-card);">&#10003; Seeds 0-2</td></tr>
+                <tr><td style="font-weight:600;">Adversarial Tasks</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check" style="background:var(--bg-card);">&#10003; TRAP tasks</td></tr>
+                <tr><td style="font-weight:600;">Best Model Score</td><td>23.3%</td><td>~65%</td><td>~70%</td><td>~90%</td><td>80%</td><td style="background:var(--bg-card);font-weight:600;">42.9% (team)</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
 
 <!-- Governance -->
 <section id="governance">
