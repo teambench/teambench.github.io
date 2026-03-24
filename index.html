@@ -154,18 +154,19 @@
         .lb-tab:hover { color: var(--text-secondary); }
         .table-wrap { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; }
-        thead th { padding: 0.8rem 1rem; text-align: left; font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
-        tbody td { padding: 0.7rem 1rem; font-size: 0.85rem; border-bottom: 1px solid var(--border); }
+        thead th { padding: 0.8rem 1rem; text-align: center; font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
+        tbody td { padding: 0.7rem 1rem; font-size: 0.85rem; text-align: center; border-bottom: 1px solid var(--border); }
         tbody tr:last-child td { border-bottom: none; }
         tbody tr:hover { background: var(--bg-card); }
         .model-name { font-weight: 600; }
         .family-tag { font-size: 0.65rem; padding: 0.1rem 0.4rem; border-radius: 3px; font-weight: 500; border: 1px solid var(--border); color: var(--text-secondary); margin-left: 0.4rem; display: inline-flex; align-items: center; gap: 0.3rem; }
         .family-tag img { width: 12px; height: 12px; vertical-align: middle; }
         [data-theme="dark"] .logo-invert { filter: invert(1); }
+        [data-theme="dark"] .verified-icon { filter: invert(1); }
         .mono { font-family: 'Geist Mono', monospace; font-size: 0.82rem; }
         .best { font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
         .rank { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; border: 1px solid var(--border); }
-        .rank-gold { border-color: var(--text-muted); }
+        .rank-gold { background: linear-gradient(135deg, #ffd700, #ffb300); color: #000; border-color: #ffd700; }
 
         /* ── Charts ── */
         .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
@@ -306,7 +307,6 @@
                 <li><a href="#leaderboard">Leaderboard</a></li>
                 <li><a href="#results">Results</a></li>
                 <li><a href="#tasks">Tasks</a></li>
-                <li><a href="#explorer">Explorer</a></li>
             </ul>
         </div>
         <div class="nav-right">
@@ -446,7 +446,7 @@
 <section id="leaderboard">
     <div class="section-header fade-up">
         <span class="section-label">Leaderboard</span>
-        <h2 class="section-title">Cross-Model Results</h2>
+        <h2 class="section-title">Evaluation Results</h2>
         <p class="section-desc">28-task TeamBench-Mini subset. Pass rate (%) under each ablation condition.</p>
     </div>
     <div class="lb-wrapper fade-up">
@@ -456,20 +456,20 @@
                     <tr><th>#</th><th>Model</th><th>Org</th><th>Oracle</th><th>Restr.</th><th>NoPlan</th><th>NoVer.</th><th>Full</th><th>Uplift</th><th>Date</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank rank-gold">1</span></td><td class="model-name">GPT-5.4</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono">10.7</td><td class="mono">35.7</td><td class="mono best">42.9</td><td class="mono">+42.9</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-22</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank" style="background:linear-gradient(135deg,#c0c0c0,#a0a0a0);color:#000;">2</span></td><td class="model-name">Claude Haiku 4.5</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">10.7</td><td class="mono">10.7</td><td class="mono">17.9</td><td class="mono">21.4</td><td class="mono best">42.9</td><td class="mono">+32.1</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-09</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank" style="background:linear-gradient(135deg,#cd7f32,#b06a28);color:#fff;">3</span></td><td class="model-name">Claude Sonnet 4.6</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">21.4</td><td class="mono">17.9</td><td class="mono">35.7</td><td class="mono">35.7</td><td class="mono best">42.9</td><td class="mono">+21.4</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-09</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">4</span></td><td class="model-name">Gemini 3 Flash</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">17.9</td><td class="mono">17.9</td><td class="mono">14.3</td><td class="mono">25.0</td><td class="mono best">35.7</td><td class="mono">+17.9</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-06</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">4</span></td><td class="model-name">GPT-5-Mini</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">17.9</td><td class="mono">10.7</td><td class="mono">28.6</td><td class="mono">32.1</td><td class="mono best">35.7</td><td class="mono">+17.9</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-09</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">6</span></td><td class="model-name">Gemini 3.1 Lite</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">10.7</td><td class="mono">14.3</td><td class="mono">14.3</td><td class="mono">21.4</td><td class="mono best">32.1</td><td class="mono">+21.4</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-09</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">7</span></td><td class="model-name">GPT-5.3-chat</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">14.3</td><td class="mono">7.1</td><td class="mono">7.1</td><td class="mono">21.4</td><td class="mono best">28.6</td><td class="mono">+14.3</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-23</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">8</span></td><td class="model-name">GPT-5-Nano</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">14.3</td><td class="mono">0.0</td><td class="mono">14.3</td><td class="mono">7.1</td><td class="mono best">17.9</td><td class="mono">+3.6</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-09</td></tr>
-                    <tr style="border-top:2px solid var(--border);"><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">9</span></td><td class="model-name">Qwen3-14B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono best">7.1</td><td class="mono">+7.1</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-17</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">10</span></td><td class="model-name">Qwen3-8B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono">+3.6</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-17</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">11</span></td><td class="model-name">Qwen2.5-Coder-32B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-22</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">11</span></td><td class="model-name">DeepSeek-R1-Distill-32B</td><td><span class="family-tag"><img src="deepseek-logo.png" alt="">DeepSeek</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-16</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">11</span></td><td class="model-name">Qwen3-4B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono">0.0</td><td class="mono">0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-17</td></tr>
-                    <tr><td><img src="verified-icon.png" alt="" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">11</span></td><td class="model-name">Gemma 3 27B</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-22</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" class="verified-icon" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank rank-gold">1</span></td><td class="model-name">GPT-5.4</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono">10.7</td><td class="mono">35.7</td><td class="mono best">42.9</td><td class="mono">+42.9</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-22</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" class="verified-icon" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank" style="background:linear-gradient(135deg,#c0c0c0,#a0a0a0);color:#000;">2</span></td><td class="model-name">Claude Haiku 4.5</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">10.7</td><td class="mono">10.7</td><td class="mono">17.9</td><td class="mono">21.4</td><td class="mono best">42.9</td><td class="mono">+32.1</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-09</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" class="verified-icon" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank" style="background:linear-gradient(135deg,#cd7f32,#b06a28);color:#fff;">3</span></td><td class="model-name">Claude Sonnet 4.6</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">21.4</td><td class="mono">17.9</td><td class="mono">35.7</td><td class="mono">35.7</td><td class="mono best">42.9</td><td class="mono">+21.4</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-09</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" class="verified-icon" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">4</span></td><td class="model-name">Gemini 3 Flash</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">17.9</td><td class="mono">17.9</td><td class="mono">14.3</td><td class="mono">25.0</td><td class="mono best">35.7</td><td class="mono">+17.9</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-06</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" class="verified-icon" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">4</span></td><td class="model-name">GPT-5-Mini</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">17.9</td><td class="mono">10.7</td><td class="mono">28.6</td><td class="mono">32.1</td><td class="mono best">35.7</td><td class="mono">+17.9</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-09</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" class="verified-icon" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">6</span></td><td class="model-name">Gemini 3.1 Lite</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">10.7</td><td class="mono">14.3</td><td class="mono">14.3</td><td class="mono">21.4</td><td class="mono best">32.1</td><td class="mono">+21.4</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-09</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" class="verified-icon" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">7</span></td><td class="model-name">GPT-5.3-chat</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">14.3</td><td class="mono">7.1</td><td class="mono">7.1</td><td class="mono">21.4</td><td class="mono best">28.6</td><td class="mono">+14.3</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-23</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" class="verified-icon" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">8</span></td><td class="model-name">GPT-5-Nano</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">14.3</td><td class="mono">0.0</td><td class="mono">14.3</td><td class="mono">7.1</td><td class="mono best">17.9</td><td class="mono">+3.6</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-09</td></tr>
+                    <tr style="border-top:2px solid var(--border);"><td><img src="verified-icon.png" alt="" class="verified-icon" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">9</span></td><td class="model-name">Qwen3-14B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono best">7.1</td><td class="mono">+7.1</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-17</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" class="verified-icon" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">10</span></td><td class="model-name">Qwen3-8B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono">+3.6</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-17</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" class="verified-icon" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">11</span></td><td class="model-name">Qwen2.5-Coder-32B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-22</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" class="verified-icon" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">11</span></td><td class="model-name">DeepSeek-R1-Distill-32B</td><td><span class="family-tag"><img src="deepseek-logo.png" alt="">DeepSeek</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-16</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" class="verified-icon" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">11</span></td><td class="model-name">Qwen3-4B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono">0.0</td><td class="mono">0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-17</td></tr>
+                    <tr><td><img src="verified-icon.png" alt="" class="verified-icon" style="width:14px;height:14px;vertical-align:middle;opacity:0.7;margin-right:2px;"><span class="rank">11</span></td><td class="model-name">Gemma 3 27B</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-22</td></tr>
                 </tbody>
             </table>
         </div>
@@ -594,51 +594,14 @@
     </div>
     <div class="cat-grid fade-up" id="cat-grid"></div>
     <div class="diff-bar fade-up">
-        <div class="diff-item"><div class="diff-val">7</div><div class="diff-label">Easy</div></div>
-        <div class="diff-item"><div class="diff-val">27</div><div class="diff-label">Medium</div></div>
-        <div class="diff-item"><div class="diff-val">122</div><div class="diff-label">Hard</div></div>
-        <div class="diff-item"><div class="diff-val">18</div><div class="diff-label">Expert</div></div>
+        <div class="diff-item"><div class="diff-val">38</div><div class="diff-label">Easy</div></div>
+        <div class="diff-item"><div class="diff-val">247</div><div class="diff-label">Medium</div></div>
+        <div class="diff-item"><div class="diff-val">582</div><div class="diff-label">Hard</div></div>
+        <div class="diff-item"><div class="diff-val">86</div><div class="diff-label">Expert</div></div>
     </div>
 </section>
 
 <hr class="divider">
-
-<!-- Per-Task Results Explorer -->
-<section id="explorer">
-    <div class="section-header fade-up">
-        <span class="section-label">Task Explorer</span>
-        <h2 class="section-title">Per-Task Results</h2>
-        <p class="section-desc">Search, filter, and sort all 130 tasks with ablation data. Click column headers to sort.</p>
-    </div>
-    <div class="fade-up" style="margin-bottom:1rem;display:flex;gap:0.75rem;flex-wrap:wrap;">
-        <input type="text" id="task-search" placeholder="Search tasks..." oninput="filterTasks()" style="flex:1;min-width:200px;padding:0.6rem 1rem;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:'Geist',sans-serif;font-size:0.85rem;outline:none;transition:border-color 0.2s;">
-        <select id="cat-filter" onchange="filterTasks()" style="padding:0.6rem 1rem;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:'Geist',sans-serif;font-size:0.85rem;outline:none;cursor:pointer;">
-            <option value="">All Categories</option>
-        </select>
-    </div>
-    <div class="lb-wrapper fade-up">
-        <div class="table-wrap" style="max-height:500px;overflow-y:auto;">
-            <table id="task-table">
-                <thead style="position:sticky;top:0;background:var(--bg-card);z-index:1;">
-                    <tr>
-                        <th style="cursor:pointer;" onclick="sortTable(0)">Task ID &#8597;</th>
-                        <th style="cursor:pointer;" onclick="sortTable(1)">Category &#8597;</th>
-                        <th style="cursor:pointer;" onclick="sortTable(2)">Oracle &#8597;</th>
-                        <th style="cursor:pointer;" onclick="sortTable(3)">Restricted &#8597;</th>
-                        <th style="cursor:pointer;" onclick="sortTable(4)">No Plan &#8597;</th>
-                        <th style="cursor:pointer;" onclick="sortTable(5)">No Verify &#8597;</th>
-                        <th style="cursor:pointer;" onclick="sortTable(6)">Full Team &#8597;</th>
-                        <th style="cursor:pointer;" onclick="sortTable(7)">Uplift &#8597;</th>
-                    </tr>
-                </thead>
-                <tbody id="task-tbody"></tbody>
-            </table>
-        </div>
-        <div style="padding:0.75rem 1rem;font-size:0.75rem;color:var(--text-muted);border-top:1px solid var(--border);">
-            <span id="task-count">130</span> tasks shown &mdash; Gemini 3 Flash Preview, seed 0 &mdash; <a href="#task-counts" style="color:var(--text-muted);text-decoration:underline;">Why 130?</a>
-        </div>
-    </div>
-</section>
 
 <hr class="divider">
 
@@ -827,171 +790,99 @@
 <script>
 // ── Task category data with examples ──
 const categories = [
+    { name: "Web Framework (Python)", count: 47, tasks: [
+        { id: "GH17", desc: "Fix aiohttp infinite callback loop when time is not monotonic." },
+        { id: "GH74", desc: "Fix Flask blueprint URL routing regression." },
+        { id: "GH71", desc: "Fix Starlette session tracking on access and modification." }
+    ]},
+    { name: "Web Framework (Go)", count: 60, tasks: [
+        { id: "GH15", desc: "Fix Gin context.Value string key collision with OpenTelemetry." },
+        { id: "GH16", desc: "Fix Fiber CORS middleware logic error on non-preflight requests." },
+        { id: "GO3", desc: "Fix Go channel deadlocks in producer-consumer pipeline." }
+    ]},
+    { name: "Frontend (TypeScript)", count: 42, tasks: [
+        { id: "TS1", desc: "Fix TypeScript API type mismatches between shared types and handlers." },
+        { id: "TS2", desc: "Fix React component state bugs: stale closures, missing deps, cleanup." },
+        { id: "GH154", desc: "Fix Svelte reactive statement ordering regression." }
+    ]},
+    { name: "Database / ORM", count: 56, tasks: [
+        { id: "DB1", desc: "Resolve conflicting database migrations with FK constraints." },
+        { id: "DB2", desc: "Fix query plan regressions: add indexes for real bottlenecks only." },
+        { id: "GH22", desc: "Fix Prisma client BigInt precision in responses." }
+    ]},
+    { name: "Data Validation", count: 17, tasks: [
+        { id: "GH20", desc: "Fix Pydantic computed fields exclude_if support." },
+        { id: "GH21", desc: "Fix Pydantic smart union branch selection on validation error." }
+    ]},
     { name: "Security / Crypto", count: 15, tasks: [
-        { id: "SEC1", desc: "Fix confirmed security vulnerabilities from web application audit report." },
-        { id: "SEC9", desc: "Triage and prioritize vulnerability findings by severity and exploitability." },
-        { id: "CRYPTO1", desc: "Fix 3 cryptographic bugs: AES-GCM nonce reuse, weak PBKDF2 iterations, truncated tag." },
-        { id: "CRYPTO2", desc: "Replace timing-unsafe secret comparisons with constant-time alternatives." },
-        { id: "CRYPTO3", desc: "Fix X.509 certificate chain validation bugs (datetime, chain check, pathLen)." },
-        { id: "CRYPTO4", desc: "Migrate password hashing from MD5 to Argon2id with format markers." },
-        { id: "CRYPTO5", desc: "Harden TLS configuration against downgrade attacks and weak ciphers." },
-        { id: "CRYPTO6", desc: "Fix JWT token validation including algorithm confusion and expiry checks." }
+        { id: "SEC1", desc: "Fix security vulnerabilities from web application audit." },
+        { id: "CRYPTO1", desc: "Fix AES-GCM nonce reuse, weak PBKDF2, truncated tag." }
     ]},
-    { name: "Data Engineering", count: 11, tasks: [
-        { id: "D1", desc: "Fix ETL pipeline to handle inconsistent CSV schemas with columns added and renamed." },
-        { id: "D2", desc: "Process dataset according to specific data quality rules and output clean data." },
-        { id: "D7", desc: "Reconcile ETL output discrepancies between expected and actual data." },
-        { id: "D8", desc: "Apply complex validation rules from specification to clean CSV dataset." },
-        { id: "D9", desc: "Implement schema validation with constraint checking and error reporting." }
+    { name: "Testing", count: 24, tasks: [
+        { id: "TEST1", desc: "Write test suite for calculator engine from specification." },
+        { id: "GH69", desc: "Fix pytest caplog handler regression with disabled logging." },
+        { id: "GH72", desc: "Fix pytest fixture reordering on alternate Python implementations." }
     ]},
-    { name: "Incident Response", count: 11, tasks: [
-        { id: "INC1", desc: "Diagnose and fix cascading service failures with multi-component impact analysis." },
-        { id: "INC2", desc: "Identify root cause of data corruption from logs and apply targeted remediation." },
-        { id: "INC4", desc: "Fix DNS misconfiguration causing intermittent service resolution failures." },
-        { id: "INC8a", desc: "Diagnose cascading timeout failures across dependent microservices." },
-        { id: "INC8b", desc: "Triage memory leak from heap analysis and apply targeted fix." },
-        { id: "INC9", desc: "Perform log forensics to reconstruct incident timeline and root cause." },
-        { id: "INC10", desc: "Create rollback plan for failed deployment with data integrity checks." }
+    { name: "DevOps / CI/CD", count: 34, tasks: [
+        { id: "DEVOPS1", desc: "Fix Dockerfile multi-stage build with 5 intentional bugs." },
+        { id: "DEVOPS2", desc: "Fix GitHub Actions CI/CD pipeline: real bugs vs flaky tests." },
+        { id: "INFRA2", desc: "Repair CI pipeline distinguishing real failures from false alarms." }
     ]},
-    { name: "Software Engineering", count: 11, tasks: [
-        { id: "S1", desc: "Fix CLI JSON tool to pass tests based on hidden specification in test cases." },
-        { id: "S2", desc: "Resolve dependency conflicts and version mismatches across packages." },
-        { id: "S4", desc: "Maintain backward compatibility while upgrading internal API." },
-        { id: "S5", desc: "Implement comprehensive error handling across service boundaries." },
-        { id: "S7", desc: "Fix environment configuration loading with fallback and validation." },
-        { id: "GO1", desc: "Fix concurrency bugs in Go job processor: hangs, races, and deadlocks." },
-        { id: "JS1", desc: "Migrate Node.js REST API from Express v4 to v5 with breaking changes." },
-        { id: "SQL1", desc: "Repair broken SQL queries with correct joins and aggregation logic." }
+    { name: "Async / Runtime", count: 63, tasks: [
+        { id: "GH13", desc: "Fix Starlette background tasks blocking subsequent requests." },
+        { id: "GH70", desc: "Fix Tokio async runtime task scheduling edge case." },
+        { id: "GH25", desc: "Fix aiohttp redirect handling on 3xx responses." }
     ]},
-    { name: "Real-World GitHub", count: 11, tasks: [
-        { id: "GH1", desc: "Fix session data loss when Flask test client follows redirects." },
-        { id: "GH2", desc: "Fix optional flag value parsing in Click CLI framework." },
+    { name: "HTTP Client / Network", count: 45, tasks: [
         { id: "GH3", desc: "Fix credential leak through HTTP redirect headers in httpx." },
-        { id: "GH4", desc: "Fix JSON response encoding detection in Requests library." },
-        { id: "GH5", desc: "Fix recursive model validation causing infinite loops in Pydantic." },
-        { id: "GH6", desc: "Fix QuerySet filtering after set operations (union) in Django." },
-        { id: "GH7", desc: "Fix fixture state isolation between test modules in pytest." },
-        { id: "GH8", desc: "Fix dependency cache race condition in async resolver." },
-        { id: "GH9", desc: "Fix connection pool exhaustion on query errors in SQLAlchemy." },
-        { id: "GH10", desc: "Fix task retry backoff calculation in Celery." },
-        { id: "GH11", desc: "Fix middleware error handler ordering in Werkzeug." }
+        { id: "GH98", desc: "Fix urllib3 connection pool retry logic." },
+        { id: "GH136", desc: "Fix mitmproxy TLS interception edge case." }
     ]},
-    { name: "Testing", count: 9, tasks: [
-        { id: "TEST1", desc: "Write comprehensive test suite for calculator engine from specification." },
-        { id: "TEST2", desc: "Create regression tests from specification to catch known failure modes." },
-        { id: "TEST4", desc: "Design property-based tests using Hypothesis for invariant checking." },
-        { id: "TEST5", desc: "Create mutation-resistant tests that survive code mutations." },
-        { id: "TEST6", desc: "Write property-based tests for data structure invariants." },
-        { id: "TEST7", desc: "Build integration test suite covering multi-service interactions." },
-        { id: "TEST8", desc: "Write focused unit tests covering boundary conditions." },
-        { id: "TEST9", desc: "Create mock-based API tests with request/response verification." }
+    { name: "Task Queue / Pipeline", count: 26, tasks: [
+        { id: "GH14", desc: "Fix Celery chain-of-groups silently swallowing failures." },
+        { id: "PIPE1", desc: "Repair ETL pipeline to pass end-to-end integration tests." },
+        { id: "GH67", desc: "Fix Celery mock connection interface TypeError." }
     ]},
-    { name: "Multi-language", count: 9, tasks: [
-        { id: "MULTI1", desc: "Fix bugs spanning Flask backend, JavaScript frontend, and bash deploy script." },
-        { id: "MULTI2", desc: "Debug cross-layer issues between API backend and frontend." },
-        { id: "MULTI3", desc: "Fix polyglot interface bugs across Python/JS/shell boundaries." },
-        { id: "MULTI4", desc: "Resolve monorepo dependency conflicts across language boundaries." },
-        { id: "MULTI5", desc: "Repair CI/CD pipeline with multi-language build steps." },
-        { id: "MULTI6", desc: "Fix fullstack bugs in Python/JavaScript/HTML application." },
-        { id: "MULTI7", desc: "Fix polyglot test suite spanning multiple language runtimes." },
-        { id: "MULTI8", desc: "Resolve SDK version mismatch between client and server." }
+    { name: "Template / Serialization", count: 30, tasks: [
+        { id: "GH28", desc: "Fix Jinja2 template inheritance scoping regression." },
+        { id: "GH76", desc: "Fix Serde field alias handling inside flatten structs." },
+        { id: "GH156", desc: "Fix PyYAML safe_load edge case with special characters." }
     ]},
-    { name: "Operations", count: 9, tasks: [
-        { id: "O1", desc: "Fix service health endpoint to pass /health checks with diagnostics." },
-        { id: "O2", desc: "Analyze incident logs, identify root cause, and apply minimal fix." },
-        { id: "O3", desc: "Fix log analysis pipeline for structured event processing." },
-        { id: "O4", desc: "Correct alerting rules with proper thresholds and conditions." },
-        { id: "O5", desc: "Debug containerized service startup and networking issues." },
-        { id: "O7", desc: "Plan service capacity based on traffic patterns and SLAs." },
-        { id: "O8", desc: "Fix Dockerfile build errors and optimize layer caching." },
-        { id: "O9", desc: "Configure logging levels, rotation, and output formatting." }
+    { name: "CLI / Package Mgmt", count: 26, tasks: [
+        { id: "GH12", desc: "Fix Click boolean flag envvar always evaluating True." },
+        { id: "GH68", desc: "Fix Cobra subcommand argument validation." },
+        { id: "GH23", desc: "Fix Poetry package name validation in update command." }
     ]},
-    { name: "Pipeline / Integration", count: 9, tasks: [
-        { id: "PIPE1", desc: "Repair broken ETL pipeline to pass end-to-end integration tests." },
-        { id: "PIPE2", desc: "Fix data pipeline with schema validation and error handling." },
-        { id: "PIPE3", desc: "Debug stream processing pipeline with backpressure issues." },
-        { id: "INT1", desc: "Fix data pipeline chain with API contract mismatches between stages." },
-        { id: "INT2", desc: "Migrate API version with backward-compatible request routing." },
-        { id: "INT3", desc: "Fix database schema migration with foreign key constraints." }
-    ]},
-    { name: "Long-Horizon", count: 9, tasks: [
-        { id: "LH1", desc: "Execute 15-step pipeline workflow with failure recovery strategies." },
-        { id: "LH2", desc: "Multi-step migration under computational budget with rollback conditions." },
-        { id: "LH6", desc: "Fix audit trail bugs to ensure complete event logging." },
-        { id: "LH7", desc: "Implement zero-downtime database migration with dual-write." },
-        { id: "SCALE1", desc: "Migrate entire codebase from requests to httpx library." },
-        { id: "SYNTH1", desc: "Debug distributed system with correlated failures across nodes." }
-    ]},
-    { name: "Adversarial", count: 8, tasks: [
-        { id: "TRAP1", desc: "Spec vs secondary docs conflict: 4 endpoints need validation, 3 must stay relaxed." },
-        { id: "TRAP2", desc: "Distinguish 5 genuine bugs from 3 intentional design choices." },
-        { id: "TRAP3", desc: "Fix cache measurement: warm-up hits inflate rate from ~60% to ~95%." },
-        { id: "TRAP4", desc: "v2 to v3 migration, but 2 of 6 patterns must stay as shims." },
-        { id: "TRAP5", desc: "10 audit findings: 1-4 are false positives, only 5-10 are genuine." },
-        { id: "TRAP6", desc: "Deprecated API migration with hidden backward-compatibility traps." },
-        { id: "TRAP7", desc: "Separate test pollution artifacts from real bugs." },
-        { id: "TRAP8", desc: "Audit configuration overrides to find intentional vs accidental." }
-    ]},
-    { name: "Info. Retrieval", count: 8, tasks: [
-        { id: "IR1", desc: "Find information from offline corpus with evidence-based search." },
-        { id: "IR2", desc: "Navigate corpus with misinformation to find ground truth." },
-        { id: "IR3", desc: "Cross-reference multiple sources to resolve contradictions." },
-        { id: "IR4", desc: "Temporal priority QA: newer documents override older ones." },
-        { id: "IR5", desc: "Fix search ranking algorithm for relevance scoring." },
-        { id: "IR6", desc: "Build inverted search index with tokenization and stemming." },
-        { id: "IR7", desc: "Implement document clustering with similarity metrics." },
-        { id: "IR8", desc: "Fix search index update propagation and consistency." }
-    ]},
-    { name: "Policy", count: 8, tasks: [
-        { id: "P1", desc: "Fix configuration to comply with all policy rules." },
-        { id: "P2", desc: "Arbitrate between conflicting policy requirements." },
-        { id: "P6", desc: "Verify license compliance across project dependencies." },
-        { id: "P7", desc: "Implement data retention policy with automated cleanup." },
-        { id: "P8", desc: "Fix access control policy with proper role-permission mapping." }
+    { name: "Adversarial / TRAP", count: 8, tasks: [
+        { id: "TRAP1", desc: "Spec vs secondary docs conflict: selective validation needed." },
+        { id: "TRAP5", desc: "10 audit findings: 4 are false positives, only 5-10 genuine." }
     ]},
     { name: "Cross-System", count: 7, tasks: [
-        { id: "CROSS1", desc: "Fix Python client to communicate with Go server: naming, format, error code mismatches." },
-        { id: "CROSS2", desc: "Handle schema evolution: added columns, renamed fields, stale client models." },
-        { id: "CROSS3", desc: "JSON to proto3 bridge with 6 bugs: int64 truncation, bytes, oneof, enum." },
-        { id: "CROSS4", desc: "Auth gateway: HS256 accepted, timing-unsafe API key, role map, session bugs." },
-        { id: "CROSS5", desc: "Fix event schema compatibility between producer and consumer." },
-        { id: "CROSS6", desc: "Build gRPC-to-REST bridge with correct field mapping." },
-        { id: "CROSS7", desc: "Reconcile configuration drift between replicated services." }
+        { id: "CROSS1", desc: "Fix Python client to communicate with Go server: 3 mismatches." },
+        { id: "CROSS3", desc: "JSON to proto3 bridge with 6 bugs." }
     ]},
-    { name: "Specification", count: 7, tasks: [
-        { id: "SPEC1", desc: "Implement feature from detailed specification with all edge cases." },
-        { id: "SPEC4", desc: "Implement database schema migration from specification." },
-        { id: "SPEC5", desc: "Build worker service configuration system from RFC." },
-        { id: "SPEC6", desc: "Implement RFC-style protocol with state machine transitions." },
-        { id: "SPEC7", desc: "Build configuration schema validator with constraint rules." }
-    ]},
-    { name: "Code Review", count: 6, tasks: [
-        { id: "CR1", desc: "Address code review comments and improve code quality." },
-        { id: "CR3", desc: "Optimize performance bottlenecks identified in review." },
-        { id: "CR4", desc: "Fix API design issues flagged in review." },
-        { id: "CR6", desc: "Apply code review feedback across multiple files." }
+    { name: "Multi-language", count: 9, tasks: [
+        { id: "MULTI1", desc: "Fix bugs spanning Flask backend, JS frontend, bash deploy." },
+        { id: "MULTI3", desc: "Fix polyglot interface bugs across language boundaries." }
     ]},
     { name: "Distributed Systems", count: 6, tasks: [
-        { id: "DIST1", desc: "Fix 3 race conditions: TOCTOU capacity, missing ack, type-unsafe priority." },
-        { id: "DIST2", desc: "Fix Raft consensus: log-up-to-date, prevLogIndex, old-term commits." },
-        { id: "DIST3", desc: "Add idempotency keys to 4 payment operations (balance query must NOT get key)." },
-        { id: "DIST4", desc: "Fix Lamport clock: increment-before-send, max+1, node_id tie-breaker." },
-        { id: "DIST5", desc: "Fix bully leader election with partition tolerance." },
-        { id: "DIST6", desc: "Implement distributed lock with fencing tokens and TTL." }
+        { id: "DIST1", desc: "Fix 3 race conditions: TOCTOU, missing ack, type-unsafe priority." },
+        { id: "DIST2", desc: "Fix Raft consensus: log-up-to-date, prevLogIndex, old-term commits." }
     ]},
-    { name: "Expertise Asymmetry", count: 5, tasks: [
-        { id: "EA1", desc: "Fix vulnerabilities found by Planner's Bandit static analysis scan." },
-        { id: "EA2", desc: "Improve test coverage for gaps identified by Planner's pytest-cov analysis." },
-        { id: "EA3", desc: "Add type annotations for mypy strict mode compliance." },
-        { id: "EA4", desc: "Fix code quality issues from Planner's ruff/pylint analysis." },
-        { id: "EA5", desc: "Remediate dependency vulnerabilities from Planner's pip-audit scan." }
+    { name: "Performance", count: 1, tasks: [
+        { id: "PERF1", desc: "Optimize data processing: fix bottlenecks, preserve constraints." }
     ]},
-    { name: "Negotiation", count: 5, tasks: [
-        { id: "NEG1", desc: "Optimize config satisfying performance, security, and reliability constraints." },
-        { id: "NEG2", desc: "Balance cost-performance trade-offs under competing requirements." },
-        { id: "NEG3", desc: "Prioritize tech debt items under time and resource constraints." },
-        { id: "NEG4", desc: "Allocate limited resources across competing service demands." },
-        { id: "NEG5", desc: "Navigate SLA trade-offs between latency, availability, and cost." }
+    { name: "API Design", count: 1, tasks: [
+        { id: "API1", desc: "Add v2 API endpoints with backward-compatible v1 shims." }
+    ]},
+    { name: "Logging / Infra", count: 50, tasks: [
+        { id: "GH130", desc: "Fix structured logging output format regression." },
+        { id: "GH148", desc: "Fix Consul service discovery health check timing." }
+    ]},
+    { name: "Other Real-World", count: 386, tasks: [
+        { id: "GH95", desc: "Fix Arrow date parsing edge case with timezone offsets." },
+        { id: "GH158", desc: "Fix attrs frozen class mutation detection." },
+        { id: "GH99", desc: "Fix psycopg connection pool exhaustion under load." }
     ]}
 ];
 
@@ -1014,6 +905,21 @@ categories.forEach((cat, i) => {
             ${cat.tasks.map(t => `<div class="task-example"><span class="task-id">${t.id}</span><span class="task-desc">${t.desc}</span></div>`).join('')}
         </div>
     `;
+    // Add hover handler: box -> pie slice highlight
+    div.addEventListener('mouseenter', () => {
+        if (charts.pie) {
+            charts.pie.setActiveElements([{datasetIndex: 0, index: i}]);
+            charts.pie.tooltip.setActiveElements([{datasetIndex: 0, index: i}]);
+            charts.pie.update();
+        }
+    });
+    div.addEventListener('mouseleave', () => {
+        if (charts.pie) {
+            charts.pie.setActiveElements([]);
+            charts.pie.tooltip.setActiveElements([]);
+            charts.pie.update();
+        }
+    });
     catGrid.appendChild(div);
 });
 
@@ -1254,53 +1160,6 @@ function buildCharts() {
 function rebuildCharts() { Object.values(charts).forEach(ch=>ch.destroy()); charts={}; buildCharts(); }
 buildCharts();
 
-// ── Task Explorer ──
-let taskData = [];
-let sortCol = 7, sortAsc = false; // default: sort by uplift descending
-
-fetch('task_results.json').then(r=>r.json()).then(data=>{
-    taskData = data;
-    // Populate category filter
-    const cats = [...new Set(data.map(d=>d.cat))].sort();
-    const sel = document.getElementById('cat-filter');
-    cats.forEach(c=>{ const o=document.createElement('option'); o.value=c; o.textContent=c; sel.appendChild(o); });
-    renderTasks();
-});
-
-function renderTasks() {
-    const search = document.getElementById('task-search').value.toLowerCase();
-    const catF = document.getElementById('cat-filter').value;
-    let filtered = taskData.filter(d => {
-        if (search && !d.id.toLowerCase().includes(search) && !d.cat.toLowerCase().includes(search)) return false;
-        if (catF && d.cat !== catF) return false;
-        return true;
-    });
-    // Sort
-    const keys = ['id','cat','oracle','restr','noPlan','noVer','full','uplift'];
-    const key = keys[sortCol];
-    filtered.sort((a,b) => {
-        const va = typeof a[key]==='string' ? a[key].toLowerCase() : a[key];
-        const vb = typeof b[key]==='string' ? b[key].toLowerCase() : b[key];
-        return sortAsc ? (va > vb ? 1 : -1) : (va < vb ? 1 : -1);
-    });
-    const tbody = document.getElementById('task-tbody');
-    tbody.innerHTML = filtered.map(d => {
-        const best = Math.max(d.oracle, d.restr, d.noPlan, d.noVer, d.full);
-        const s = v => `<td class="mono${v===best&&v>0?' best':''}">${v.toFixed(2)}</td>`;
-        const u = d.uplift;
-        const ucls = u > 0.05 ? 'color:var(--chart-bar)' : u < -0.05 ? 'color:var(--chart-negative)' : '';
-        return `<tr><td class="model-name">${d.id}</td><td><span class="family-tag">${d.cat}</span></td>${s(d.oracle)}${s(d.restr)}${s(d.noPlan)}${s(d.noVer)}${s(d.full)}<td class="mono" style="${ucls}">${u>=0?'+':''}${u.toFixed(2)}</td></tr>`;
-    }).join('');
-    document.getElementById('task-count').textContent = filtered.length;
-}
-
-function filterTasks() { renderTasks(); }
-
-function sortTable(col) {
-    if (sortCol === col) sortAsc = !sortAsc;
-    else { sortCol = col; sortAsc = col < 2; }
-    renderTasks();
-}
 </script>
 </body>
 </html>
