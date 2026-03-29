@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TeamBench: Evaluating Agent Collaboration via Software Engineering Tasks</title>
-    <meta name="description" content="TeamBench is a benchmark of 549 verified tasks across software engineering, data science, and machine learning for evaluating multi-agent collaboration with OS-enforced role separation.">
+    <meta name="description" content="TeamBench is a benchmark of 931 verified tasks across software engineering, data science, and machine learning for evaluating multi-agent collaboration with OS-enforced role separation.">
     <meta property="og:title" content="TeamBench: Evaluating Agent Collaboration via Software Engineering Tasks">
-    <meta property="og:description" content="549 verified tasks across software engineering, data science, and machine learning with OS-enforced role separation. 4,200+ runs across 18 models from 3 provider families.">
+    <meta property="og:description" content="931 verified tasks across software engineering, data science, and machine learning with OS-enforced role separation. 4,200+ runs across 18 models from 3 provider families.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://teambench.github.io">
     <meta name="twitter:card" content="summary">
@@ -320,7 +320,7 @@
 <!-- Hero -->
 <div class="hero">
     <h1>TeamBench</h1>
-    <p class="subtitle">A benchmark of 549 verified tasks across software engineering, data science, and machine learning with OS-enforced role separation for measuring when multi-agent collaboration genuinely helps.</p>
+    <p class="subtitle">A benchmark of 931 verified tasks across software engineering, data science, and machine learning with OS-enforced role separation for measuring when multi-agent collaboration genuinely helps.</p>
     <div class="hero-actions">
         <a href="https://github.com/ybkim95/TeamBench" class="btn-fill" target="_blank">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
@@ -336,8 +336,8 @@
         </a>
     </div>
     <div class="stats-bar">
-        <div class="stat-item"><div class="stat-value">549</div><div class="stat-label">Tasks</div></div>
-        <div class="stat-item"><div class="stat-value">34</div><div class="stat-label">Categories</div></div>
+        <div class="stat-item"><div class="stat-value">931</div><div class="stat-label">Tasks</div></div>
+        <div class="stat-item"><div class="stat-value">25+</div><div class="stat-label">Categories</div></div>
         <div class="stat-item"><div class="stat-value">4,200+</div><div class="stat-label">Eval Runs</div></div>
         <div class="stat-item"><div class="stat-value">18</div><div class="stat-label">Models</div></div>
     </div>
@@ -437,6 +437,10 @@
         <div class="card finding-card"><h3>Hardest Tasks Benefit Most</h3><p>Tasks in the hardest quintile (oracle &lt; 22%) show +15.3% team uplift. Easy tasks show negative uplift.</p><span class="finding-stat">+15.3% on Q1</span></div>
         <div class="card finding-card"><h3>Universal Across Families</h3><p>All six closed-source models from three provider families show positive team uplift on pass rate.</p><span class="finding-stat">6/6 models benefit</span></div>
         <div class="card finding-card"><h3>Tool Specialization</h3><p>When roles have specialized tools, the team achieves 72% vs 32% oracle, exceeding the single-agent ceiling.</p><span class="finding-stat">TNI = 1.25</span></div>
+        <div class="card finding-card"><h3>Verifier Accuracy</h3><p>Verifiers are correct only 30.5% of the time — the majority of verification calls produce wrong verdicts, consistent with the negative net verification effect.</p><span class="finding-stat">30.5% accuracy</span></div>
+        <div class="card finding-card"><h3>Executor Recovery</h3><p>Executors recover from bad or incomplete planning 96% of the time, making planner quality less of a bottleneck than expected.</p><span class="finding-stat">96% recovery rate</span></div>
+        <div class="card finding-card"><h3>Difficulty Labels Uncorrelated</h3><p>Empirical solve rates are essentially uncorrelated with author-assigned difficulty labels (ρ=0.010), suggesting labels measure structural complexity rather than actual LLM hardness.</p><span class="finding-stat">&rho; = 0.010</span></div>
+        <div class="card finding-card"><h3>Adversarial Tasks Amplify Teamwork</h3><p>TRAP and adversarial tasks show the highest TNI (0.93), as the Planner's access to the full spec is essential for detecting specification contradictions.</p><span class="finding-stat">TNI = 0.93 adversarial</span></div>
     </div>
 </section>
 
@@ -586,8 +590,8 @@
 <section id="tasks">
     <div class="section-header fade-up">
         <span class="section-label">Coverage</span>
-        <h2 class="section-title">471 Verified Tasks Across 3 Domains</h2>
-        <p class="section-desc">Weighted toward hard and expert difficulty (80%). Click categories below for task details.</p>
+        <h2 class="section-title">931 Verified Tasks Across 25+ Categories</h2>
+        <p class="section-desc">2,794 seeded instances across 5 task archetypes. Weighted toward hard and expert difficulty (80%). Click categories below for task details.</p>
     </div>
     <div class="fade-up" style="max-width:400px;margin:0 auto 2rem;">
         <div style="aspect-ratio:1/1;max-height:350px;"><canvas id="chart-pie"></canvas></div>
@@ -621,11 +625,14 @@
                 <div style="color:var(--text-muted);"># Run on the 28-task Mini subset</div>
                 <div>teambench run --model your-model --tasks mini --seed 0</div>
                 <br>
-                <div style="color:var(--text-muted);"># Run full 451-task evaluation</div>
+                <div style="color:var(--text-muted);"># Run full 931-task evaluation</div>
                 <div>teambench run --model your-model --tasks all --seed 0</div>
                 <br>
                 <div style="color:var(--text-muted);"># Grade results</div>
                 <div>teambench grade --run-dir results/</div>
+                <br>
+                <div style="color:var(--text-muted);"># Use a framework adapter (AutoGen, CrewAI, LangGraph)</div>
+                <div>teambench run --model your-model --adapter autogen --tasks all --seed 0</div>
             </div>
         </div>
         <div class="card" style="margin-bottom:1rem;">
@@ -679,7 +686,7 @@
                 <tr><th>Feature</th><th>SWE-Bench Pro</th><th>Terminal-Bench</th><th>TAU-Bench</th><th>GAIA</th><th>MLE-Bench</th><th style="background:var(--bg-card);">TeamBench</th></tr>
             </thead>
             <tbody>
-                <tr><td style="font-weight:600;">Tasks</td><td>1,865</td><td>89</td><td>~200</td><td>466</td><td>75</td><td style="background:var(--bg-card);font-weight:600;">549</td></tr>
+                <tr><td style="font-weight:600;">Tasks</td><td>1,865</td><td>89</td><td>~200</td><td>466</td><td>75</td><td style="background:var(--bg-card);font-weight:600;">931</td></tr>
                 <tr><td style="font-weight:600;">Domains</td><td>SE only</td><td>SE only</td><td>Airline/Retail</td><td>General QA</td><td>ML/Kaggle</td><td style="background:var(--bg-card);font-weight:600;">SE + DS + ML</td></tr>
                 <tr><td style="font-weight:600;">Team Evaluation</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check" style="background:var(--bg-card);">&#10003; 5 conditions</td></tr>
                 <tr><td style="font-weight:600;">Role Enforcement</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check" style="background:var(--bg-card);">&#10003; OS-level</td></tr>
@@ -704,9 +711,9 @@
             <div class="card">
                 <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:0.5rem;">Version &amp; Changelog</h3>
                 <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">
-                    <strong>Current version:</strong> v1.0 (March 2025)<br>
-                    <strong>Tasks:</strong> 451 across 25+ categories<br>
-                    <strong>Generators:</strong> 153 parameterized + 11 static (GitHub)<br>
+                    <strong>Current version:</strong> v1.1 (March 2026)<br>
+                    <strong>Tasks:</strong> 931 across 25+ categories<br>
+                    <strong>Generators:</strong> 153+ parameterized + 11 static (GitHub)<br>
                     All tasks produce deterministic instances from arbitrary seeds.
                 </p>
             </div>
@@ -721,15 +728,15 @@
             <div class="card">
                 <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:0.5rem;">Grader Audit</h3>
                 <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">
-                    All 549 graders are deterministic shell scripts producing partial scores in [0, 1]. Each grader was validated against both correct and incorrect reference solutions during development.
+                    All 931 graders are deterministic shell scripts producing partial scores in [0, 1]. Each grader was validated against both correct and incorrect reference solutions during development.
                 </p>
             </div>
             <div class="card" id="task-counts">
                 <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:0.5rem;">Task Counts Explained</h3>
                 <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">
-                    <strong>953</strong> validated tasks in the benchmark<br>
-                    <strong>147</strong> with complete 5-condition reference ablation (seed 0)<br>
-                    <strong>130</strong> shown in the explorer (tasks with data across all conditions)<br>
+                    <strong>931</strong> validated tasks in the benchmark<br>
+                    <strong>2,794</strong> seeded instances (seeds 0–2)<br>
+                    <strong>10</strong> canonical public datasets (UCI Adult Income, Ames Housing, FRED, WHO, etc.)<br>
                     <strong>28</strong> in TeamBench-Mini (cross-model comparison subset)
                 </p>
             </div>
@@ -780,7 +787,7 @@
                     <div class="cat-left"><span class="cat-name">Can labs optimize on the Mini subset to inflate leaderboard scores?</span></div>
                     <div class="cat-right"><svg class="cat-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
                 </div>
-                <div class="cat-body"><p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">The Mini subset is balanced across all 21 categories and uses parameterized generators. Optimizing for 28 specific task structures is unlikely to transfer to the full 451-task benchmark. For high-stakes comparisons, we recommend the full evaluation or the hidden-seed track (seeds 3+), where the specific task instances have never been publicly evaluated.</p></div>
+                <div class="cat-body"><p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">The Mini subset is balanced across all 21 categories and uses parameterized generators. Optimizing for 28 specific task structures is unlikely to transfer to the full 931-task benchmark. For high-stakes comparisons, we recommend the full evaluation or the hidden-seed track (seeds 3+), where the specific task instances have never been publicly evaluated.</p></div>
             </div>
         </div>
     </div>
@@ -913,6 +920,16 @@ const categories = [
         { id: "GH95", desc: "Fix Arrow date parsing edge case with timezone offsets." },
         { id: "GH158", desc: "Fix attrs frozen class mutation detection." },
         { id: "GH99", desc: "Fix psycopg connection pool exhaustion under load." }
+    ]},
+    { name: "Data Science (RDS)", count: 30, tasks: [
+        { id: "DS1", desc: "Detect and fix feature leakage in ML pipeline using UCI Adult Income dataset." },
+        { id: "DS6", desc: "Identify Simpson's paradox and correct aggregation strategy." },
+        { id: "DS8", desc: "Fix A/B test analysis: correct for multiple comparisons and early stopping." }
+    ]},
+    { name: "Real Incidents (RINC)", count: 10, tasks: [
+        { id: "RINC1", desc: "Reproduce and fix CVE root cause in dependency chain." },
+        { id: "RINC5", desc: "Reconstruct incident from post-mortem logs and implement corrective patch." },
+        { id: "RINC9", desc: "Fix distributed tracing gap exposed by real production incident." }
     ]}
 ];
 
