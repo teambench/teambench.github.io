@@ -304,12 +304,10 @@
         <div class="nav-left">
             <a href="#" class="logo">TeamBench</a>
             <ul class="nav-links">
-                <li><a href="#leaderboard">Leaderboard</a></li>
                 <li><a href="#overview">Overview</a></li>
-                <li><a href="#architecture">Architecture</a></li>
-                <li><a href="#findings">Findings</a></li>
-                <li><a href="#results">Results</a></li>
+                <li><a href="#leaderboard">Leaderboard</a></li>
                 <li><a href="#tasks">Tasks</a></li>
+                <li><a href="#submit">Citation</a></li>
             </ul>
         </div>
         <div class="nav-right">
@@ -351,9 +349,8 @@
 <!-- Leaderboard -->
 <section id="leaderboard">
     <div class="section-header fade-up">
-        <span class="section-label">Leaderboard</span>
         <h2 class="section-title">Evaluation Results</h2>
-        <p class="section-desc">28-task TeamBench-Mini subset. Pass rate (%) under each ablation condition. Pass@k shows reliability over multiple attempts.</p>
+        <p class="section-desc">TeamBench-Mini subset. Pass rate (%) under each ablation condition. Pass@k shows reliability over multiple attempts.</p>
     </div>
     <div class="lb-wrapper fade-up">
         <div class="table-wrap" style="max-height:600px;overflow-y:auto;">
@@ -380,7 +377,7 @@
             </table>
         </div>
         <div style="padding:0.75rem 1rem;font-size:0.75rem;color:var(--text-muted);border-top:1px solid var(--border);">
-            14 models &mdash; 28-task TeamBench-Mini, seed 0, pass rate (%) &mdash; sorted by Full Team (ties broken by avg partial score)<br>Pass@3: GPT-5.4 Full Team 82.9% vs Oracle 0.0% &mdash; team coordination scales dramatically with retries
+            14 models &mdash; TeamBench-Mini, seed 0, pass rate (%) &mdash; sorted by Full Team (ties broken by avg partial score)<br>Pass@3: GPT-5.4 Full Team 82.9% vs Oracle 0.0% &mdash; team coordination scales dramatically with retries
         </div>
     </div>
 </section>
@@ -390,7 +387,6 @@
 <!-- Overview -->
 <section id="overview">
     <div class="section-header fade-up">
-        <span class="section-label">Why TeamBench</span>
         <h2 class="section-title">The First Structurally Enforced Multi-Agent Benchmark</h2>
         <p class="section-desc">Existing benchmarks assign roles through system prompts that agents can ignore. TeamBench enforces boundaries at the OS level.</p>
     </div>
@@ -419,11 +415,25 @@
 <!-- Tasks with expandable examples -->
 <section id="tasks">
     <div class="section-header fade-up">
-        <span class="section-label">Coverage</span>
         <h2 class="section-title">931 Verified Tasks Across 25+ Categories</h2>
         <p class="section-desc">2,794 instances. Weighted to hard/expert difficulty (80%).</p>
     </div>
-        <div class="fade-up" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-bottom: 2rem;">
+        
+    <div class="diff-bar fade-up" style="margin-bottom:1rem;">
+        <div class="diff-item"><div class="diff-val" style="color:var(--text);">SWE</div><div class="diff-label">831</div></div>
+        <div class="diff-item"><div class="diff-val" style="color:var(--text);">DS</div><div class="diff-label">50</div></div>
+        <div class="diff-item"><div class="diff-val" style="color:var(--text);">ML</div><div class="diff-label">50</div></div>
+    </div>
+    <div class="diff-bar fade-up" style="margin-bottom:2rem;">
+        <div class="diff-item"><div class="diff-val" style="color:var(--text);">Medium</div><div class="diff-label">247</div></div>
+        <div class="diff-item"><div class="diff-val" style="color:var(--text);">Hard</div><div class="diff-label">582</div></div>
+        <div class="diff-item"><div class="diff-val" style="color:var(--text);">Expert</div><div class="diff-label">86</div></div>
+    </div>
+    
+    <details class="fade-up" style="margin-bottom: 2rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; cursor: pointer;">
+        <summary style="font-family:'Geist Mono',monospace; font-weight:600; text-align:center;">View Distribution Charts</summary>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-top: 1.5rem;">
+
         <div style="flex: 1; min-width: 250px; max-width: 350px;">
             <h3 style="text-align:center;font-size:0.9rem;margin-bottom:1rem;font-family:'Geist Mono',monospace;">Categories</h3>
             <div style="aspect-ratio:1/1;max-height:300px;"><canvas id="chart-pie"></canvas></div>
@@ -436,7 +446,7 @@
             <h3 style="text-align:center;font-size:0.9rem;margin-bottom:1rem;font-family:'Geist Mono',monospace;">Difficulty</h3>
             <div style="aspect-ratio:1/1;max-height:300px;"><canvas id="chart-diff"></canvas></div>
         </div>
-    </div>
+    </div></details>
 <div class="cat-grid fade-up" id="cat-grid"></div>
 
     </div>
@@ -447,7 +457,6 @@
 <!-- Architecture -->
 <section id="architecture">
     <div class="section-header fade-up">
-        <span class="section-label">Architecture</span>
         <h2 class="section-title">Three-Role Pipeline with Container Isolation</h2>
         <p class="section-desc">Each role runs in an isolated Docker container. No single container can access everything.</p>
     </div>
@@ -481,7 +490,6 @@
 <!-- Key Findings -->
 <section id="findings">
     <div class="section-header fade-up">
-        <span class="section-label">Key Findings</span>
         <h2 class="section-title">When Does Multi-Agent Collaboration Help?</h2>
         <p class="section-desc">Team benefit concentrates on the hardest tasks and weakest models.</p>
     </div>
@@ -500,9 +508,8 @@
 <!-- Heterogeneous Teams -->
 <section id="hetero">
     <div class="section-header fade-up">
-        <span class="section-label">Heterogeneous Teams</span>
         <h2 class="section-title">Different LLM Families for Different Roles</h2>
-        <p class="section-desc">Assigning stronger models to specific roles (28-task subset, seed 0).</p>
+        <p class="section-desc">Assigning stronger models to specific roles (TeamBench-Mini subset, seed 0).</p>
     </div>
     <div class="lb-wrapper fade-up">
         <table>
@@ -555,7 +562,6 @@
 <!-- Charts -->
 <section id="results">
     <div class="section-header fade-up">
-        <span class="section-label">Results</span>
         <h2 class="section-title">Plots</h2>
     </div>
     <div class="charts-grid fade-up">
@@ -566,7 +572,7 @@
         </div>
         <div class="card chart-card">
             <h3>Full Team Score by Model</h3>
-            <p class="chart-sub">Pass rate (%) &mdash; Oracle vs Full Team on 28-task subset</p>
+            <p class="chart-sub">Pass rate (%) &mdash; Oracle vs Full Team on TeamBench-Mini subset</p>
             <div class="chart-wrap"><canvas id="chart-models"></canvas></div>
         </div>
     </div>
@@ -603,7 +609,6 @@
 <!-- Submission / How to Evaluate -->
 <section id="submit">
     <div class="section-header fade-up">
-        <span class="section-label">Evaluate Your Model</span>
         <h2 class="section-title">Get Started</h2>
     </div>
     <div class="fade-up" style="max-width:700px;margin:0 auto;">
@@ -632,7 +637,7 @@
                 To add your model to the leaderboard, submit a Pull Request to the
                 <a href="https://github.com/ybkim95/TeamBench" target="_blank" style="color:var(--text);text-decoration:underline;">TeamBench repository</a>
                 with your results JSON file in <code style="font-family:'Geist Mono',monospace;font-size:0.8rem;padding:0.15rem 0.4rem;background:var(--bg-card);border:1px solid var(--border);border-radius:3px;">shared/ablation_results/</code>.
-                We recommend evaluating on the <strong>TeamBench-Mini</strong> 28-task subset with all 5 ablation conditions for comparability.
+                We recommend evaluating on the <strong>TeamBench-Mini</strong> TeamBench-Mini subset with all 5 ablation conditions for comparability.
             </p>
         </div>
     </div>
@@ -643,7 +648,6 @@
 <!-- Citation -->
 <section id="citation">
     <div class="section-header fade-up">
-        <span class="section-label">Citation</span>
         <h2 class="section-title">Cite</h2>
     </div>
     <div class="fade-up" style="max-width:700px;margin:0 auto;">
@@ -667,7 +671,6 @@
 <!-- FAQ -->
 <!-- <section id="faq">
     <div class="section-header fade-up">
-        <span class="section-label">Frequently Asked</span>
         <h2 class="section-title">FAQ</h2>
     </div>
     <div class="fade-up" style="max-width:750px;margin:0 auto;">
@@ -714,20 +717,7 @@
 <hr class="divider"> -->
 
 <div class="cta">
-    <div class="cta-links">
-        <a href="https://github.com/ybkim95/TeamBench" class="btn-fill" target="_blank">
-            <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-            GitHub
-        </a>
-        <a href="https://huggingface.co/datasets/ybkim95/teambench" class="btn-ghost" target="_blank">
-            <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HF" class="ext-logo" style="width:16px;height:16px;">
-            HuggingFace
-        </a>
-        <a href="#" class="btn-ghost" style="cursor:default;opacity:0.5;" onclick="return false;">
-            <img src="arxiv-logo.png" alt="arXiv" class="ext-logo">
-            Paper (TBA)
-        </a>
-    </div>
+    
 </div>
 
 <footer>
