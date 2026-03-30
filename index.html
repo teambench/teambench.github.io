@@ -932,6 +932,7 @@ const pvData = [
 ];
 
 function buildCharts() {
+    const anth = { clay: '#d97757', blue: '#6a9bcc', sage: '#788c5d', charcoal: '#141413', stone: '#b0aea5', paper: '#e8e6dc', bone: '#faf9f5' };
     const c = gc();
     Chart.defaults.color = c.text;
     Chart.defaults.borderColor = c.grid;
@@ -1038,7 +1039,7 @@ function buildCharts() {
             labels: ['SWE', 'DS', 'ML'],
             datasets: [{
                 data: [831, 50, 50],
-                backgroundColor: ['rgba(37, 99, 235, 1)', 'rgba(59, 130, 246, 0.8)', 'rgba(96, 165, 250, 0.6)'],
+                backgroundColor: [anth.blue, anth.sage, anth.clay],
                 borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
                 borderWidth: 1,
                 hoverBorderColor: isDark ? '#fff' : '#000',
@@ -1066,7 +1067,7 @@ function buildCharts() {
             labels: ['Easy', 'Medium', 'Hard', 'Expert'],
             datasets: [{
                 data: [38, 247, 582, 86],
-                backgroundColor: ['rgba(252, 165, 165, 0.4)', 'rgba(248, 113, 113, 0.6)', 'rgba(239, 68, 68, 0.8)', 'rgba(220, 38, 38, 1)'],
+                backgroundColor: [anth.paper, anth.stone, anth.sage, anth.clay],
                 borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
                 borderWidth: 1,
                 hoverBorderColor: isDark ? '#fff' : '#000',
@@ -1094,8 +1095,9 @@ function buildCharts() {
             datasets: [{
                 data: pieCounts,
                 backgroundColor: pieCats.map((_, i) => {
-                    const opacity = 0.15 + (i / pieCats.length) * 0.55;
-                    return isDark ? `rgba(255,255,255,${opacity})` : `rgba(0,0,0,${opacity})`;
+                    const bases = [anth.clay, anth.blue, anth.sage, anth.stone, '#8e7dbe', '#7ba395', '#a3957b'];
+                    const base = bases[i % bases.length];
+                    return i % 2 === 0 ? base : base + 'cc';
                 }),
                 borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
                 borderWidth: 1,
