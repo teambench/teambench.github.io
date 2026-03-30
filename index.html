@@ -80,7 +80,7 @@
 
         /* ── Hero ── */
         .hero { padding: 10rem 2rem 5rem; text-align: center; max-width: 820px; margin: 0 auto; }
-        .hero h1 { font-size: clamp(2.5rem, 5.5vw, 4rem); font-weight: 900; line-height: 1.08; letter-spacing: -0.04em; margin-bottom: 1.25rem; }
+        
         .hero .subtitle { font-size: 1rem; color: var(--text-secondary); max-width: 580px; margin: 0 auto 2.5rem; line-height: 1.8; }
         .hero-actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 4rem; }
         .hero-actions a { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.875rem; transition: all 0.2s; }
@@ -106,7 +106,7 @@
         .divider { max-width: 1100px; margin: 0 auto; border: none; border-top: 1px solid var(--border); }
         .section-header { text-align: center; margin-bottom: 3rem; }
         .section-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 0.75rem; display: block; }
-        .section-title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.75rem; line-height: 1.2; }
+        
         .section-desc { color: var(--text-secondary); max-width: 560px; margin: 0 auto; font-size: 0.95rem; }
 
         /* ── Card ── */
@@ -291,7 +291,10 @@
             .stats-bar { grid-template-columns: 1fr; }
             .conditions-grid { grid-template-columns: 1fr; }
         }
-    </style>
+    
+        .hero h1 { font-family: 'Geist Mono', monospace; font-size: clamp(2.5rem, 5.5vw, 4rem); font-weight: 900; line-height: 1.08; letter-spacing: -0.04em; margin-bottom: 1.25rem; }
+        .section-title { font-family: 'Geist Mono', monospace; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -0.04em; margin-bottom: 0.75rem; line-height: 1.2; }
+</style>
 </head>
 <body>
 
@@ -301,10 +304,10 @@
         <div class="nav-left">
             <a href="#" class="logo">TeamBench</a>
             <ul class="nav-links">
+                <li><a href="#leaderboard">Leaderboard</a></li>
                 <li><a href="#overview">Overview</a></li>
                 <li><a href="#architecture">Architecture</a></li>
                 <li><a href="#findings">Findings</a></li>
-                <li><a href="#leaderboard">Leaderboard</a></li>
                 <li><a href="#results">Results</a></li>
                 <li><a href="#tasks">Tasks</a></li>
             </ul>
@@ -342,107 +345,6 @@
         <div class="stat-item"><div class="stat-value">18</div><div class="stat-label">Models</div></div>
     </div>
 </div>
-
-<hr class="divider">
-
-<!-- Overview -->
-<section id="overview">
-    <div class="section-header fade-up">
-        <span class="section-label">Why TeamBench</span>
-        <h2 class="section-title">The First Structurally Enforced Multi-Agent Benchmark</h2>
-        <p class="section-desc">Existing benchmarks assign roles through system prompts that agents can ignore. TeamBench enforces boundaries at the OS level.</p>
-    </div>
-    <div class="cmp-table fade-up">
-        <table>
-            <thead><tr><th></th><th>Benchmark</th><th>Structural Enf.</th><th>Role Ablation</th><th>Collab. Metric</th><th>Contam. Resist.</th><th>Cross-Model</th></tr></thead>
-            <tbody>
-                <tr><td rowspan="5" style="font-size:0.65rem;color:var(--text-muted);writing-mode:vertical-lr;text-align:center;padding:0.5rem;">SA</td><td>SWE-Bench</td><td class="cross">&mdash;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check">&#10003;</td></tr>
-                <tr><td>TerminalBench</td><td class="cross">&mdash;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check">&#10003;</td></tr>
-                <tr><td>LiveCodeBench</td><td class="cross">&mdash;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
-                <tr><td>GAIA</td><td class="cross">&mdash;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check">&#10003;</td></tr>
-                <tr><td>MLE-Bench</td><td class="cross">&mdash;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check">&#10003;</td></tr>
-                <tr><td rowspan="6" style="font-size:0.65rem;color:var(--text-muted);writing-mode:vertical-lr;text-align:center;padding:0.5rem;">MA</td><td>MultiAgentBench</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check">&#10003;</td><td class="cross">&times;</td><td class="check">&#10003;</td></tr>
-                <tr><td>AgentCoder</td><td class="cross">&times;</td><td class="cross">~</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">~</td></tr>
-                <tr><td>DevBench</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">~</td></tr>
-                <tr><td>CAMEL</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td></tr>
-                <tr><td>GPTSwarm</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td></tr>
-                <tr style="background:var(--bg-card);"><td class="model-name">TeamBench (Ours)</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
-            </tbody>
-        </table>
-    </div>
-</section>
-
-<hr class="divider">
-
-<!-- Architecture -->
-<section id="architecture">
-    <div class="section-header fade-up">
-        <span class="section-label">Architecture</span>
-        <h2 class="section-title">Three-Role Pipeline with Container Isolation</h2>
-        <p class="section-desc">Each role runs in an isolated Docker container. No single container can access everything.</p>
-    </div>
-    <div class="arch-grid fade-up">
-        <div class="arch-roles">
-            <div class="role-card"><div class="role-num">1</div><div><h4>Planner</h4><p>Reads the full specification (spec.md). Decomposes requirements, identifies hidden constraints and edge cases, creates an execution plan. Cannot execute code or modify the workspace.</p></div></div>
-            <div class="role-card"><div class="role-num">2</div><div><h4>Executor</h4><p>Reads only a brief summary (brief.md). Runs commands and modifies workspace code following the Planner's instructions. Cannot access the full specification.</p></div></div>
-            <div class="role-card"><div class="role-num">3</div><div><h4>Verifier</h4><p>Reads spec.md and workspace (read-only). Checks compliance against requirements and writes attestation.json. Cannot modify the workspace or run commands.</p></div></div>
-        </div>
-        <div class="arch-text">
-            <h3>Structural Enforcement, Not Prompt Compliance</h3>
-            <p>Container bind mounts create a controlled experiment where role boundaries are physically enforced by the operating system.</p>
-            <ul class="feature-list">
-                <li><span class="dot"></span><span><strong>Information asymmetry by design</strong> &mdash; Specification contains critical details absent from the brief</span></li>
-                <li><span class="dot"></span><span><strong>Five ablation conditions</strong> &mdash; Systematically remove roles to isolate marginal contribution</span></li>
-                <li><span class="dot"></span><span><strong>Parameterized generators</strong> &mdash; 153 generators produce distinct instances from different seeds</span></li>
-                <li><span class="dot"></span><span><strong>Partial scoring</strong> &mdash; Deterministic graders produce scores in [0, 1]</span></li>
-            </ul>
-            <div class="tni-box">
-                <div class="tni-eq">TNI = (S<sub>team</sub> &minus; S<sub>restricted</sub>) / max(&epsilon;, S<sub>oracle</sub> &minus; S<sub>restricted</sub>)</div>
-                <div class="tni-desc">TNI = 1.0 means full recovery; TNI &gt; 1.0 means team exceeds oracle ceiling</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<hr class="divider">
-
-<!-- Ablation -->
-<section id="ablation">
-    <div class="section-header fade-up">
-        <span class="section-label">Ablation Design</span>
-        <h2 class="section-title">Five Conditions to Decompose Team Value</h2>
-    </div>
-    <div class="conditions-grid fade-up">
-        <div class="card cond-card"><div class="cond-name">Oracle</div><div class="cond-score">0.575</div><div class="cond-desc">Single agent, full access</div><div class="cond-roles"><span class="pill">All Access</span></div></div>
-        <div class="card cond-card"><div class="cond-name">Restricted</div><div class="cond-score">0.571</div><div class="cond-desc">Single agent, no spec</div><div class="cond-roles"><span class="pill">Exec only</span></div></div>
-        <div class="card cond-card"><div class="cond-name">No Plan</div><div class="cond-score">0.544</div><div class="cond-desc">Two-role, skip planning</div><div class="cond-roles"><span class="pill">Exec</span><span class="pill">Verify</span></div></div>
-        <div class="card cond-card cond-best"><div class="cond-name">No Verify</div><div class="cond-score">0.592</div><div class="cond-desc">Two-role, skip verification</div><div class="cond-roles"><span class="pill">Plan</span><span class="pill">Exec</span></div></div>
-        <div class="card cond-card cond-best"><div class="cond-name">Full Team</div><div class="cond-score">0.592</div><div class="cond-desc">Three-role, complete pipeline</div><div class="cond-roles"><span class="pill">Plan</span><span class="pill">Exec</span><span class="pill">Verify</span></div></div>
-    </div>
-</section>
-
-<hr class="divider">
-
-<!-- Key Findings -->
-<section id="findings">
-    <div class="section-header fade-up">
-        <span class="section-label">Key Findings</span>
-        <h2 class="section-title">When Does Multi-Agent Collaboration Help?</h2>
-        <p class="section-desc">Team benefit is conditional, not universal. It concentrates on the hardest tasks and weakest models.</p>
-    </div>
-    <div class="findings-grid fade-up">
-        <div class="card finding-card"><h3>The Equalizer Effect</h3><p>Team coordination helps most when single agents fail. The weakest model shows the largest team uplift.</p><span class="finding-stat">+32.1% weakest model</span></div>
-        <div class="card finding-card"><h3>Planning Drives Value</h3><p>Planning adds +4.8% on average (p=0.02). The Planner's specification relay provides knowledge executors cannot independently access.</p><span class="finding-stat">+4.8% planning value</span></div>
-        <div class="card finding-card"><h3>Verification Overhead</h3><p>Current LLM verifiers add no net value and actively hurt 31% of tasks. The most common failure is false rejection of valid solutions.</p><span class="finding-stat">&minus;5.8% verification</span></div>
-        <div class="card finding-card"><h3>Hardest Tasks Benefit Most</h3><p>Tasks in the hardest quintile (oracle &lt; 22%) show +15.3% team uplift. Easy tasks show negative uplift.</p><span class="finding-stat">+15.3% on Q1</span></div>
-        <div class="card finding-card"><h3>Universal Across Families</h3><p>All six closed-source models from three provider families show positive team uplift on pass rate.</p><span class="finding-stat">6/6 models benefit</span></div>
-        <div class="card finding-card"><h3>Tool Specialization</h3><p>When roles have specialized tools, the team achieves 72% vs 32% oracle, exceeding the single-agent ceiling.</p><span class="finding-stat">TNI = 1.25</span></div>
-        <div class="card finding-card"><h3>Verifier Accuracy</h3><p>Verifiers are correct only 30.5% of the time — the majority of verification calls produce wrong verdicts, consistent with the negative net verification effect.</p><span class="finding-stat">30.5% accuracy</span></div>
-        <div class="card finding-card"><h3>Executor Recovery</h3><p>Executors recover from bad or incomplete planning 96% of the time, making planner quality less of a bottleneck than expected.</p><span class="finding-stat">96% recovery rate</span></div>
-        <div class="card finding-card"><h3>Difficulty Labels Uncorrelated</h3><p>Empirical solve rates are essentially uncorrelated with author-assigned difficulty labels (ρ=0.010), suggesting labels measure structural complexity rather than actual LLM hardness.</p><span class="finding-stat">&rho; = 0.010</span></div>
-        <div class="card finding-card"><h3>Adversarial Tasks Amplify Teamwork</h3><p>TRAP and adversarial tasks show the highest TNI (0.93), as the Planner's access to the full spec is essential for detecting specification contradictions.</p><span class="finding-stat">TNI = 0.93 adversarial</span></div>
-    </div>
-</section>
 
 <hr class="divider">
 
@@ -485,6 +387,103 @@
 
 <hr class="divider">
 
+<!-- Overview -->
+<section id="overview">
+    <div class="section-header fade-up">
+        <span class="section-label">Why TeamBench</span>
+        <h2 class="section-title">The First Structurally Enforced Multi-Agent Benchmark</h2>
+        <p class="section-desc">Existing benchmarks assign roles through system prompts that agents can ignore. TeamBench enforces boundaries at the OS level.</p>
+    </div>
+    <div class="cmp-table fade-up">
+        <table>
+            <thead><tr><th></th><th>Benchmark</th><th>Structural Enf.</th><th>Role Ablation</th><th>Collab. Metric</th><th>Contam. Resist.</th><th>Cross-Model</th></tr></thead>
+            <tbody>
+                <tr><td rowspan="5" style="font-size:0.65rem;color:var(--text-muted);writing-mode:vertical-lr;text-align:center;padding:0.5rem;">SA</td><td>SWE-Bench</td><td class="cross">&mdash;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check">&#10003;</td></tr>
+                <tr><td>TerminalBench</td><td class="cross">&mdash;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check">&#10003;</td></tr>
+                <tr><td>LiveCodeBench</td><td class="cross">&mdash;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+                <tr><td>GAIA</td><td class="cross">&mdash;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check">&#10003;</td></tr>
+                <tr><td>MLE-Bench</td><td class="cross">&mdash;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check">&#10003;</td></tr>
+                <tr><td rowspan="6" style="font-size:0.65rem;color:var(--text-muted);writing-mode:vertical-lr;text-align:center;padding:0.5rem;">MA</td><td>MultiAgentBench</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check">&#10003;</td><td class="cross">&times;</td><td class="check">&#10003;</td></tr>
+                <tr><td>AgentCoder</td><td class="cross">&times;</td><td class="cross">~</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">~</td></tr>
+                <tr><td>DevBench</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">~</td></tr>
+                <tr><td>CAMEL</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td></tr>
+                <tr><td>GPTSwarm</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td></tr>
+                <tr style="background:var(--bg-card);"><td class="model-name">TeamBench (Ours)</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- Architecture -->
+<section id="architecture">
+    <div class="section-header fade-up">
+        <span class="section-label">Architecture</span>
+        <h2 class="section-title">Three-Role Pipeline with Container Isolation</h2>
+        <p class="section-desc">Each role runs in an isolated Docker container. No single container can access everything.</p>
+    </div>
+    <div class="arch-grid fade-up">
+        <div class="arch-roles">
+            <div class="role-card"><div class="role-num">1</div><div><h4>Planner</h4><p>Reads the full specification (spec.md). Decomposes requirements, identifies hidden constraints and edge cases, creates an execution plan. Cannot execute code or modify the workspace.</p></div></div>
+            <div class="role-card"><div class="role-num">2</div><div><h4>Generator</h4><p>Generates the implementation from the Planner's instructions. Runs commands and modifies workspace code. Cannot access the full specification.</p></div></div>
+            <div class="role-card"><div class="role-num">3</div><div><h4>Evaluator</h4><p>Evaluates compliance against requirements and writes attestation. Reads spec.md and workspace (read-only). Cannot modify the workspace.</p></div></div>
+        </div>
+        <div class="arch-text">
+            <h3>Structural Enforcement, Not Prompt Compliance</h3>
+            <p>Container bind mounts create a controlled experiment where role boundaries are physically enforced by the operating system.</p>
+            <ul class="feature-list">
+                <li><span class="dot"></span><span><strong>Information asymmetry by design</strong> &mdash; Specification contains critical details absent from the brief</span></li>
+                <li><span class="dot"></span><span><strong>Five ablation conditions</strong> &mdash; Systematically remove roles to isolate marginal contribution</span></li>
+                <li><span class="dot"></span><span><strong>Parameterized generators</strong> &mdash; 153 generators produce distinct instances from different seeds</span></li>
+                <li><span class="dot"></span><span><strong>Partial scoring</strong> &mdash; Deterministic graders produce scores in [0, 1]</span></li>
+            </ul>
+            <div class="tni-box">
+                <div class="tni-eq">TNI = (S<sub>team</sub> &minus; S<sub>restricted</sub>) / max(&epsilon;, S<sub>oracle</sub> &minus; S<sub>restricted</sub>)</div>
+                <div class="tni-desc">TNI = 1.0 means full recovery; TNI &gt; 1.0 means team exceeds oracle ceiling</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- Ablation -->
+<section id="ablation">
+    <div class="section-header fade-up">
+        <span class="section-label">Ablation Design</span>
+        <h2 class="section-title">Five Conditions to Decompose Team Value</h2>
+    </div>
+    <div class="conditions-grid fade-up">
+        <div class="card cond-card"><div class="cond-name">Oracle</div><div class="cond-score">0.575</div><div class="cond-desc">Single agent, full access</div><div class="cond-roles"><span class="pill">All Access</span></div></div>
+        <div class="card cond-card"><div class="cond-name">Restricted</div><div class="cond-score">0.571</div><div class="cond-desc">Single agent, no spec</div><div class="cond-roles"><span class="pill">Exec only</span></div></div>
+        <div class="card cond-card"><div class="cond-name">No Plan</div><div class="cond-score">0.544</div><div class="cond-desc">Two-role, skip planning</div><div class="cond-roles"><span class="pill">Exec</span><span class="pill">Verify</span></div></div>
+        <div class="card cond-card cond-best"><div class="cond-name">No Verify</div><div class="cond-score">0.592</div><div class="cond-desc">Two-role, skip evaluation</div><div class="cond-roles"><span class="pill">Plan</span><span class="pill">Exec</span></div></div>
+        <div class="card cond-card cond-best"><div class="cond-name">Full Team</div><div class="cond-score">0.592</div><div class="cond-desc">Three-role, complete pipeline</div><div class="cond-roles"><span class="pill">Plan</span><span class="pill">Exec</span><span class="pill">Verify</span></div></div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- Key Findings -->
+<section id="findings">
+    <div class="section-header fade-up">
+        <span class="section-label">Key Findings</span>
+        <h2 class="section-title">When Does Multi-Agent Collaboration Help?</h2>
+        <p class="section-desc">Team benefit is conditional, not universal. It concentrates on the hardest tasks and weakest models.</p>
+    </div>
+    <div class="findings-grid fade-up">
+        <div class="card finding-card"><h3>The Equalizer Effect</h3><p>Team coordination helps weakest models the most. The lowest-scoring model gained +32.1%.</p><span class="finding-stat">+32.1% weakest</span></div>
+        <div class="card finding-card"><h3>Planning Drives Value</h3><p>The Planner's spec relay gives generators knowledge they can't recover on their own. Removing planning costs &minus;4.8% on average (p=0.02).</p><span class="finding-stat">+4.8% planning</span></div>
+        <div class="card finding-card"><h3>Evaluation Overhead</h3><p>LLM evaluators hurt more than they help. False rejections cost 31% of tasks. Net effect: &minus;5.8%.</p><span class="finding-stat">&minus;5.8% net</span></div>
+        <div class="card finding-card"><h3>Hardest Tasks Benefit Most</h3><p>Bottom quintile tasks (oracle &lt; 22%) gain +15.3% from the full team. Easy tasks show negative uplift.</p><span class="finding-stat">+15.3% on Q1</span></div>
+        <div class="card finding-card"><h3>Generator Bottleneck</h3><p>Swapping in a stronger Generator boosts score by +0.126 avg — more than any other role upgrade.</p><span class="finding-stat">+0.126 avg score</span></div>
+        <div class="card finding-card"><h3>Adversarial Tasks Amplify Teamwork</h3><p>TRAP tasks have the highest team benefit. The Planner catches spec contradictions the Generator never sees.</p><span class="finding-stat">TNI = 0.93</span></div>
+    </div>
+</section>
+
+<hr class="divider">
+
 <!-- Heterogeneous Teams -->
 <section id="hetero">
     <div class="section-header fade-up">
@@ -495,7 +494,7 @@
     <div class="lb-wrapper fade-up">
         <table>
             <thead>
-                <tr><th>Configuration</th><th>Planner</th><th>Executor</th><th>Verifier</th><th>Avg. Score</th><th>Pass Rate</th></tr>
+                <tr><th>Configuration</th><th>Planner</th><th>Generator</th><th>Evaluator</th><th>Avg. Score</th><th>Pass Rate</th></tr>
             </thead>
             <tbody>
                 <tr>
@@ -504,12 +503,12 @@
                     <td class="mono">0.597</td><td class="mono">0.0%</td>
                 </tr>
                 <tr>
-                    <td class="model-name">Executor upgrade (GPT-5-Mini)</td>
+                    <td class="model-name">Generator upgrade (GPT-5-Mini)</td>
                     <td>G3.1 Lite</td><td class="best">GPT-5-Mini</td><td>G3.1 Lite</td>
                     <td class="mono best">0.702</td><td class="mono">7.1%</td>
                 </tr>
                 <tr>
-                    <td class="model-name">Executor upgrade (G3 Flash)</td>
+                    <td class="model-name">Generator upgrade (G3 Flash)</td>
                     <td>G3.1 Lite</td><td class="best">G3 Flash</td><td>G3.1 Lite</td>
                     <td class="mono best">0.723</td><td class="mono best">10.7%</td>
                 </tr>
@@ -524,7 +523,7 @@
                     <td class="mono">0.597</td><td class="mono">0.0%</td>
                 </tr>
                 <tr>
-                    <td class="model-name">Verifier upgrade (G3 Flash)</td>
+                    <td class="model-name">Evaluator upgrade (G3 Flash)</td>
                     <td>G3.1 Lite</td><td>G3.1 Lite</td><td class="best">G3 Flash</td>
                     <td class="mono">0.615</td><td class="mono">7.1%</td>
                 </tr>
@@ -533,7 +532,7 @@
     </div>
     <div style="max-width:700px;margin:1.5rem auto 0;text-align:center;">
         <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">
-            <strong>Key insight:</strong> Upgrading the <strong>Executor</strong> yields the largest gains (+0.126 avg score), confirming that implementation capability is the primary bottleneck. Planner upgrades help with pass rate but less with partial scores. Verifier upgrades show modest improvement, consistent with the finding that verification adds limited value.
+            <strong>Key insight:</strong> Upgrading the <strong>Generator</strong> yields the largest gains (+0.126 avg score), confirming that implementation capability is the primary bottleneck. Planner upgrades help with pass rate but less with partial scores. Evaluator upgrades show modest improvement, consistent with the finding that evaluation adds limited value.
         </p>
     </div>
 </section>
@@ -565,7 +564,7 @@
             <div class="chart-wrap chart-wrap-scatter"><canvas id="chart-scatter"></canvas></div>
         </div>
         <div class="card chart-card">
-            <h3>Planning vs Verification Value</h3>
+            <h3>Planning vs Evaluation Value</h3>
             <p class="chart-sub">Per-task component contribution. Four quadrants show where each helps or hurts.</p>
             <div class="chart-wrap chart-wrap-scatter"><canvas id="chart-planvverify"></canvas></div>
         </div>
@@ -597,15 +596,18 @@
         <div style="aspect-ratio:1/1;max-height:350px;"><canvas id="chart-pie"></canvas></div>
     </div>
     <div class="cat-grid fade-up" id="cat-grid"></div>
-    <div class="diff-bar fade-up">
+        <div class="diff-bar fade-up" style="margin-bottom:0.75rem;">
+        <div class="diff-item"><div class="diff-val">831</div><div class="diff-label">SWE</div></div>
+        <div class="diff-item"><div class="diff-val">50</div><div class="diff-label">DS</div></div>
+        <div class="diff-item"><div class="diff-val">50</div><div class="diff-label">ML</div></div>
+    </div>
+<div class="diff-bar fade-up">
         <div class="diff-item"><div class="diff-val">38</div><div class="diff-label">Easy</div></div>
         <div class="diff-item"><div class="diff-val">247</div><div class="diff-label">Medium</div></div>
         <div class="diff-item"><div class="diff-val">582</div><div class="diff-label">Hard</div></div>
         <div class="diff-item"><div class="diff-val">86</div><div class="diff-label">Expert</div></div>
     </div>
 </section>
-
-<hr class="divider">
 
 <hr class="divider">
 
@@ -673,79 +675,6 @@
 
 <hr class="divider">
 
-<!-- Benchmark Comparison -->
-<section id="comparison">
-    <div class="section-header fade-up">
-        <span class="section-label">Why TeamBench</span>
-        <h2 class="section-title">Benchmark Comparison</h2>
-        <p class="section-desc">TeamBench fills the "does teamwork help?" gap that no other benchmark addresses.</p>
-    </div>
-    <div class="cmp-table fade-up" style="max-width:1000px;margin:0 auto;">
-        <table style="font-size:0.78rem;">
-            <thead>
-                <tr><th>Feature</th><th>SWE-Bench Pro</th><th>Terminal-Bench</th><th>TAU-Bench</th><th>GAIA</th><th>MLE-Bench</th><th style="background:var(--bg-card);">TeamBench</th></tr>
-            </thead>
-            <tbody>
-                <tr><td style="font-weight:600;">Tasks</td><td>1,865</td><td>89</td><td>~200</td><td>466</td><td>75</td><td style="background:var(--bg-card);font-weight:600;">931</td></tr>
-                <tr><td style="font-weight:600;">Domains</td><td>SE only</td><td>SE only</td><td>Airline/Retail</td><td>General QA</td><td>ML/Kaggle</td><td style="background:var(--bg-card);font-weight:600;">SE + DS + ML</td></tr>
-                <tr><td style="font-weight:600;">Team Evaluation</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check" style="background:var(--bg-card);">&#10003; 5 conditions</td></tr>
-                <tr><td style="font-weight:600;">Role Enforcement</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check" style="background:var(--bg-card);">&#10003; OS-level</td></tr>
-                <tr><td style="font-weight:600;">Teamwork Metric</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check" style="background:var(--bg-card);">&#10003; TNI</td></tr>
-                <tr><td style="font-weight:600;">Contamination Resist.</td><td>GPL + commercial</td><td>Docker envs</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check" style="background:var(--bg-card);">&#10003; Param. generators</td></tr>
-                <tr><td style="font-weight:600;">Pass@k Reporting</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check">&#10003;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check" style="background:var(--bg-card);">&#10003; Seeds 0-2</td></tr>
-                <tr><td style="font-weight:600;">Adversarial Tasks</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="check" style="background:var(--bg-card);">&#10003; TRAP tasks</td></tr>
-                <tr><td style="font-weight:600;">Best Model Score</td><td>23.3%</td><td>~65%</td><td>~70%</td><td>~90%</td><td>80%</td><td style="background:var(--bg-card);font-weight:600;">42.9% (team)</td></tr>
-            </tbody>
-        </table>
-    </div>
-</section>
-
-<!-- Governance -->
-<section id="governance">
-    <div class="section-header fade-up">
-        <span class="section-label">Benchmark Infrastructure</span>
-        <h2 class="section-title">Governance</h2>
-    </div>
-    <div class="fade-up" style="max-width:800px;margin:0 auto;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-            <div class="card">
-                <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:0.5rem;">Version &amp; Changelog</h3>
-                <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">
-                    <strong>Current version:</strong> v1.1 (March 2026)<br>
-                    <strong>Tasks:</strong> 931 across 25+ categories<br>
-                    <strong>Generators:</strong> 153+ parameterized + 11 static (GitHub)<br>
-                    All tasks produce deterministic instances from arbitrary seeds.
-                </p>
-            </div>
-            <div class="card">
-                <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:0.5rem;">Submission Policy</h3>
-                <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">
-                    <strong>Official track:</strong> TeamBench-Mini (28 tasks), all 5 conditions, seed 0<br>
-                    <strong>Hidden-seed track:</strong> Seeds 3+ are reserved for holdout evaluation<br>
-                    <strong>Format:</strong> Submit PR with results JSON to the repository
-                </p>
-            </div>
-            <div class="card">
-                <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:0.5rem;">Grader Audit</h3>
-                <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">
-                    All 931 graders are deterministic shell scripts producing partial scores in [0, 1]. Each grader was validated against both correct and incorrect reference solutions during development.
-                </p>
-            </div>
-            <div class="card" id="task-counts">
-                <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:0.5rem;">Task Counts Explained</h3>
-                <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">
-                    <strong>931</strong> validated tasks in the benchmark<br>
-                    <strong>2,794</strong> seeded instances (seeds 0–2)<br>
-                    <strong>10</strong> canonical public datasets (UCI Adult Income, Ames Housing, FRED, WHO, etc.)<br>
-                    <strong>28</strong> in TeamBench-Mini (cross-model comparison subset)
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<hr class="divider">
-
 <!-- FAQ -->
 <section id="faq">
     <div class="section-header fade-up">
@@ -756,7 +685,7 @@
         <div class="cat-grid" id="faq-grid" style="grid-template-columns:1fr;">
             <div class="cat-item">
                 <div class="cat-header" onclick="this.parentElement.classList.toggle('open')">
-                    <div class="cat-left"><span class="cat-name">Why only one team decomposition (Planner-Executor-Verifier)?</span></div>
+                    <div class="cat-left"><span class="cat-name">Why only one team decomposition (Planner-Generator-Evaluator)?</span></div>
                     <div class="cat-right"><svg class="cat-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
                 </div>
                 <div class="cat-body"><p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">TeamBench is evaluation infrastructure, not a deployment prescription. The three-role decomposition represents one natural factorization of understanding, implementation, and validation. We additionally evaluate four alternative topologies (Verify-First, Iterative, Dual-Exec, Self-Check) in a topology ablation. Future versions will add multi-round dialogue and router-worker patterns as first-class evaluation modes.</p></div>
@@ -1023,7 +952,7 @@ const scatterData = [
     {x:0.83,y:0.82,l:'PIPE1'},{x:0.50,y:0.40,l:'CROSS1'},{x:0.60,y:0.60,l:'TRAP3'}
 ];
 
-// Planning vs verification value data
+// Planning vs evaluation value data
 const pvData = [
     {x:0.25,y:0.75,l:'MULTI1'},{x:0.73,y:0.77,l:'LH2'},{x:0.73,y:0.00,l:'TEST7'},
     {x:0.41,y:0.00,l:'D8'},{x:0.81,y:0.00,l:'P6'},{x:0.07,y:-0.07,l:'O2'},
@@ -1095,7 +1024,7 @@ function buildCharts() {
         }
     });
 
-    // Planning vs Verification scatter
+    // Planning vs Evaluation scatter
     charts.pvscatter = new Chart(document.getElementById('chart-planvverify'), {
         type:'scatter',
         data:{
@@ -1118,12 +1047,12 @@ function buildCharts() {
                     titleFont:{size:12,weight:'bold'}, bodyFont:{size:11},
                     callbacks:{
                         title:ctx=>{ const d=ctx[0]?.raw; return d?.l || ''; },
-                        label:ctx=>{ const d=ctx.raw; if(!d.l) return null; return ['Planning: '+(d.y>=0?'+':'')+d.y.toFixed(2),'Verification: '+(d.x>=0?'+':'')+d.x.toFixed(2)]; }
+                        label:ctx=>{ const d=ctx.raw; if(!d.l) return null; return ['Planning: '+(d.y>=0?'+':'')+d.y.toFixed(2),'Evaluation: '+(d.x>=0?'+':'')+d.x.toFixed(2)]; }
                     }
                 }
             },
             scales:{
-                x:{title:{display:true,text:'Verification Value (Full \u2212 No Verifier)',font:{size:10,weight:'bold'}},min:-1.1,max:1.1,grid:{color:c.grid},ticks:{stepSize:0.5,font:{size:10}}},
+                x:{title:{display:true,text:'Evaluation Value (Full \u2212 No Evaluator)',font:{size:10,weight:'bold'}},min:-1.1,max:1.1,grid:{color:c.grid},ticks:{stepSize:0.5,font:{size:10}}},
                 y:{title:{display:true,text:'Planning Value (Full \u2212 No Planner)',font:{size:10,weight:'bold'}},min:-1.1,max:1.1,grid:{color:c.grid},ticks:{stepSize:0.5,font:{size:10}}}
             }
         }
