@@ -416,6 +416,34 @@
 
 <hr class="divider">
 
+<!-- Tasks with expandable examples -->
+<section id="tasks">
+    <div class="section-header fade-up">
+        <span class="section-label">Coverage</span>
+        <h2 class="section-title">931 Verified Tasks Across 25+ Categories</h2>
+        <p class="section-desc">2,794 seeded instances across 5 task archetypes. Weighted toward hard and expert difficulty (80%). Click categories below for task details.</p>
+    </div>
+        <div class="fade-up" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-bottom: 2rem;">
+        <div style="flex: 1; min-width: 250px; max-width: 350px;">
+            <h3 style="text-align:center;font-size:0.9rem;margin-bottom:1rem;font-family:'Geist Mono',monospace;">Categories</h3>
+            <div style="aspect-ratio:1/1;max-height:300px;"><canvas id="chart-pie"></canvas></div>
+        </div>
+        <div style="flex: 1; min-width: 250px; max-width: 350px;">
+            <h3 style="text-align:center;font-size:0.9rem;margin-bottom:1rem;font-family:'Geist Mono',monospace;">Domains</h3>
+            <div style="aspect-ratio:1/1;max-height:300px;"><canvas id="chart-domain"></canvas></div>
+        </div>
+        <div style="flex: 1; min-width: 250px; max-width: 350px;">
+            <h3 style="text-align:center;font-size:0.9rem;margin-bottom:1rem;font-family:'Geist Mono',monospace;">Difficulty</h3>
+            <div style="aspect-ratio:1/1;max-height:300px;"><canvas id="chart-diff"></canvas></div>
+        </div>
+    </div>
+<div class="cat-grid fade-up" id="cat-grid"></div>
+
+    </div>
+</section>
+
+<hr class="divider">
+
 <!-- Architecture -->
 <section id="architecture">
     <div class="section-header fade-up">
@@ -448,22 +476,7 @@
 
 <hr class="divider">
 
-<!-- Ablation -->
-<section id="ablation">
-    <div class="section-header fade-up">
-        <span class="section-label">Ablation Design</span>
-        <h2 class="section-title">Five Conditions to Decompose Team Value</h2>
-    </div>
-    <div class="conditions-grid fade-up">
-        <div class="card cond-card"><div class="cond-name">Oracle</div><div class="cond-score">0.575</div><div class="cond-desc">Single agent, full access</div><div class="cond-roles"><span class="pill">All Access</span></div></div>
-        <div class="card cond-card"><div class="cond-name">Restricted</div><div class="cond-score">0.571</div><div class="cond-desc">Single agent, no spec</div><div class="cond-roles"><span class="pill">Exec only</span></div></div>
-        <div class="card cond-card"><div class="cond-name">No Plan</div><div class="cond-score">0.544</div><div class="cond-desc">Two-role, skip planning</div><div class="cond-roles"><span class="pill">Exec</span><span class="pill">Verify</span></div></div>
-        <div class="card cond-card cond-best"><div class="cond-name">No Verify</div><div class="cond-score">0.592</div><div class="cond-desc">Two-role, skip evaluation</div><div class="cond-roles"><span class="pill">Plan</span><span class="pill">Exec</span></div></div>
-        <div class="card cond-card cond-best"><div class="cond-name">Full Team</div><div class="cond-score">0.592</div><div class="cond-desc">Three-role, complete pipeline</div><div class="cond-roles"><span class="pill">Plan</span><span class="pill">Exec</span><span class="pill">Verify</span></div></div>
-    </div>
-</section>
 
-<hr class="divider">
 
 <!-- Key Findings -->
 <section id="findings">
@@ -585,35 +598,7 @@
 
 <hr class="divider">
 
-<!-- Tasks with expandable examples -->
-<section id="tasks">
-    <div class="section-header fade-up">
-        <span class="section-label">Coverage</span>
-        <h2 class="section-title">931 Verified Tasks Across 25+ Categories</h2>
-        <p class="section-desc">2,794 seeded instances across 5 task archetypes. Weighted toward hard and expert difficulty (80%). Click categories below for task details.</p>
-    </div>
-        <div class="fade-up" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-bottom: 2rem;">
-        <div style="flex: 1; min-width: 250px; max-width: 350px;">
-            <h3 style="text-align:center;font-size:0.9rem;margin-bottom:1rem;font-family:'Geist Mono',monospace;">Categories</h3>
-            <div style="aspect-ratio:1/1;max-height:300px;"><canvas id="chart-pie"></canvas></div>
-        </div>
-        <div style="flex: 1; min-width: 250px; max-width: 350px;">
-            <h3 style="text-align:center;font-size:0.9rem;margin-bottom:1rem;font-family:'Geist Mono',monospace;">Domains</h3>
-            <div style="aspect-ratio:1/1;max-height:300px;"><canvas id="chart-domain"></canvas></div>
-        </div>
-        <div style="flex: 1; min-width: 250px; max-width: 350px;">
-            <h3 style="text-align:center;font-size:0.9rem;margin-bottom:1rem;font-family:'Geist Mono',monospace;">Difficulty</h3>
-            <div style="aspect-ratio:1/1;max-height:300px;"><canvas id="chart-diff"></canvas></div>
-        </div>
-    </div>
-<div class="cat-grid fade-up" id="cat-grid"></div>
-        <div class="diff-item"><div class="diff-val">247</div><div class="diff-label">Medium</div></div>
-        <div class="diff-item"><div class="diff-val">582</div><div class="diff-label">Hard</div></div>
-        <div class="diff-item"><div class="diff-val">86</div><div class="diff-label">Expert</div></div>
-    </div>
-</section>
 
-<hr class="divider">
 
 <!-- Submission / How to Evaluate -->
 <section id="submit">
