@@ -156,6 +156,8 @@
         table { width: 100%; border-collapse: collapse; }
         thead th { padding: 0.8rem 1rem; text-align: center; font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
         tbody td { padding: 0.7rem 1rem; font-size: 0.85rem; text-align: center; border-bottom: 1px solid var(--border); }
+        th:first-child, td:first-child { white-space: nowrap !important; }
+        th:last-child, td:last-child { white-space: nowrap !important; }
         tbody tr:last-child td { border-bottom: none; }
         tbody tr:hover { background: var(--bg-card); }
         .model-name { font-weight: 600; }
@@ -348,7 +350,7 @@
         <div class="table-wrap" style="max-height:600px;overflow-y:auto;">
             <table>
                 <thead style="position:sticky;top:0;background:var(--bg-card);z-index:1;">
-                    <tr><th>#</th><th>Model</th><th>Org</th><th>Oracle</th><th>Generator</th><th style="white-space:nowrap;">No Planner</th><th style="white-space:nowrap;">No Evaluator</th><th>Full</th><th>Uplift</th><th>Date</th></tr>
+                    <tr><th style="white-space:nowrap;">#</th><th>Model</th><th>Org</th><th>Oracle</th><th>Generator</th><th style="white-space:nowrap;">No Planner</th><th style="white-space:nowrap;">No Evaluator</th><th>Full</th><th>Uplift</th><th style="white-space:nowrap;">Date</th></tr>
                 </thead>
                 <tbody>
                     <tr><td><span class="rank rank-gold">1</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">GPT-5.4</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono">10.7</td><td class="mono">35.7</td><td class="mono best">42.9</td><td class="mono">+42.9</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-22</td></tr>
