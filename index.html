@@ -342,14 +342,13 @@
 <!-- Leaderboard -->
 <section id="leaderboard">
     <div class="section-header fade-up">
-        <h2 class="section-title">Evaluation Results</h2>
-        <p class="section-desc">TeamBench-Mini subset. Pass rate (%) under each ablation condition. Pass@k shows reliability over multiple attempts.</p>
+        <h2 class="section-title">Leaderboard</h2>
     </div>
     <div class="lb-wrapper fade-up">
         <div class="table-wrap" style="max-height:600px;overflow-y:auto;">
             <table>
                 <thead style="position:sticky;top:0;background:var(--bg-card);z-index:1;">
-                    <tr><th>#</th><th>Model</th><th>Org</th><th>Oracle</th><th>Generator</th><th>No Planner</th><th>No Evaluator</th><th>Full</th><th>Uplift</th><th>Date</th></tr>
+                    <tr><th>#</th><th>Model</th><th>Org</th><th>Oracle</th><th>Generator</th><th style="white-space:nowrap;">No Planner</th><th style="white-space:nowrap;">No Evaluator</th><th>Full</th><th>Uplift</th><th>Date</th></tr>
                 </thead>
                 <tbody>
                     <tr><td><span class="rank rank-gold">1</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">GPT-5.4</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono">10.7</td><td class="mono">35.7</td><td class="mono best">42.9</td><td class="mono">+42.9</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-03-22</td></tr>
@@ -412,16 +411,7 @@
         <p class="section-desc">2,794 instances. Weighted to hard/expert difficulty (80%).</p>
     </div>
         
-    <div class="fade-up" style="display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap; margin-bottom:1rem; max-width: 900px; margin-left: auto; margin-right: auto;">
-        <div class="diff-item" style="flex:1; min-width:140px; max-width:200px;"><div class="diff-val" style="color:var(--text);">SWE</div><div class="diff-label">831</div></div>
-        <div class="diff-item" style="flex:1; min-width:140px; max-width:200px;"><div class="diff-val" style="color:var(--text);">DS</div><div class="diff-label">50</div></div>
-        <div class="diff-item" style="flex:1; min-width:140px; max-width:200px;"><div class="diff-val" style="color:var(--text);">ML</div><div class="diff-label">50</div></div>
-    </div>
-    <div class="fade-up" style="display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap; margin-bottom:2rem; max-width: 900px; margin-left: auto; margin-right: auto;">
-        <div class="diff-item" style="flex:1; min-width:140px; max-width:200px;"><div class="diff-val" style="color:var(--text);">Medium</div><div class="diff-label">247</div></div>
-        <div class="diff-item" style="flex:1; min-width:140px; max-width:200px;"><div class="diff-val" style="color:var(--text);">Hard</div><div class="diff-label">582</div></div>
-        <div class="diff-item" style="flex:1; min-width:140px; max-width:200px;"><div class="diff-val" style="color:var(--text);">Expert</div><div class="diff-label">86</div></div>
-    </div>
+    
     
     
 <div class="fade-up" style="margin-bottom: 2rem;">
@@ -555,7 +545,7 @@
 <!-- Charts -->
 <section id="results">
     <div class="section-header fade-up">
-        <h2 class="section-title">Result</h2>
+        <h2 class="section-title">Visualizations</h2>
     </div>
         
 <div class="charts-grid fade-up">
