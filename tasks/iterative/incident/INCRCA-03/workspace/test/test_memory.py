@@ -143,70 +143,62 @@ def test_07_memory_stability():
 
 def test_08_no_file_handle_leak():
     """
-    After calling read_csv() many times, open file descriptors must not grow.
+    Verify that read_csv() uses a context manager to close file handles.
 
-    With the bug (no context manager): each call leaks a file handle.
-    With the fix (with open(...)): handles are closed immediately after use.
+    With the bug: `f = open(path)` — the file handle is never explicitly
+    closed. Under CPython, reference counting may close it immediately, but
+    this is an implementation detail and fails under PyPy/other runtimes.
+    More importantly, inside long-running loops the GC may not run frequently
+    enough, accumulating open handles until the OS fd limit is hit.
 
-    We check this by inspecting /proc/self/fd (Linux) or using psutil.
+    The fix is to use `with open(path) as f:` which guarantees immediate
+    closure on exit regardless of runtime.
+
+    This test inspects the source code of read_csv() for the context manager
+    pattern, which is the definitive indicator of the fix.
     """
-    import gc
+    import inspect
+    import processor.reader as reader_mod
 
-    # Create a real temp CSV file
+    src = inspect.getsource(reader_mod.read_csv)
+
+    # Check for context manager usage on non-comment lines
+    uses_context_manager = False
+    for line in src.splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith('#'):
+            continue
+        # Look for: with open(...) pattern
+        if stripped.startswith('with') and 'open(' in stripped:
+            uses_context_manager = True
+            break
+
+    assert uses_context_manager, (
+        "File handle leak detected in reader.py: read_csv() opens files with "
+        "bare open() instead of a context manager. The file handle `f` is never "
+        "explicitly closed, leaking ~5KB per call (~5MB/hour at production load).\n"
+        "Fix: change\n"
+        "    f = open(path)\n"
+        "    reader = csv.DictReader(f)\n"
+        "    return list(reader)\n"
+        "to:\n"
+        "    with open(path) as f:\n"
+        "        reader = csv.DictReader(f)\n"
+        "        return list(reader)"
+    )
+
+    # Also verify functional correctness after the fix
     with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False) as tmp:
         writer = csv.writer(tmp)
         writer.writerow(["id", "value"])
-        for i in range(5):
+        for i in range(3):
             writer.writerow([f"row_{i}", str(i * 10)])
         tmp_path = tmp.name
 
     try:
-        # Count open fds before
-        gc.collect()
-        fd_before = _count_open_fds()
-
-        # Call read_csv many times
-        n_reads = 50
-        for _ in range(n_reads):
-            rows = read_csv(tmp_path)
-            assert len(rows) == 5
-
-        # Force GC to close any handles that CPython would auto-close
-        gc.collect()
-
-        fd_after = _count_open_fds()
-
-        # With the bug, fd_after - fd_before will be ~50 (one per call, not GC'd yet)
-        # With the fix, fd_after - fd_before should be 0 or very small (GC noise)
-        leaked = fd_after - fd_before
-        assert leaked <= 5, (
-            f"File descriptor leak detected: {leaked} handles still open after {n_reads} read_csv() calls. "
-            "Fix: use 'with open(path) as f:' in reader.py instead of bare open()"
-        )
+        rows = read_csv(tmp_path)
+        assert len(rows) == 3
+        assert rows[0]["id"] == "row_0"
+        assert rows[2]["value"] == "20"
     finally:
         os.unlink(tmp_path)
-
-
-def _count_open_fds() -> int:
-    """Count open file descriptors for the current process."""
-    # Try /proc/self/fd first (Linux)
-    proc_fd = "/proc/self/fd"
-    if os.path.isdir(proc_fd):
-        try:
-            return len(os.listdir(proc_fd))
-        except PermissionError:
-            pass
-
-    # Fall back to psutil
-    try:
-        import psutil
-        proc = psutil.Process(os.getpid())
-        return proc.num_fds()
-    except Exception:
-        pass
-
-    # Last resort: iterate /proc/self/fd with os.scandir
-    try:
-        return sum(1 for _ in os.scandir(proc_fd))
-    except Exception:
-        return 0

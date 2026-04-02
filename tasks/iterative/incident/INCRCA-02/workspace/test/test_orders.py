@@ -153,13 +153,21 @@ def test_08_multiple_items_with_discount(db_session):
 
 def _discounts_uses_for_update() -> bool:
     """
-    Inspect discounts.py source to determine whether .with_for_update() is present.
-    This is the canonical check: the fix is .with_for_update() on the query.
+    Inspect discounts.py source to determine whether .with_for_update() is used
+    on a non-comment, non-blank line. This is the canonical check: the fix is
+    .with_for_update() on the SQLAlchemy query, not just mentioned in a comment.
     """
     import inspect
     import orders.discounts as disc_mod
     src = inspect.getsource(disc_mod.apply_discount)
-    return "with_for_update" in src
+    for line in src.splitlines():
+        stripped = line.strip()
+        # Skip blank lines and comment lines
+        if not stripped or stripped.startswith('#'):
+            continue
+        if 'with_for_update' in stripped:
+            return True
+    return False
 
 
 def test_09_concurrent_discount_no_double(db_session):
