@@ -415,10 +415,8 @@
                 <li><a href="#overview">Overview</a></li>
                 <li><a href="#leaderboard">Leaderboard</a></li>
                 <li><a href="#demo">Demo</a></li>
-                <li><a href="#tasks">Categories</a></li>
-                <li><a href="tasks.html">Browse Tasks</a></li>
+                <li><a href="tasks.html">Tasks</a></li>
                 <li><a href="#submit">Citation</a></li>
-                <li><a href="#faq">FAQ</a></li>
             </ul>
         </div>
         <div class="nav-right" style="display:flex; align-items:center;">
@@ -991,7 +989,7 @@ categories.forEach((cat, i) => {
             </div>
         </div>
         <div class="cat-body">
-            ${cat.tasks.map(t => `<div class="task-example"><span class="task-id">${t.id}</span><span class="task-desc">${t.desc}</span></div>`).join('')}
+            ${cat.tasks.map(t => `<div class="task-example"><a href="tasks.html#${t.id}" style="text-decoration:none;color:inherit;display:flex;gap:0.5rem;align-items:baseline;"><span class="task-id">${t.id}</span><span class="task-desc">${t.desc}</span><span style="font-size:0.65rem;color:var(--text-muted);margin-left:auto;white-space:nowrap;">View →</span></a></div>`).join('')}
         </div>
     `;
     // Add hover handler: box -> pie slice highlight
