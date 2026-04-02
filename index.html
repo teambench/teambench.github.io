@@ -1325,7 +1325,7 @@ const DEMO_CONDS = {
       ]}]},
   noplan:{key:'noplan',verdict:'fail',score:0.80,isMultiTurn:true,
     metrics:{'Condition':'No Plan (Exec + Verify, multi-turn)','Score':'0.80 / 1.00','Round 1 fixes':'3 of 5','Round 2 fixes':'1 more — verifier guided','Still missing':'CSRF (§4.3) — executor guessed wrong'},
-    insight:'Without a Planner reading the spec, the Executor misses the CSRF requirement in round 1. The Verifier catches it, but the Executor's round-2 fix is incomplete — it adds token generation but not validation.',
+    insight:'Without a Planner reading the spec, the Executor misses the CSRF requirement in round 1. The Verifier catches it, but the Executor round-2 fix is incomplete — it adds token generation but not validation.',
     rounds:[
       {label:'Round 1',feedbackNote:null,agents:[
         {badge:'1',title:'PLANNER',inactive:true,artifact:null,tags:[['spec.md','on']],lines:[]},
