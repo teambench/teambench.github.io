@@ -311,7 +311,7 @@
         .demo-pipeline { display: grid; align-items: start; margin: 0 auto 1.5rem; }
         .demo-pipeline.layout-single { grid-template-columns: 1fr; max-width: 460px; }
         .demo-pipeline.layout-three { grid-template-columns: 1fr auto 1fr auto 1fr; }
-        .agent-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.1rem; min-height: 210px; display: flex; flex-direction: column; transition: border-color 0.3s, opacity 0.3s, filter 0.3s; }
+        .agent-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.1rem; min-height: 240px; display: flex; flex-direction: column; transition: border-color 0.3s, opacity 0.3s, filter 0.3s; }
         .agent-card.inactive { opacity: 0.2; filter: grayscale(1); pointer-events: none; }
         .agent-card.is-animating { border-color: var(--border-hover); }
         .agent-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
@@ -320,7 +320,7 @@
         .agent-tags { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-bottom: 0.6rem; }
         .agent-tag { font-family: 'Geist Mono', monospace; font-size: 0.62rem; padding: 0.1rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); background: var(--bg); color: var(--text-muted); }
         .agent-tag.on { color: var(--text-secondary); border-color: var(--border-hover); }
-        .agent-log { font-family: 'Geist Mono', monospace; font-size: 0.695rem; line-height: 1.75; color: var(--text-secondary); flex: 1; overflow: hidden; min-height: 130px; }
+        .agent-log { font-family: 'Geist Mono', monospace; font-size: 0.73rem; line-height: 1.8; color: var(--text-secondary); flex: 1; overflow: hidden; min-height: 160px; }
         .log-ok { color: #4ade80; } .log-err { color: #f87171; } .log-warn { color: #fbbf24; } .log-dim { color: var(--text-muted); }
         .log-tool { color: #a78bfa; font-size: 0.67rem; }
         .log-result { color: var(--text-muted); font-size: 0.66rem; padding-left: 0.4rem; }
@@ -344,16 +344,22 @@
         .demo-replay-btn { padding: 0.38rem 1rem; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--text-secondary); font-family: 'Geist', sans-serif; font-size: 0.74rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.35rem; }
         .demo-replay-btn:hover { border-color: var(--border-hover); color: var(--text); }
         /* Thread layout */
-        .demo-thread { max-width: 660px; margin: 0 auto 1.5rem; }
+        .demo-thread { max-width: 980px; margin: 0 auto 1.5rem; }
+        .demo-round { display: grid; align-items: start; margin-bottom: 0; }
+        .demo-round.r-single { grid-template-columns: 1fr; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .demo-round.r-two   { grid-template-columns: 1fr auto 1fr; max-width: 680px; margin-left: auto; margin-right: auto; }
+        .demo-round.r-three { grid-template-columns: 1fr auto 1fr auto 1fr; }
+        .demo-round-arrow { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 0.5rem; padding-top: 2.4rem; color: var(--text-muted); transition: color 0.4s; gap: 0.2rem; }
+        .demo-round-arrow svg { width: 16px; height: 16px; flex-shrink: 0; }
+        .demo-round-arrow .arrow-label { font-family: 'Geist Mono', monospace; font-size: 0.58rem; color: var(--text-muted); white-space: nowrap; }
+        .demo-round-arrow.lit { color: #a78bfa; }
+        .demo-round-arrow.lit .arrow-label { color: #a78bfa; }
         .thread-turn { position: relative; }
-        .turn-header { display: flex; align-items: flex-start; gap: 0.6rem; margin-bottom: 0.4rem; }
+        .turn-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
         .turn-meta { flex: 1; }
         .turn-name { font-weight: 700; font-size: 0.82rem; margin-bottom: 0.2rem; }
-        .turn-body { margin-left: 2.1rem; border-left: 1px solid var(--border); padding-left: 1rem; padding-bottom: 0.5rem; }
-        .turn-connector { margin-left: 0.7rem; width: 1px; height: 2rem; background: var(--border); transition: background 0.4s; position: relative; }
-        .turn-connector::after { content: ''; position: absolute; bottom: -1px; left: -3px; border: 4px solid transparent; border-top: 5px solid var(--border); transition: border-top-color 0.4s; }
-        .turn-connector.lit { background: var(--border-hover); }
-        .turn-connector.lit::after { border-top-color: var(--border-hover); }
+        .turn-body { padding-bottom: 0.5rem; }
+        .turn-connector { display: none; }
         .turn-artifact { margin-top: 0.65rem; background: var(--bg); border: 1px solid var(--border); border-left: 2px solid #a78bfa; border-radius: 8px; padding: 0.55rem 0.85rem; font-family: 'Geist Mono', monospace; font-size: 0.67rem; opacity: 0; transition: opacity 0.6s, transform 0.4s; transform: translateX(-4px); }
         .artifact-label { color: #a78bfa; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
         .artifact-line { color: var(--text-secondary); line-height: 1.75; }
@@ -382,6 +388,8 @@
         .round-feedback-label { font-size: 0.58rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.2rem; opacity: 0.8; }
         @media (max-width: 768px) {
             .demo-pipeline.layout-three { grid-template-columns: 1fr; }
+            .demo-round.r-three, .demo-round.r-two { grid-template-columns: 1fr; }
+            .demo-round-arrow { padding-top: 0; padding-bottom: 0; flex-direction: row; height: 2rem; }
             .demo-arrow { display: none; }
             .eval-body { grid-template-columns: 1fr; }
         }
@@ -1471,8 +1479,14 @@ function runDemo(condKey){
   }
   _buildThread(cond);_animate(cond);
 }
+function _arrowEl(label){
+  const d=document.createElement('div');d.className='demo-round-arrow';
+  d.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg><span class="arrow-label">${label}</span>`;
+  return d;
+}
+const ARROW_LABELS=[['plan.md','workspace','attestation.json'],['attestation.json','workspace']];
 function _buildRound(container,round,ri){
-  // Round separator
+  // Separator
   const sep=document.createElement('div');sep.className='round-sep';
   sep.innerHTML=`<div class="round-sep-line"></div><div class="round-sep-label${ri>0?' r2':''}">${round.label}</div><div class="round-sep-line"></div>`;
   container.appendChild(sep);
@@ -1483,16 +1497,25 @@ function _buildRound(container,round,ri){
     fb.innerHTML=`<div class="round-feedback-label">↩ Verifier Feedback</div>${round.feedbackNote}`;
     container.appendChild(fb);
   }
-  // Agents
-  round.agents.forEach((agent,i)=>{
+  // Build horizontal grid
+  const activeAgents=round.agents.filter(a=>!a.inactive);
+  const cols=activeAgents.length===1?'r-single':activeAgents.length===2?'r-two':'r-three';
+  const grid=document.createElement('div');grid.className='demo-round '+cols;
+  const arrowLabels=ARROW_LABELS[ri]||[];
+  activeAgents.forEach((agent,i)=>{
+    if(i>0){
+      const ar=_arrowEl(arrowLabels[i-1]||'');
+      ar.id='dar-r'+ri+'a'+i;
+      grid.appendChild(ar);
+    }
     const globalIdx='r'+ri+'a'+i;
-    const hasNext=i<round.agents.length-1;
     const tagsHtml=agent.tags.map(([l,s])=>`<span class="agent-tag${s==='on'?' on':''}">${l}</span>`).join('');
     const artHtml=agent.artifact?`<div class="turn-artifact" id="art-${globalIdx}"><div class="artifact-label">${agent.artifact.label}</div>${agent.artifact.lines.map(l=>`<div class="artifact-line">${l}</div>`).join('')}</div>`:'';
     const turn=document.createElement('div');turn.className='thread-turn';turn.id='tt-'+globalIdx;
-    turn.innerHTML=`<div class="turn-header"><div class="agent-badge">${agent.badge}</div><div class="turn-meta"><div class="turn-name">${agent.title}</div><div class="agent-tags">${tagsHtml}</div></div></div><div class="turn-body"><div class="agent-log" id="dal-${globalIdx}"></div>${artHtml}</div>${hasNext?`<div class="turn-connector" id="tc-${globalIdx}"></div>`:''}`;
-    container.appendChild(turn);
+    turn.innerHTML=`<div class="turn-header"><div class="agent-badge">${agent.badge}</div><div class="turn-meta"><div class="turn-name">${agent.title}</div><div class="agent-tags">${tagsHtml}</div></div></div><div class="turn-body"><div class="agent-log" id="dal-${globalIdx}"></div>${artHtml}</div>`;
+    grid.appendChild(turn);
   });
+  container.appendChild(grid);
 }
 function _buildThread(cond){
   const c=document.getElementById('demo-thread');if(!c)return;
@@ -1501,15 +1524,19 @@ function _buildThread(cond){
     // Only build round 1 initially; subsequent rounds are injected during animation
     _buildRound(c,cond.rounds[0],0);
   } else {
-    cond.agents.forEach((agent,i)=>{
-      if(agent.inactive)return;
-      const hasNext=cond.agents.slice(i+1).some(a=>!a.inactive);
+    const activeAgents=cond.agents.filter(a=>!a.inactive);
+    const cols=activeAgents.length===1?'r-single':activeAgents.length===2?'r-two':'r-three';
+    const grid=document.createElement('div');grid.className='demo-round '+cols;
+    const arrowLabels=['plan.md','workspace'];
+    activeAgents.forEach((agent,i)=>{
+      if(i>0){const ar=_arrowEl(arrowLabels[i-1]||'');ar.id='dar-'+i;grid.appendChild(ar);}
       const tagsHtml=agent.tags.map(([l,s])=>`<span class="agent-tag${s==='on'?' on':''}">${l}</span>`).join('');
       const artHtml=agent.artifact?`<div class="turn-artifact" id="art-${i}"><div class="artifact-label">${agent.artifact.label}</div>${agent.artifact.lines.map(l=>`<div class="artifact-line">${l}</div>`).join('')}</div>`:'';
       const turn=document.createElement('div');turn.className='thread-turn';turn.id='tt-'+i;
-      turn.innerHTML=`<div class="turn-header"><div class="agent-badge">${agent.badge}</div><div class="turn-meta"><div class="turn-name">${agent.title}</div><div class="agent-tags">${tagsHtml}</div></div></div><div class="turn-body"><div class="agent-log" id="dal-${i}"></div>${artHtml}</div>${hasNext?`<div class="turn-connector" id="tc-${i}"></div>`:''}`;
-      c.appendChild(turn);
+      turn.innerHTML=`<div class="turn-header"><div class="agent-badge">${agent.badge}</div><div class="turn-meta"><div class="turn-name">${agent.title}</div><div class="agent-tags">${tagsHtml}</div></div></div><div class="turn-body"><div class="agent-log" id="dal-${i}"></div>${artHtml}</div>`;
+      grid.appendChild(turn);
     });
+    c.appendChild(grid);
   }
   c.appendChild(_buildEvalCard(cond));
 }
@@ -1525,12 +1552,13 @@ function _animate(cond){
   _da=true;const condKey=cond.key;
   let delay=200;
   function animateAgents(agents,prefix){
-    agents.forEach((agent,i)=>{
+    agents.forEach((agent,agentPos)=>{
+      const i=agentPos;
       if(agent.inactive)return;
       const globalIdx=prefix+i;
       const lId='dal-'+globalIdx;
       agent.lines.forEach(([type,text])=>{
-        delay+=text.length>0?Math.max(70,Math.min(text.length*14,170)):50;
+        delay+=text.length>0?Math.max(130,Math.min(text.length*22,280)):90;
         const d=delay;
         _demoTimer(()=>{
           if(!_da||_dc!==condKey)return;
