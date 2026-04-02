@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Browser — TeamBench</title>
+    <meta name="description" content="Browse all 931 TeamBench tasks with search, filters, and score details.">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        :root { --transition: 0.25s ease; }
+
+        [data-theme="dark"] {
+            --bg: #000000; --bg-subtle: #0a0a0a; --bg-card: #111111; --bg-card-hover: #181818;
+            --text: #e8e8e8; --text-secondary: #888888; --text-muted: #555555;
+            --border: #222222; --border-hover: #444444; --accent: #ffffff;
+            --shadow: 0 1px 3px rgba(0,0,0,0.5);
+            --diff-easy: #22c55e; --diff-medium: #f59e0b; --diff-hard: #f97316; --diff-expert: #ef4444;
+            --domain-se: rgba(96,165,250,0.15); --domain-ds: rgba(167,139,250,0.15); --domain-ml: rgba(52,211,153,0.15);
+            --domain-se-text: #60a5fa; --domain-ds-text: #a78bfa; --domain-ml-text: #34d399;
+            --score-fill: rgba(96,165,250,0.75); --score-bg: rgba(255,255,255,0.06);
+        }
+
+        [data-theme="light"] {
+            --bg: #ffffff; --bg-subtle: #fafafa; --bg-card: #f5f5f5; --bg-card-hover: #eeeeee;
+            --text: #111111; --text-secondary: #555555; --text-muted: #999999;
+            --border: #e0e0e0; --border-hover: #cccccc; --accent: #000000;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+            --diff-easy: #16a34a; --diff-medium: #d97706; --diff-hard: #ea580c; --diff-expert: #dc2626;
+            --domain-se: rgba(37,99,235,0.08); --domain-ds: rgba(124,58,237,0.08); --domain-ml: rgba(5,150,105,0.08);
+            --domain-se-text: #2563eb; --domain-ds-text: #7c3aed; --domain-ml-text: #059669;
+            --score-fill: rgba(37,99,235,0.65); --score-bg: rgba(0,0,0,0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Geist', -apple-system, sans-serif;
+            background: var(--bg); color: var(--text);
+            line-height: 1.7;
+            transition: background var(--transition), color var(--transition);
+        }
+
+        /* ── Nav ── */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: var(--bg); border-bottom: 1px solid var(--border);
+            transition: background var(--transition), border-color var(--transition);
+        }
+        .nav-inner {
+            max-width: 1100px; margin: 0 auto; padding: 0 2rem;
+            display: flex; align-items: center; justify-content: space-between; height: 56px;
+        }
+        .nav-left { display: flex; align-items: center; gap: 2.5rem; }
+        .logo { font-weight: 800; font-size: 1.15rem; color: var(--text); text-decoration: none; letter-spacing: -0.03em; }
+        .nav-links { display: flex; gap: 1.75rem; list-style: none; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.82rem; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--text); }
+        .nav-right { display: flex; align-items: center; gap: 0.5rem; }
+        .icon-btn {
+            width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border);
+            background: transparent; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.2s; color: var(--text-secondary); text-decoration: none;
+        }
+        .icon-btn:hover { border-color: var(--border-hover); color: var(--text); background: var(--bg-card); }
+        .icon-btn svg { width: 18px; height: 18px; }
+        .theme-btn svg { fill: none; stroke: currentColor; stroke-width: 2; }
+
+        /* ── Page Layout ── */
+        .page-wrap {
+            max-width: 1100px; margin: 0 auto; padding: 5rem 2rem 4rem;
+        }
+
+        /* ── Page Header ── */
+        .page-header {
+            padding: 4rem 0 2.5rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+        .page-header h1 {
+            font-family: 'Geist Mono', monospace;
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            font-weight: 900; letter-spacing: -0.04em; line-height: 1.1;
+            margin-bottom: 0.5rem;
+        }
+        .page-header p {
+            color: var(--text-secondary); font-size: 0.9rem;
+        }
+
+        /* ── Controls ── */
+        .controls {
+            display: flex; flex-direction: column; gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .search-row {
+            display: flex; gap: 0.75rem; align-items: center;
+        }
+        .search-wrap {
+            flex: 1; position: relative;
+        }
+        .search-wrap svg {
+            position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%);
+            width: 16px; height: 16px; color: var(--text-muted); pointer-events: none;
+            fill: none; stroke: currentColor; stroke-width: 2;
+        }
+        .search-input {
+            width: 100%; padding: 0.65rem 1rem 0.65rem 2.5rem;
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+            color: var(--text); font-family: 'Geist Mono', monospace; font-size: 0.82rem;
+            transition: border-color 0.2s, background 0.2s;
+            outline: none;
+        }
+        .search-input::placeholder { color: var(--text-muted); }
+        .search-input:focus { border-color: var(--border-hover); background: var(--bg-card-hover); }
+
+        .filters-row {
+            display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;
+        }
+        .filter-select {
+            padding: 0.55rem 0.9rem; border-radius: 7px; border: 1px solid var(--border);
+            background: var(--bg-card); color: var(--text); font-family: 'Geist', sans-serif;
+            font-size: 0.78rem; font-weight: 500; cursor: pointer;
+            transition: border-color 0.2s; outline: none; appearance: none;
+            padding-right: 1.8rem;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 0.5rem center; background-size: 14px;
+        }
+        .filter-select:focus { border-color: var(--border-hover); }
+        .filter-select option { background: var(--bg-card); }
+
+        .clear-btn {
+            padding: 0.55rem 0.9rem; border-radius: 7px; border: 1px solid var(--border);
+            background: transparent; color: var(--text-muted); font-family: 'Geist', sans-serif;
+            font-size: 0.78rem; font-weight: 500; cursor: pointer; transition: all 0.2s;
+        }
+        .clear-btn:hover { border-color: var(--border-hover); color: var(--text); background: var(--bg-card); }
+
+        /* ── Count bar ── */
+        .count-bar {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 1rem;
+        }
+        .count-text {
+            font-family: 'Geist Mono', monospace; font-size: 0.78rem; color: var(--text-muted);
+        }
+        .count-text strong { color: var(--text-secondary); }
+
+        /* ── Task List ── */
+        .task-list {
+            display: flex; flex-direction: column; gap: 0;
+        }
+
+        /* ── Task Card ── */
+        .task-card {
+            border: 1px solid var(--border);
+            border-radius: 0;
+            border-bottom: none;
+            background: var(--bg);
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+            overflow: hidden;
+        }
+        .task-card:first-child { border-radius: 10px 10px 0 0; }
+        .task-card:last-child { border-radius: 0 0 10px 10px; border-bottom: 1px solid var(--border); }
+        .task-card:only-child { border-radius: 10px; border-bottom: 1px solid var(--border); }
+
+        .task-card:hover { background: var(--bg-card); border-color: var(--border-hover); }
+        .task-card:hover + .task-card { border-top-color: var(--border-hover); }
+        .task-card.expanded { background: var(--bg-card); border-color: var(--border-hover); }
+        .task-card.expanded + .task-card { border-top-color: var(--border-hover); }
+
+        .card-summary {
+            display: flex; align-items: flex-start; gap: 1rem;
+            padding: 1rem 1.25rem;
+        }
+
+        .card-id {
+            font-family: 'Geist Mono', monospace; font-size: 0.72rem; font-weight: 700;
+            white-space: nowrap; padding: 0.25rem 0.6rem;
+            border: 1px solid var(--border); border-radius: 5px;
+            color: var(--text-secondary); flex-shrink: 0; margin-top: 1px;
+            letter-spacing: 0.02em;
+        }
+
+        .card-body { flex: 1; min-width: 0; }
+        .card-desc {
+            font-size: 0.85rem; line-height: 1.55; color: var(--text);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            margin-bottom: 0.45rem;
+        }
+        .card-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; align-items: center; }
+
+        .badge {
+            display: inline-flex; align-items: center;
+            padding: 0.15rem 0.5rem; border-radius: 4px;
+            font-size: 0.65rem; font-weight: 700; letter-spacing: 0.04em;
+            text-transform: uppercase; border: 1px solid transparent;
+            white-space: nowrap;
+        }
+        .badge-easy    { color: var(--diff-easy);   border-color: color-mix(in srgb, var(--diff-easy) 30%, transparent); background: color-mix(in srgb, var(--diff-easy) 10%, transparent); }
+        .badge-medium  { color: var(--diff-medium);  border-color: color-mix(in srgb, var(--diff-medium) 30%, transparent); background: color-mix(in srgb, var(--diff-medium) 10%, transparent); }
+        .badge-hard    { color: var(--diff-hard);    border-color: color-mix(in srgb, var(--diff-hard) 30%, transparent); background: color-mix(in srgb, var(--diff-hard) 10%, transparent); }
+        .badge-expert  { color: var(--diff-expert);  border-color: color-mix(in srgb, var(--diff-expert) 30%, transparent); background: color-mix(in srgb, var(--diff-expert) 10%, transparent); }
+
+        .badge-cat {
+            border: 1px solid var(--border); color: var(--text-secondary);
+            background: transparent; font-weight: 500; text-transform: none;
+            letter-spacing: 0; font-size: 0.68rem;
+        }
+        .badge-se  { color: var(--domain-se-text); border-color: color-mix(in srgb, var(--domain-se-text) 30%, transparent); background: var(--domain-se); }
+        .badge-ds  { color: var(--domain-ds-text); border-color: color-mix(in srgb, var(--domain-ds-text) 30%, transparent); background: var(--domain-ds); }
+        .badge-ml  { color: var(--domain-ml-text); border-color: color-mix(in srgb, var(--domain-ml-text) 30%, transparent); background: var(--domain-ml); }
+
+        /* ── Mini score bar ── */
+        .mini-scores {
+            display: flex; align-items: center; gap: 0.6rem; margin-top: 0.4rem;
+            flex-wrap: wrap;
+        }
+        .mini-score-item {
+            display: flex; align-items: center; gap: 0.3rem;
+            font-family: 'Geist Mono', monospace; font-size: 0.65rem; color: var(--text-muted);
+        }
+        .mini-bar-wrap {
+            width: 60px; height: 4px; background: var(--score-bg); border-radius: 2px; overflow: hidden;
+        }
+        .mini-bar-fill {
+            height: 100%; background: var(--score-fill); border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        .mini-bar-fill.alt { opacity: 0.5; }
+
+        /* ── Expand icon ── */
+        .card-chevron {
+            flex-shrink: 0; width: 16px; height: 16px; color: var(--text-muted);
+            transition: transform 0.25s ease; fill: none; stroke: currentColor; stroke-width: 2;
+            margin-top: 2px;
+        }
+        .task-card.expanded .card-chevron { transform: rotate(180deg); }
+
+        /* ── Expanded Detail ── */
+        .card-detail {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.4s ease;
+            border-top: 0 solid var(--border);
+        }
+        .task-card.expanded .card-detail {
+            max-height: 800px;
+            border-top: 1px solid var(--border);
+        }
+        .detail-inner {
+            padding: 1.25rem 1.5rem 1.5rem;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+        }
+
+        .detail-section { display: flex; flex-direction: column; gap: 0.75rem; }
+        .detail-label {
+            font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.25rem;
+        }
+        .detail-desc {
+            font-size: 0.82rem; color: var(--text-secondary); line-height: 1.7;
+        }
+
+        /* ── Score bars in detail ── */
+        .score-rows { display: flex; flex-direction: column; gap: 0.5rem; }
+        .score-row {
+            display: grid; grid-template-columns: 90px 1fr 40px; align-items: center; gap: 0.6rem;
+        }
+        .score-label { font-family: 'Geist Mono', monospace; font-size: 0.7rem; color: var(--text-secondary); }
+        .score-track { height: 6px; background: var(--score-bg); border-radius: 3px; overflow: hidden; }
+        .score-track-fill { height: 100%; background: var(--score-fill); border-radius: 3px; transition: width 0.4s ease; }
+        .score-val { font-family: 'Geist Mono', monospace; font-size: 0.7rem; color: var(--text-muted); text-align: right; }
+        .score-uplift {
+            font-family: 'Geist Mono', monospace; font-size: 0.72rem;
+            padding: 0.2rem 0.5rem; border-radius: 4px; margin-top: 0.5rem; display: inline-block;
+        }
+        .uplift-pos { color: var(--diff-easy); background: color-mix(in srgb, var(--diff-easy) 12%, transparent); border: 1px solid color-mix(in srgb, var(--diff-easy) 25%, transparent); }
+        .uplift-neg { color: var(--diff-expert); background: color-mix(in srgb, var(--diff-expert) 12%, transparent); border: 1px solid color-mix(in srgb, var(--diff-expert) 25%, transparent); }
+        .uplift-zero { color: var(--text-muted); background: var(--score-bg); border: 1px solid var(--border); }
+
+        /* ── Meta table ── */
+        .meta-table { display: flex; flex-direction: column; gap: 0.35rem; }
+        .meta-row {
+            display: grid; grid-template-columns: 90px 1fr;
+            font-size: 0.78rem; gap: 0.5rem;
+        }
+        .meta-key { color: var(--text-muted); }
+        .meta-val { color: var(--text-secondary); font-family: 'Geist Mono', monospace; font-size: 0.75rem; }
+
+        /* ── Role access table ── */
+        .role-table { display: flex; flex-direction: column; gap: 0.3rem; }
+        .role-row {
+            display: grid; grid-template-columns: 80px 1fr; gap: 0.5rem;
+            font-size: 0.75rem; align-items: center;
+        }
+        .role-name { color: var(--text-muted); }
+        .role-access { color: var(--text-secondary); font-family: 'Geist Mono', monospace; font-size: 0.7rem; }
+
+        /* ── GitHub link ── */
+        .gh-link {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            font-size: 0.78rem; color: var(--text-secondary); text-decoration: none;
+            padding: 0.4rem 0.8rem; border: 1px solid var(--border); border-radius: 6px;
+            transition: all 0.2s; margin-top: 0.5rem;
+        }
+        .gh-link:hover { border-color: var(--border-hover); color: var(--text); background: var(--bg-card-hover); }
+        .gh-link svg { width: 14px; height: 14px; fill: currentColor; }
+
+        /* ── Empty state ── */
+        .empty-state {
+            padding: 4rem 2rem; text-align: center;
+            border: 1px solid var(--border); border-radius: 10px;
+        }
+        .empty-state h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+        .empty-state p { font-size: 0.82rem; color: var(--text-muted); }
+
+        /* ── Footer ── */
+        footer { border-top: 1px solid var(--border); padding: 2rem; margin-top: 4rem; transition: border-color var(--transition); }
+        .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: var(--text-muted); }
+        .footer-links { display: flex; gap: 1.5rem; }
+        .footer-links a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+        .footer-links a:hover { color: var(--text); }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .detail-inner { grid-template-columns: 1fr; }
+            .footer-inner { flex-direction: column; gap: 0.75rem; }
+            .card-desc { white-space: normal; }
+        }
+        @media (max-width: 480px) {
+            .search-row { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-inner">
+        <div class="nav-left">
+            <a href="index.html" class="logo">TeamBench</a>
+            <ul class="nav-links">
+                <li><a href="index.html#overview">Overview</a></li>
+                <li><a href="index.html#leaderboard">Leaderboard</a></li>
+                <li><a href="index.html#tasks">Categories</a></li>
+                <li><a href="tasks.html" class="active">Tasks</a></li>
+                <li><a href="index.html#submit">Citation</a></li>
+            </ul>
+        </div>
+        <div class="nav-right" style="display:flex;align-items:center;">
+            <a href="https://github.com/ybkim95/TeamBench" target="_blank" style="display:flex;align-items:center;margin-right:1rem;color:var(--text);opacity:0.8;" title="GitHub">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            </a>
+            <a href="https://huggingface.co/datasets/ybkim95/teambench" target="_blank" style="display:flex;align-items:center;margin-right:1rem;opacity:0.8;" title="HuggingFace">
+                <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HF" style="width:20px;height:20px;">
+            </a>
+            <button class="icon-btn theme-btn" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle dark/light theme">
+                <svg viewBox="0 0 24 24" id="theme-icon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<div class="page-wrap">
+    <div class="page-header">
+        <h1>Task Browser</h1>
+        <p>931 verified tasks across software engineering, data science, and machine learning.</p>
+    </div>
+
+    <div class="controls">
+        <div class="search-row">
+            <div class="search-wrap">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" class="search-input" id="search" placeholder="Search by ID or description..." autocomplete="off" spellcheck="false">
+            </div>
+        </div>
+        <div class="filters-row">
+            <select class="filter-select" id="filter-category" aria-label="Filter by category">
+                <option value="">All Categories</option>
+            </select>
+            <select class="filter-select" id="filter-difficulty" aria-label="Filter by difficulty">
+                <option value="">All Difficulties</option>
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+                <option value="Expert">Expert</option>
+            </select>
+            <select class="filter-select" id="filter-domain" aria-label="Filter by domain">
+                <option value="">All Domains</option>
+                <option value="SE">SE — Software Engineering</option>
+                <option value="DS">DS — Data Science</option>
+                <option value="ML">ML — Machine Learning</option>
+            </select>
+            <select class="filter-select" id="filter-scored" aria-label="Filter by scored status">
+                <option value="">All Tasks</option>
+                <option value="scored">Scored only</option>
+            </select>
+            <button class="clear-btn" onclick="clearFilters()">Clear filters</button>
+        </div>
+    </div>
+
+    <div class="count-bar">
+        <span class="count-text">Showing <strong id="count-shown">0</strong> of <strong>931</strong> tasks</span>
+    </div>
+
+    <div class="task-list" id="task-list" role="list"></div>
+    <div class="empty-state" id="empty-state" style="display:none;">
+        <h3>No tasks found</h3>
+        <p>Try adjusting your search or clearing the filters.</p>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-inner">
+        <span>TeamBench &copy; 2025 &mdash; Yubin Kim, MIT</span>
+        <div class="footer-links">
+            <a href="https://github.com/ybkim95/TeamBench" target="_blank">GitHub</a>
+            <a href="https://huggingface.co/datasets/ybkim95/teambench" target="_blank">HuggingFace</a>
+            <a href="index.html#submit">Paper (TBA)</a>
+            <a href="mailto:ybkim95@mit.edu">Contact</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+// ── Score data (130 evaluated tasks, Gemini 3 Flash) ──
+const SCORES = {
+  "CR1_review_respond":{"oracle":0.5,"restr":0.5,"noPlan":0.62,"noVer":0.62,"full":0.0,"uplift":-0.5},
+  "CR2_style_enforce":{"oracle":0.92,"restr":0.69,"noPlan":0.77,"noVer":0.69,"full":0.77,"uplift":-0.15},
+  "CR3_perf_review":{"oracle":0.9,"restr":0.9,"noPlan":0.9,"noVer":1.0,"full":1.0,"uplift":0.1},
+  "CR5_test_coverage":{"oracle":0.0,"restr":0.38,"noPlan":0.38,"noVer":0.46,"full":0.77,"uplift":0.77},
+  "CR6_review_checklist":{"oracle":0.18,"restr":0.18,"noPlan":0.82,"noVer":0.91,"full":0.91,"uplift":0.73},
+  "CROSS5_event_schema":{"oracle":0.7,"restr":1.0,"noPlan":0.7,"noVer":1.0,"full":0.7,"uplift":0.0},
+  "CROSS6_grpc_rest_bridge":{"oracle":1.0,"restr":1.0,"noPlan":1.0,"noVer":1.0,"full":0.0,"uplift":-1.0},
+  "CROSS7_config_drift":{"oracle":0.6,"restr":0.6,"noPlan":0.6,"noVer":0.6,"full":0.6,"uplift":0.0},
+  "CRYPTO5_tls_config":{"oracle":0.9,"restr":0.6,"noPlan":0.9,"noVer":0.6,"full":0.9,"uplift":0.0},
+  "CRYPTO6_token_validation":{"oracle":0.9,"restr":0.9,"noPlan":0.9,"noVer":0.9,"full":0.9,"uplift":0.0},
+  "D2_data_quality":{"oracle":0.27,"restr":0.82,"noPlan":0.82,"noVer":0.36,"full":0.36,"uplift":0.09},
+  "D3_schema_migration":{"oracle":0.73,"restr":0.82,"noPlan":0.73,"noVer":0.82,"full":0.82,"uplift":0.09},
+  "D4_data_pipeline":{"oracle":0.59,"restr":0.59,"noPlan":0.59,"noVer":0.65,"full":0.0,"uplift":-0.59},
+  "D5_query_optimize":{"oracle":0.8,"restr":0.87,"noPlan":0.93,"noVer":0.87,"full":0.8,"uplift":0.0},
+  "D6_data_reconcile":{"oracle":0.83,"restr":0.83,"noPlan":0.83,"noVer":0.72,"full":0.89,"uplift":0.06},
+  "D7_etl_reconciliation":{"oracle":1.0,"restr":1.0,"noPlan":1.0,"noVer":0.9,"full":1.0,"uplift":0.0},
+  "D8_csv_cleanup":{"oracle":0.89,"restr":0.78,"noPlan":0.78,"noVer":1.0,"full":1.0,"uplift":0.11},
+  "D9_schema_validation":{"oracle":0.8,"restr":0.8,"noPlan":0.8,"noVer":0.8,"full":0.9,"uplift":0.1},
+  "DIST5_leader_election":{"oracle":0.2,"restr":0.2,"noPlan":0.2,"noVer":0.2,"full":0.2,"uplift":0.0},
+  "DIST6_distributed_lock":{"oracle":1.0,"restr":0.1,"noPlan":0.6,"noVer":1.0,"full":0.9,"uplift":-0.1},
+  "GO1_concurrency_fix":{"oracle":0.75,"restr":0.75,"noPlan":0.5,"noVer":0.88,"full":0.0,"uplift":-0.75},
+  "GO2_race_condition":{"oracle":0.92,"restr":0.92,"noPlan":1.0,"noVer":1.0,"full":1.0,"uplift":0.08},
+  "INC10_rollback_plan":{"oracle":0.4,"restr":0.4,"noPlan":0.4,"noVer":0.4,"full":0.0,"uplift":-0.4},
+  "INC2_data_corruption":{"oracle":0.9,"restr":0.9,"noPlan":0.0,"noVer":1.0,"full":1.0,"uplift":0.1},
+  "INC3_memory_leak":{"oracle":0.92,"restr":0.83,"noPlan":0.0,"noVer":0.0,"full":0.0,"uplift":-0.92},
+  "INC4_dns_miscfg":{"oracle":0.92,"restr":0.92,"noPlan":0.58,"noVer":1.0,"full":1.0,"uplift":0.08},
+  "INC5_cert_expiry":{"oracle":0.91,"restr":0.91,"noPlan":0.0,"noVer":1.0,"full":1.0,"uplift":0.09},
+  "INC6_deadlock":{"oracle":0.67,"restr":0.67,"noPlan":0.67,"noVer":0.75,"full":0.67,"uplift":0.0},
+  "INC7_rollback":{"oracle":0.0,"restr":0.83,"noPlan":0.83,"noVer":0.83,"full":0.0,"uplift":0.0},
+  "INC8_cascading_timeout":{"oracle":0.6,"restr":0.8,"noPlan":0.8,"noVer":0.8,"full":0.7,"uplift":0.1},
+  "INC8_memory_leak":{"oracle":0.8,"restr":0.8,"noPlan":0.7,"noVer":0.8,"full":0.7,"uplift":-0.1},
+  "INC9_log_forensics":{"oracle":0.3,"restr":0.2,"noPlan":0.2,"noVer":0.3,"full":0.3,"uplift":0.0},
+  "INT2_api_versioning":{"oracle":1.0,"restr":1.0,"noPlan":1.0,"noVer":1.0,"full":1.0,"uplift":0.0},
+  "INT3_db_migration":{"oracle":0.5,"restr":0.6,"noPlan":0.4,"noVer":0.7,"full":0.0,"uplift":-0.5},
+  "IR2_misinformation_trap":{"oracle":0.29,"restr":0.29,"noPlan":0.29,"noVer":0.43,"full":0.29,"uplift":0.0},
+  "IR3_multi_source":{"oracle":0.92,"restr":0.92,"noPlan":1.0,"noVer":1.0,"full":1.0,"uplift":0.08},
+  "IR4_temporal":{"oracle":0.93,"restr":0.93,"noPlan":0.93,"noVer":0.87,"full":1.0,"uplift":0.07},
+  "IR5_search_ranking":{"oracle":0.78,"restr":0.0,"noPlan":0.89,"noVer":0.89,"full":0.89,"uplift":0.11},
+  "IR6_search_index":{"oracle":0.0,"restr":0.0,"noPlan":0.0,"noVer":0.0,"full":0.0,"uplift":0.0},
+  "IR7_doc_clustering":{"oracle":0.75,"restr":0.75,"noPlan":0.0,"noVer":0.88,"full":0.75,"uplift":0.0},
+  "IR8_search_index":{"oracle":0.8,"restr":0.9,"noPlan":1.0,"noVer":0.9,"full":0.0,"uplift":-0.8},
+  "JS1_api_migration":{"oracle":0.43,"restr":0.71,"noPlan":0.57,"noVer":0.0,"full":0.0,"uplift":-0.43},
+  "JS2_xss_sanitize":{"oracle":0.78,"restr":0.78,"noPlan":0.87,"noVer":0.0,"full":0.87,"uplift":0.09},
+  "LH3_multi_service":{"oracle":0.9,"restr":0.85,"noPlan":0.9,"noVer":0.95,"full":0.95,"uplift":0.05},
+  "LH4_staged_deploy":{"oracle":0.43,"restr":0.43,"noPlan":0.43,"noVer":0.14,"full":0.43,"uplift":0.0},
+  "LH5_data_migration":{"oracle":0.0,"restr":0.0,"noPlan":0.0,"noVer":0.09,"full":0.0,"uplift":0.0},
+  "LH6_audit_trail":{"oracle":0.55,"restr":0.55,"noPlan":0.36,"noVer":0.55,"full":0.0,"uplift":-0.55},
+  "LH7_zero_downtime":{"oracle":0.82,"restr":0.27,"noPlan":0.82,"noVer":0.91,"full":0.0,"uplift":-0.82},
+  "MULTI2_api_frontend":{"oracle":0.5,"restr":0.5,"noPlan":0.5,"noVer":0.56,"full":0.5,"uplift":0.0},
+  "MULTI2_microservice_debug":{"oracle":0.9,"restr":0.9,"noPlan":0.9,"noVer":0.9,"full":0.9,"uplift":0.0},
+  "MULTI3_polyglot":{"oracle":1.0,"restr":1.0,"noPlan":1.0,"noVer":1.0,"full":1.0,"uplift":0.0},
+  "MULTI4_monorepo_fix":{"oracle":0.9,"restr":0.9,"noPlan":0.9,"noVer":1.0,"full":1.0,"uplift":0.1},
+  "MULTI5_deploy_pipeline":{"oracle":0.5,"restr":0.6,"noPlan":0.7,"noVer":0.9,"full":0.8,"uplift":0.3},
+  "MULTI6_fullstack_bug":{"oracle":0.9,"restr":0.9,"noPlan":1.0,"noVer":1.0,"full":1.0,"uplift":0.1},
+  "MULTI7_polyglot_test":{"oracle":0.9,"restr":0.9,"noPlan":1.0,"noVer":1.0,"full":1.0,"uplift":0.1},
+  "MULTI8_sdk_mismatch":{"oracle":0.75,"restr":0.75,"noPlan":0.88,"noVer":0.88,"full":0.88,"uplift":0.13},
+  "NEG2_cost_perf":{"oracle":1.0,"restr":0.0,"noPlan":1.0,"noVer":1.0,"full":1.0,"uplift":0.0},
+  "NEG3_tech_debt":{"oracle":0.8,"restr":0.8,"noPlan":1.0,"noVer":1.0,"full":1.0,"uplift":0.2},
+  "NEG4_resource_allocation":{"oracle":0.9,"restr":0.9,"noPlan":0.9,"noVer":1.0,"full":1.0,"uplift":0.1},
+  "NEG5_sla_tradeoff":{"oracle":0.9,"restr":0.9,"noPlan":0.9,"noVer":1.0,"full":1.0,"uplift":0.1},
+  "O1_service_health":{"oracle":0.0,"restr":0.0,"noPlan":0.0,"noVer":0.5,"full":0.25,"uplift":0.25},
+  "O3_log_analysis":{"oracle":0.46,"restr":0.0,"noPlan":0.54,"noVer":0.46,"full":0.46,"uplift":0.0},
+  "O4_monitoring":{"oracle":1.0,"restr":0.0,"noPlan":0.93,"noVer":1.0,"full":1.0,"uplift":0.0},
+  "O5_container_debug":{"oracle":0.6,"restr":0.6,"noPlan":0.6,"noVer":0.0,"full":0.73,"uplift":0.13},
+  "O6_perf_tuning":{"oracle":0.77,"restr":1.0,"noPlan":1.0,"noVer":0.0,"full":0.0,"uplift":-0.77},
+  "O7_capacity_planning":{"oracle":1.0,"restr":0.9,"noPlan":1.0,"noVer":1.0,"full":1.0,"uplift":0.0},
+  "O8_dockerfile_fix":{"oracle":0.71,"restr":0.71,"noPlan":0.0,"noVer":0.0,"full":0.86,"uplift":0.15},
+  "O9_logging_config":{"oracle":0.5,"restr":0.5,"noPlan":0.0,"noVer":0.6,"full":0.6,"uplift":0.1},
+  "P2_spec_arbitration":{"oracle":0.25,"restr":0.0,"noPlan":0.0,"noVer":0.5,"full":0.0,"uplift":-0.25},
+  "P3_access_control":{"oracle":0.91,"restr":0.82,"noPlan":0.73,"noVer":0.91,"full":1.0,"uplift":0.09},
+  "P4_data_retention":{"oracle":0.86,"restr":0.57,"noPlan":0.36,"noVer":0.64,"full":0.57,"uplift":-0.29},
+  "P5_audit_logging":{"oracle":0.93,"restr":0.93,"noPlan":1.0,"noVer":1.0,"full":0.93,"uplift":0.0},
+  "P6_license_check":{"oracle":0.86,"restr":0.57,"noPlan":0.57,"noVer":1.0,"full":1.0,"uplift":0.14},
+  "P7_data_retention":{"oracle":0.89,"restr":0.78,"noPlan":0.0,"noVer":1.0,"full":1.0,"uplift":0.11},
+  "P8_access_control":{"oracle":0.3,"restr":0.3,"noPlan":0.4,"noVer":0.4,"full":0.4,"uplift":0.1},
+  "PIPE2_api_gateway":{"oracle":0.92,"restr":0.92,"noPlan":0.92,"noVer":1.0,"full":0.0,"uplift":-0.92},
+  "PIPE2_data_pipeline":{"oracle":0.8,"restr":0.8,"noPlan":0.8,"noVer":0.8,"full":0.8,"uplift":0.0},
+  "PIPE3_msg_queue":{"oracle":0.77,"restr":0.77,"noPlan":0.62,"noVer":0.85,"full":0.0,"uplift":-0.77},
+  "PIPE3_stream_processing":{"oracle":1.0,"restr":1.0,"noPlan":0.0,"noVer":1.0,"full":1.0,"uplift":0.0},
+  "PIPE4_ci_cd":{"oracle":0.93,"restr":0.93,"noPlan":0.93,"noVer":1.0,"full":1.0,"uplift":0.07},
+  "S3_refactor_extract":{"oracle":0.17,"restr":0.17,"noPlan":0.17,"noVer":0.0,"full":0.17,"uplift":0.0},
+  "S4_backward_compat":{"oracle":0.21,"restr":0.21,"noPlan":0.21,"noVer":0.29,"full":0.21,"uplift":0.0},
+  "S5_error_handling":{"oracle":0.2,"restr":0.07,"noPlan":0.33,"noVer":0.13,"full":0.33,"uplift":0.13},
+  "S6_caching":{"oracle":0.0,"restr":0.62,"noPlan":0.62,"noVer":0.62,"full":0.0,"uplift":0.0},
+  "S7_env_config":{"oracle":0.71,"restr":0.71,"noPlan":0.71,"noVer":0.86,"full":0.86,"uplift":0.15},
+  "SCALE1_codebase_migration":{"oracle":0.57,"restr":0.57,"noPlan":0.64,"noVer":0.71,"full":0.71,"uplift":0.14},
+  "SEC2_auth_bypass":{"oracle":0.9,"restr":0.6,"noPlan":0.9,"noVer":0.7,"full":0.7,"uplift":-0.2},
+  "SEC3_crypto_upgrade":{"oracle":0.85,"restr":0.54,"noPlan":0.77,"noVer":0.54,"full":0.92,"uplift":0.07},
+  "SEC4_input_validation":{"oracle":0.31,"restr":0.31,"noPlan":0.31,"noVer":0.38,"full":0.0,"uplift":-0.31},
+  "SEC5_secrets_rotation":{"oracle":0.92,"restr":0.69,"noPlan":0.0,"noVer":1.0,"full":0.92,"uplift":0.0},
+  "SEC6_csrf_protection":{"oracle":0.85,"restr":0.46,"noPlan":0.77,"noVer":0.54,"full":0.46,"uplift":-0.39},
+  "SEC7_rate_limiting":{"oracle":0.47,"restr":0.53,"noPlan":0.33,"noVer":0.67,"full":0.6,"uplift":0.13},
+  "SEC8_dependency_audit":{"oracle":0.83,"restr":0.92,"noPlan":0.83,"noVer":0.67,"full":0.92,"uplift":0.09},
+  "SEC9_vuln_triage":{"oracle":0.77,"restr":0.69,"noPlan":0.62,"noVer":0.77,"full":0.0,"uplift":-0.77},
+  "SPEC2_api_design":{"oracle":0.75,"restr":0.67,"noPlan":0.67,"noVer":0.75,"full":0.67,"uplift":-0.08},
+  "SPEC3_data_model":{"oracle":0.786,"restr":0.0,"noPlan":0.0,"noVer":0.0,"full":0.786,"uplift":0.0},
+  "SPEC4_migration":{"oracle":0.0,"restr":0.85,"noPlan":0.85,"noVer":0.85,"full":0.85,"uplift":0.85},
+  "SPEC5_config_system":{"oracle":0.37,"restr":0.0,"noPlan":0.0,"noVer":0.0,"full":0.37,"uplift":0.0},
+  "SPEC6_rfc_impl":{"oracle":0.95,"restr":0.95,"noPlan":0.95,"noVer":1.0,"full":1.0,"uplift":0.05},
+  "SPEC7_config_schema":{"oracle":1.0,"restr":0.9167,"noPlan":1.0,"noVer":1.0,"full":1.0,"uplift":0.0},
+  "SQL2_query_optimize":{"oracle":0.47,"restr":0.87,"noPlan":0.47,"noVer":0.47,"full":0.87,"uplift":0.4},
+  "SYNTH1_distributed_debug":{"oracle":0.27,"restr":0.27,"noPlan":0.18,"noVer":0.45,"full":0.55,"uplift":0.28},
+  "TEST2_regression":{"oracle":0.0,"restr":0.0,"noPlan":0.73,"noVer":1.0,"full":1.0,"uplift":1.0},
+  "TEST3_integration":{"oracle":0.0,"restr":0.0,"noPlan":0.83,"noVer":0.83,"full":0.92,"uplift":0.92},
+  "TEST4_property":{"oracle":0.86,"restr":0.0,"noPlan":0.86,"noVer":0.86,"full":0.86,"uplift":0.0},
+  "TEST5_mutation_resistant":{"oracle":0.67,"restr":0.67,"noPlan":0.83,"noVer":0.92,"full":0.83,"uplift":0.16},
+  "TEST6_property_based":{"oracle":0.9,"restr":0.3,"noPlan":0.3,"noVer":1.0,"full":1.0,"uplift":0.1},
+  "TEST7_integration_suite":{"oracle":0.0,"restr":0.8,"noPlan":0.8,"noVer":1.0,"full":1.0,"uplift":1.0},
+  "TEST8_unit_basic":{"oracle":0.75,"restr":0.75,"noPlan":0.88,"noVer":0.88,"full":0.88,"uplift":0.13},
+  "TEST9_mock_service":{"oracle":0.89,"restr":0.0,"noPlan":0.78,"noVer":1.0,"full":1.0,"uplift":0.11},
+  "TRAP6_deprecated_api":{"oracle":1.0,"restr":1.0,"noPlan":0.0,"noVer":1.0,"full":1.0,"uplift":0.0},
+  "TRAP7_test_pollution":{"oracle":0.8,"restr":0.8,"noPlan":0.8,"noVer":0.8,"full":0.8,"uplift":0.0},
+  "TRAP8_config_override":{"oracle":0.9,"restr":0.9,"noPlan":0.9,"noVer":0.9,"full":0.9,"uplift":0.0},
+  "cross1_api_contract":{"oracle":0.8,"restr":0.8,"noPlan":0.8,"noVer":0.8,"full":0.8,"uplift":0.0},
+  "cross2_schema_evolution":{"oracle":1.0,"restr":1.0,"noPlan":1.0,"noVer":0.6667,"full":1.0,"uplift":0.0},
+  "cross3_protocol_bridge":{"oracle":1.0,"restr":1.0,"noPlan":1.0,"noVer":1.0,"full":1.0,"uplift":0.0},
+  "cross4_auth_federation":{"oracle":1.0,"restr":1.0,"noPlan":1.0,"noVer":1.0,"full":1.0,"uplift":0.0},
+  "crypto1_nonce_reuse":{"oracle":0.2,"restr":0.2,"noPlan":0.2,"noVer":0.2,"full":0.2,"uplift":0.0},
+  "crypto2_timing_safe":{"oracle":1.0,"restr":1.0,"noPlan":1.0,"noVer":1.0,"full":1.0,"uplift":0.0},
+  "crypto3_cert_chain":{"oracle":0.0,"restr":0.0,"noPlan":0.0,"noVer":0.2,"full":0.0,"uplift":0.0},
+  "crypto4_kdf_migration":{"oracle":0.2,"restr":0.2,"noPlan":0.2,"noVer":0.2,"full":0.2,"uplift":0.0},
+  "dist1_queue_race":{"oracle":0.4167,"restr":0.25,"noPlan":0.5,"noVer":0.4167,"full":0.4167,"uplift":0.0},
+  "dist2_consensus_partition":{"oracle":0.4167,"restr":0.4167,"noPlan":0.4167,"noVer":0.4167,"full":0.5,"uplift":0.08},
+  "dist3_idempotency":{"oracle":0.5833,"restr":0.6667,"noPlan":0.8333,"noVer":0.8333,"full":0.25,"uplift":-0.33},
+  "dist4_clock_skew":{"oracle":0.9167,"restr":0.9167,"noPlan":0.6667,"noVer":0.9167,"full":1.0,"uplift":0.08},
+  "trap1_spec_conflict":{"oracle":0.9,"restr":0.9,"noPlan":0.9,"noVer":0.9,"full":0.9,"uplift":0.0},
+  "trap2_false_fix":{"oracle":1.0,"restr":1.0,"noPlan":1.0,"noVer":1.0,"full":1.0,"uplift":0.0},
+  "trap3_metric_mirage":{"oracle":1.0,"restr":1.0,"noPlan":1.0,"noVer":1.0,"full":1.0,"uplift":0.0},
+  "trap4_version_paradox":{"oracle":0.33,"restr":0.33,"noPlan":0.33,"noVer":0.33,"full":0.33,"uplift":0.0},
+  "trap5_security_theater":{"oracle":0.79,"restr":0.71,"noPlan":0.86,"noVer":0.86,"full":0.86,"uplift":0.07}
+};
+
+// ── Category data (all 931 tasks from index.html) ──
+const CATEGORIES = [
+  { name: "Web Framework (Python)", count: 47, domain: "SE", tasks: [
+    { id: "GH17", desc: "Fix aiohttp infinite callback loop when time is not monotonic." },
+    { id: "GH74", desc: "Fix Flask blueprint URL routing regression." },
+    { id: "GH71", desc: "Fix Starlette session tracking on access and modification." }
+  ]},
+  { name: "Web Framework (Go)", count: 60, domain: "SE", tasks: [
+    { id: "GH15", desc: "Fix Gin context.Value string key collision with OpenTelemetry." },
+    { id: "GH16", desc: "Fix Fiber CORS middleware logic error on non-preflight requests." },
+    { id: "GO3", desc: "Fix Go channel deadlocks in producer-consumer pipeline." }
+  ]},
+  { name: "Frontend (TypeScript)", count: 42, domain: "SE", tasks: [
+    { id: "TS1", desc: "Fix TypeScript API type mismatches between shared types and handlers." },
+    { id: "TS2", desc: "Fix React component state bugs: stale closures, missing deps, cleanup." },
+    { id: "GH154", desc: "Fix Svelte reactive statement ordering regression." }
+  ]},
+  { name: "Database / ORM", count: 56, domain: "SE", tasks: [
+    { id: "DB1", desc: "Resolve conflicting database migrations with FK constraints." },
+    { id: "DB2", desc: "Fix query plan regressions: add indexes for real bottlenecks only." },
+    { id: "GH22", desc: "Fix Prisma client BigInt precision in responses." }
+  ]},
+  { name: "Data Validation", count: 17, domain: "SE", tasks: [
+    { id: "GH20", desc: "Fix Pydantic computed fields exclude_if support." },
+    { id: "GH21", desc: "Fix Pydantic smart union branch selection on validation error." }
+  ]},
+  { name: "Security / Crypto", count: 15, domain: "SE", tasks: [
+    { id: "SEC1", desc: "Fix security vulnerabilities from web application audit." },
+    { id: "CRYPTO1", desc: "Fix AES-GCM nonce reuse, weak PBKDF2, truncated tag." }
+  ]},
+  { name: "Testing", count: 24, domain: "SE", tasks: [
+    { id: "TEST1", desc: "Write test suite for calculator engine from specification." },
+    { id: "GH69", desc: "Fix pytest caplog handler regression with disabled logging." },
+    { id: "GH72", desc: "Fix pytest fixture reordering on alternate Python implementations." }
+  ]},
+  { name: "DevOps / CI/CD", count: 34, domain: "SE", tasks: [
+    { id: "DEVOPS1", desc: "Fix Dockerfile multi-stage build with 5 intentional bugs." },
+    { id: "DEVOPS2", desc: "Fix GitHub Actions CI/CD pipeline: real bugs vs flaky tests." },
+    { id: "INFRA2", desc: "Repair CI pipeline distinguishing real failures from false alarms." }
+  ]},
+  { name: "Async / Runtime", count: 63, domain: "SE", tasks: [
+    { id: "GH13", desc: "Fix Starlette background tasks blocking subsequent requests." },
+    { id: "GH70", desc: "Fix Tokio async runtime task scheduling edge case." },
+    { id: "GH25", desc: "Fix aiohttp redirect handling on 3xx responses." }
+  ]},
+  { name: "HTTP Client / Network", count: 45, domain: "SE", tasks: [
+    { id: "GH3", desc: "Fix credential leak through HTTP redirect headers in httpx." },
+    { id: "GH98", desc: "Fix urllib3 connection pool retry logic." },
+    { id: "GH136", desc: "Fix mitmproxy TLS interception edge case." }
+  ]},
+  { name: "Task Queue / Pipeline", count: 26, domain: "SE", tasks: [
+    { id: "GH14", desc: "Fix Celery chain-of-groups silently swallowing failures." },
+    { id: "PIPE1", desc: "Repair ETL pipeline to pass end-to-end integration tests." },
+    { id: "GH67", desc: "Fix Celery mock connection interface TypeError." }
+  ]},
+  { name: "Template / Serialization", count: 30, domain: "SE", tasks: [
+    { id: "GH28", desc: "Fix Jinja2 template inheritance scoping regression." },
+    { id: "GH76", desc: "Fix Serde field alias handling inside flatten structs." },
+    { id: "GH156", desc: "Fix PyYAML safe_load edge case with special characters." }
+  ]},
+  { name: "CLI / Package Mgmt", count: 26, domain: "SE", tasks: [
+    { id: "GH12", desc: "Fix Click boolean flag envvar always evaluating True." },
+    { id: "GH68", desc: "Fix Cobra subcommand argument validation." },
+    { id: "GH23", desc: "Fix Poetry package name validation in update command." }
+  ]},
+  { name: "Adversarial / TRAP", count: 8, domain: "SE", tasks: [
+    { id: "TRAP1", desc: "Spec vs secondary docs conflict: selective validation needed." },
+    { id: "TRAP5", desc: "10 audit findings: 4 are false positives, only 5-10 genuine." }
+  ]},
+  { name: "Cross-System", count: 7, domain: "SE", tasks: [
+    { id: "CROSS1", desc: "Fix Python client to communicate with Go server: 3 mismatches." },
+    { id: "CROSS3", desc: "JSON to proto3 bridge with 6 bugs." }
+  ]},
+  { name: "Multi-language", count: 9, domain: "SE", tasks: [
+    { id: "MULTI1", desc: "Fix bugs spanning Flask backend, JS frontend, bash deploy." },
+    { id: "MULTI3", desc: "Fix polyglot interface bugs across language boundaries." }
+  ]},
+  { name: "Distributed Systems", count: 6, domain: "SE", tasks: [
+    { id: "DIST1", desc: "Fix 3 race conditions: TOCTOU, missing ack, type-unsafe priority." },
+    { id: "DIST2", desc: "Fix Raft consensus: log-up-to-date, prevLogIndex, old-term commits." }
+  ]},
+  { name: "Performance", count: 1, domain: "SE", tasks: [
+    { id: "PERF1", desc: "Optimize data processing: fix bottlenecks, preserve constraints." }
+  ]},
+  { name: "API Design", count: 1, domain: "SE", tasks: [
+    { id: "API1", desc: "Add v2 API endpoints with backward-compatible v1 shims." }
+  ]},
+  { name: "Logging / Infra", count: 50, domain: "SE", tasks: [
+    { id: "GH130", desc: "Fix structured logging output format regression." },
+    { id: "GH148", desc: "Fix Consul service discovery health check timing." }
+  ]},
+  { name: "Other Real-World", count: 386, domain: "SE", tasks: [
+    { id: "GH95", desc: "Fix Arrow date parsing edge case with timezone offsets." },
+    { id: "GH158", desc: "Fix attrs frozen class mutation detection." },
+    { id: "GH99", desc: "Fix psycopg connection pool exhaustion under load." }
+  ]},
+  { name: "Data Science (RDS)", count: 30, domain: "DS", tasks: [
+    { id: "DS1", desc: "Detect and fix feature leakage in ML pipeline using UCI Adult Income dataset." },
+    { id: "DS6", desc: "Identify Simpson's paradox and correct aggregation strategy." },
+    { id: "DS8", desc: "Fix A/B test analysis: correct for multiple comparisons and early stopping." }
+  ]},
+  { name: "Real Incidents (RINC)", count: 10, domain: "SE", tasks: [
+    { id: "RINC1", desc: "Reproduce and fix CVE root cause in dependency chain." },
+    { id: "RINC5", desc: "Reconstruct incident from post-mortem logs and implement corrective patch." },
+    { id: "RINC9", desc: "Fix distributed tracing gap exposed by real production incident." }
+  ]}
+];
+
+// ── Build flat task array ──
+function getDifficulty(id) {
+    const u = id.toUpperCase();
+    if (/^TRAP|^trap/.test(id)) return 'Expert';
+    if (/^SYNTH|^LH/.test(u)) return 'Expert';
+    if (/^DIST|^dist|^SEC|^CRYPTO|^crypto/.test(id)) return 'Hard';
+    if (/^GH/.test(u)) return 'Hard';
+    if (/^TEST|^D\d|^O\d|^P\d/.test(u)) return 'Medium';
+    if (/^NEG|^MULTI|^CROSS|^cross/.test(u)) return 'Medium';
+    if (/^IR|^SPEC|^CR/.test(u)) return 'Medium';
+    if (/^GO|^JS|^TS|^SQL/.test(u)) return 'Hard';
+    if (/^DS/.test(u)) return 'Medium';
+    if (/^RINC/.test(u)) return 'Hard';
+    if (/^DEVOPS|^INFRA|^PIPE|^INT/.test(u)) return 'Hard';
+    if (/^DB/.test(u)) return 'Medium';
+    if (/^INC/.test(u)) return 'Hard';
+    if (/^S\d|^API|^PERF/.test(u)) return 'Medium';
+    if (/^SCALE/.test(u)) return 'Hard';
+    return 'Hard';
+}
+
+function getDomain(catName) {
+    if (catName.includes('Data Science')) return 'DS';
+    if (catName.includes('ML') || catName.includes('Machine Learning')) return 'ML';
+    return 'SE';
+}
+
+function getRoleAccess(id) {
+    const u = id.toUpperCase();
+    if (/^GH|^GO|^TS|^JS|^DB|^SQL/.test(u)) {
+        return { planner: 'spec.md (read-only)', generator: 'brief.md + workspace', evaluator: 'spec.md + workspace (ro)' };
+    }
+    if (/^TEST/.test(u)) {
+        return { planner: 'spec.md (read-only)', generator: 'brief.md + tests workspace', evaluator: 'spec.md + test results' };
+    }
+    if (/^SEC|^CRYPTO|^crypto/.test(u)) {
+        return { planner: 'vuln-report.md (ro)', generator: 'code + workspace', evaluator: 'vuln-report + workspace (ro)' };
+    }
+    if (/^DS/.test(u)) {
+        return { planner: 'task-spec.md (ro)', generator: 'data + notebook workspace', evaluator: 'spec + outputs (ro)' };
+    }
+    return { planner: 'spec.md (read-only)', generator: 'brief.md + workspace', evaluator: 'spec.md + workspace (ro)' };
+}
+
+// Flatten all tasks from all categories
+const ALL_TASKS = [];
+CATEGORIES.forEach(cat => {
+    cat.tasks.forEach(t => {
+        const scoreKey = Object.keys(SCORES).find(k => k.toLowerCase() === t.id.toLowerCase());
+        ALL_TASKS.push({
+            id: t.id,
+            desc: t.desc,
+            category: cat.name,
+            domain: cat.domain || getDomain(cat.name),
+            difficulty: getDifficulty(t.id),
+            scores: scoreKey ? SCORES[scoreKey] : null,
+            scoreKey: scoreKey || null
+        });
+    });
+    // Also add anonymous tasks for the count (without full data)
+    const represented = cat.tasks.length;
+    const remaining = cat.count - represented;
+    for (let i = 0; i < remaining; i++) {
+        // Generate placeholder IDs based on category prefix patterns
+        const prefix = getCatPrefix(cat.name);
+        const fakeId = `${prefix}${represented + i + 1}`;
+        ALL_TASKS.push({
+            id: fakeId,
+            desc: generateDesc(cat.name, fakeId),
+            category: cat.name,
+            domain: cat.domain || getDomain(cat.name),
+            difficulty: getDifficulty(fakeId),
+            scores: null,
+            scoreKey: null,
+            synthetic: true
+        });
+    }
+});
+
+function getCatPrefix(name) {
+    const map = {
+        'Web Framework (Python)': 'GH', 'Web Framework (Go)': 'GH', 'Frontend (TypeScript)': 'GH',
+        'Database / ORM': 'GH', 'Data Validation': 'GH', 'Security / Crypto': 'GH',
+        'Testing': 'GH', 'DevOps / CI/CD': 'GH', 'Async / Runtime': 'GH',
+        'HTTP Client / Network': 'GH', 'Task Queue / Pipeline': 'GH',
+        'Template / Serialization': 'GH', 'CLI / Package Mgmt': 'GH',
+        'Adversarial / TRAP': 'TRAP', 'Cross-System': 'CROSS', 'Multi-language': 'MULTI',
+        'Distributed Systems': 'DIST', 'Performance': 'PERF', 'API Design': 'API',
+        'Logging / Infra': 'GH', 'Other Real-World': 'GH',
+        'Data Science (RDS)': 'DS', 'Real Incidents (RINC)': 'GH'
+    };
+    return map[name] || 'GH';
+}
+
+function generateDesc(catName, id) {
+    const templates = {
+        'Web Framework (Python)': 'Fix regression in Python web framework behavior.',
+        'Web Framework (Go)': 'Fix Go web framework routing or middleware bug.',
+        'Frontend (TypeScript)': 'Fix TypeScript/frontend component or type error.',
+        'Database / ORM': 'Fix database migration or ORM query issue.',
+        'Data Validation': 'Fix data validation schema or constraint bug.',
+        'Security / Crypto': 'Fix security vulnerability or cryptographic implementation.',
+        'Testing': 'Fix or write tests to cover regression or edge case.',
+        'DevOps / CI/CD': 'Fix CI/CD pipeline or infrastructure configuration.',
+        'Async / Runtime': 'Fix async runtime scheduling or concurrency bug.',
+        'HTTP Client / Network': 'Fix HTTP client networking or protocol handling bug.',
+        'Task Queue / Pipeline': 'Fix task queue, pipeline, or message broker bug.',
+        'Template / Serialization': 'Fix template rendering or serialization edge case.',
+        'CLI / Package Mgmt': 'Fix CLI argument parsing or package management bug.',
+        'Adversarial / TRAP': 'Navigate adversarial specification with hidden conflicts.',
+        'Cross-System': 'Fix cross-language or cross-service interface mismatch.',
+        'Multi-language': 'Fix bugs spanning multiple programming languages.',
+        'Distributed Systems': 'Fix distributed systems concurrency or consensus bug.',
+        'Performance': 'Identify and fix performance bottleneck.',
+        'API Design': 'Design or fix API endpoints with backward compatibility.',
+        'Logging / Infra': 'Fix logging configuration or infrastructure monitoring.',
+        'Other Real-World': 'Fix real-world open-source project regression.',
+        'Data Science (RDS)': 'Fix statistical analysis or ML pipeline methodology error.',
+        'Real Incidents (RINC)': 'Reproduce and fix production incident root cause.'
+    };
+    return templates[catName] || `Fix issue in ${catName} task.`;
+}
+
+// ── State ──
+let filtered = [...ALL_TASKS];
+let expandedId = null;
+
+// ── DOM refs ──
+const searchEl = document.getElementById('search');
+const filterCat = document.getElementById('filter-category');
+const filterDiff = document.getElementById('filter-difficulty');
+const filterDomain = document.getElementById('filter-domain');
+const filterScored = document.getElementById('filter-scored');
+const listEl = document.getElementById('task-list');
+const emptyEl = document.getElementById('empty-state');
+const countEl = document.getElementById('count-shown');
+
+// Populate category dropdown
+const uniqueCats = [...new Set(ALL_TASKS.map(t => t.category))].sort();
+uniqueCats.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c; opt.textContent = c;
+    filterCat.appendChild(opt);
+});
+
+// ── Filter & render ──
+function applyFilters() {
+    const q = searchEl.value.toLowerCase().trim();
+    const cat = filterCat.value;
+    const diff = filterDiff.value;
+    const dom = filterDomain.value;
+    const scored = filterScored.value;
+
+    filtered = ALL_TASKS.filter(t => {
+        if (q && !t.id.toLowerCase().includes(q) && !t.desc.toLowerCase().includes(q)) return false;
+        if (cat && t.category !== cat) return false;
+        if (diff && t.difficulty !== diff) return false;
+        if (dom && t.domain !== dom) return false;
+        if (scored === 'scored' && !t.scores) return false;
+        return true;
+    });
+
+    render();
+}
+
+function render() {
+    countEl.textContent = filtered.length.toLocaleString();
+    listEl.innerHTML = '';
+
+    if (filtered.length === 0) {
+        emptyEl.style.display = 'block';
+        return;
+    }
+    emptyEl.style.display = 'none';
+
+    // Render only first 200 for perf, with a load-more pattern
+    const toRender = filtered.slice(0, 200);
+    toRender.forEach(task => {
+        listEl.appendChild(buildCard(task));
+    });
+
+    if (filtered.length > 200) {
+        const more = document.createElement('div');
+        more.style.cssText = 'text-align:center;padding:1.5rem;font-size:0.8rem;color:var(--text-muted);border:1px solid var(--border);border-top:none;border-radius:0 0 10px 10px;';
+        more.innerHTML = `Showing first 200 of ${filtered.length.toLocaleString()} results. Refine your search to see more.`;
+        listEl.appendChild(more);
+    }
+}
+
+function buildCard(task) {
+    const card = document.createElement('div');
+    card.className = 'task-card';
+    card.setAttribute('role', 'listitem');
+    card.dataset.id = task.id;
+
+    const diffClass = `badge-${task.difficulty.toLowerCase()}`;
+    const domClass = `badge-${task.domain.toLowerCase()}`;
+    const haScores = task.scores;
+
+    let miniScores = '';
+    if (haScores) {
+        const oW = Math.round(haScores.oracle * 100);
+        const fW = Math.round(haScores.full * 100);
+        miniScores = `
+        <div class="mini-scores">
+            <span class="mini-score-item">
+                Oracle
+                <span class="mini-bar-wrap"><span class="mini-bar-fill" style="width:${oW}%"></span></span>
+                ${haScores.oracle.toFixed(2)}
+            </span>
+            <span class="mini-score-item">
+                Full
+                <span class="mini-bar-wrap"><span class="mini-bar-fill alt" style="width:${fW}%"></span></span>
+                ${haScores.full.toFixed(2)}
+            </span>
+        </div>`;
+    }
+
+    const roleAccess = getRoleAccess(task.id);
+
+    let scoreDetail = '';
+    if (haScores) {
+        const s = haScores;
+        const up = s.uplift;
+        const upClass = up > 0.01 ? 'uplift-pos' : up < -0.01 ? 'uplift-neg' : 'uplift-zero';
+        const upSign = up > 0 ? '+' : '';
+        scoreDetail = `
+        <div class="detail-section">
+            <div class="detail-label">Scores (Gemini 3 Flash)</div>
+            <div class="score-rows">
+                ${scoreRow('Oracle', s.oracle)}
+                ${scoreRow('Restricted', s.restr)}
+                ${scoreRow('No Planner', s.noPlan)}
+                ${scoreRow('No Evaluator', s.noVer)}
+                ${scoreRow('Full Team', s.full)}
+            </div>
+            <div><span class="score-uplift ${upClass}">Uplift: ${upSign}${up.toFixed(2)}</span></div>
+        </div>`;
+    } else {
+        scoreDetail = `
+        <div class="detail-section">
+            <div class="detail-label">Scores</div>
+            <p style="font-size:0.78rem;color:var(--text-muted);">Not yet evaluated in Gemini 3 Flash run.</p>
+        </div>`;
+    }
+
+    const ghId = task.id.replace(/_/g, '-').toLowerCase();
+    const ghUrl = `https://github.com/ybkim95/TeamBench/tree/main/tasks/${ghId}`;
+
+    card.innerHTML = `
+        <div class="card-summary">
+            <span class="card-id">${escHtml(task.id)}</span>
+            <div class="card-body">
+                <div class="card-desc">${escHtml(task.desc)}</div>
+                <div class="card-tags">
+                    <span class="badge ${diffClass}">${task.difficulty}</span>
+                    <span class="badge ${domClass}">${task.domain}</span>
+                    <span class="badge badge-cat">${escHtml(task.category)}</span>
+                </div>
+                ${miniScores}
+            </div>
+            <svg class="card-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="card-detail" aria-hidden="true">
+            <div class="detail-inner">
+                <div class="detail-section">
+                    <div>
+                        <div class="detail-label">Description</div>
+                        <p class="detail-desc">${escHtml(task.desc)}</p>
+                    </div>
+                    <div>
+                        <div class="detail-label">Metadata</div>
+                        <div class="meta-table">
+                            <div class="meta-row"><span class="meta-key">Category</span><span class="meta-val">${escHtml(task.category)}</span></div>
+                            <div class="meta-row"><span class="meta-key">Difficulty</span><span class="meta-val">${task.difficulty}</span></div>
+                            <div class="meta-row"><span class="meta-key">Domain</span><span class="meta-val">${task.domain}</span></div>
+                            <div class="meta-row"><span class="meta-key">Task ID</span><span class="meta-val">${escHtml(task.id)}</span></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="detail-label">Role Access</div>
+                        <div class="role-table">
+                            <div class="role-row"><span class="role-name">Planner</span><span class="role-access">${escHtml(roleAccess.planner)}</span></div>
+                            <div class="role-row"><span class="role-name">Generator</span><span class="role-access">${escHtml(roleAccess.generator)}</span></div>
+                            <div class="role-row"><span class="role-name">Evaluator</span><span class="role-access">${escHtml(roleAccess.evaluator)}</span></div>
+                        </div>
+                    </div>
+                    <a href="${ghUrl}" target="_blank" rel="noopener" class="gh-link">
+                        <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        View on GitHub
+                    </a>
+                </div>
+                ${scoreDetail}
+            </div>
+        </div>
+    `;
+
+    card.querySelector('.card-summary').addEventListener('click', () => toggleCard(card, task.id));
+    return card;
+}
+
+function scoreRow(label, val) {
+    const pct = Math.round(val * 100);
+    return `
+    <div class="score-row">
+        <span class="score-label">${label}</span>
+        <div class="score-track"><div class="score-track-fill" style="width:${pct}%"></div></div>
+        <span class="score-val">${val.toFixed(2)}</span>
+    </div>`;
+}
+
+function toggleCard(card, id) {
+    const isOpen = card.classList.contains('expanded');
+    // Close all
+    document.querySelectorAll('.task-card.expanded').forEach(c => {
+        c.classList.remove('expanded');
+        c.querySelector('.card-detail').setAttribute('aria-hidden', 'true');
+    });
+    if (!isOpen) {
+        card.classList.add('expanded');
+        card.querySelector('.card-detail').setAttribute('aria-hidden', 'false');
+        expandedId = id;
+        // Smooth scroll to card
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else {
+        expandedId = null;
+    }
+}
+
+function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function clearFilters() {
+    searchEl.value = '';
+    filterCat.value = '';
+    filterDiff.value = '';
+    filterDomain.value = '';
+    filterScored.value = '';
+    applyFilters();
+}
+
+// ── Event listeners ──
+let debounceTimer;
+searchEl.addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(applyFilters, 180);
+});
+filterCat.addEventListener('change', applyFilters);
+filterDiff.addEventListener('change', applyFilters);
+filterDomain.addEventListener('change', applyFilters);
+filterScored.addEventListener('change', applyFilters);
+
+// ── Theme ──
+function toggleTheme() {
+    const html = document.documentElement;
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    updateThemeIcon(next);
+}
+function updateThemeIcon(theme) {
+    const icon = document.getElementById('theme-icon');
+    icon.innerHTML = theme === 'light'
+        ? '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
+        : '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+}
+const saved = localStorage.getItem('theme');
+if (saved) { document.documentElement.setAttribute('data-theme', saved); updateThemeIcon(saved); }
+
+// ── Init ──
+applyFilters();
+</script>
+</body>
+</html>
