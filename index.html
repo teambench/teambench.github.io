@@ -382,6 +382,15 @@
             .demo-arrow { display: none; }
             .eval-body { grid-template-columns: 1fr; }
         }
+        .thread-turn.turn-past { max-height: 2.2rem; overflow: hidden; opacity: 0.25; transition: max-height 0.5s ease, opacity 0.5s; }
+        .thread-turn.turn-past .turn-body { pointer-events: none; }
+        .turn-connector.turn-past { opacity: 0; transition: opacity 0.5s; }
+        .eval-stats { padding: 0.5rem 1.1rem; display: flex; gap: 0.6rem; align-items: center; font-size: 0.72rem; color: var(--text-secondary); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+        .eval-stats span { font-family: 'Geist Mono', monospace; }
+        .eval-stats span:nth-child(even) { color: var(--text-muted); }
+        .bottleneck-row { max-width: 660px; margin: 0 auto 1.25rem; padding: 0.5rem 0.85rem; background: rgba(248,113,113,0.06); border: 1px solid rgba(248,113,113,0.2); border-radius: 8px; font-size: 0.75rem; color: var(--text-secondary); display: none; }
+        .bottleneck-row.visible { display: block; }
+        .bottleneck-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #f87171; margin-bottom: 0.2rem; }
 </style>
 </head>
 <body>
@@ -578,6 +587,7 @@
             <button class="demo-tab" data-cond="noplan" onclick="runDemo('noplan')">No Plan</button>
             <button class="demo-tab active" data-cond="full" onclick="runDemo('full')">Full Team</button>
         </div>
+        <div class="bottleneck-row" id="bottleneck-row"></div>
         <div class="demo-thread" id="demo-thread"></div>
         <div class="demo-replay-row" style="margin-top:0.75rem;">
             <button class="demo-replay-btn" onclick="replayDemo()">
@@ -1283,8 +1293,10 @@ buildCharts();
 // ── Live Demo ──
 const DEMO_CONDS = {
   oracle:{key:'oracle',verdict:'fail',score:0.60,isMultiTurn:false,
+    stats:{toolCalls:9,agentTurns:1,rounds:1,fixed:'3/5'},
+    bottleneck:'No feedback loop \u2014 misses subtle spec requirements even with full access',
     metrics:{'Condition':'Oracle (full access, 1 pass)','Score':'0.60 / 1.00','Vulnerabilities fixed':'3 of 5','Missed':'CSRF token, rate limiting'},
-    insight:'Oracle read the full spec but treated §4.3 (CSRF) as a frontend concern and skipped rate limiting as "out of scope." No mechanism exists to catch and correct these assumptions.',
+    insight:'Oracle read the full spec but treated \u00a74.3 (CSRF) as a frontend concern and skipped rate limiting as "out of scope." No mechanism exists to catch and correct these assumptions.',
     agents:[{badge:'★',title:'ORACLE AGENT',inactive:false,artifact:null,
       tags:[['spec.md','on'],['workspace','on'],['all tools','on']],
       lines:[
@@ -1306,8 +1318,10 @@ const DEMO_CONDS = {
         ['err','  Score: 0.60 / 1.00'],
       ]}]},
   restricted:{key:'restricted',verdict:'fail',score:0.40,isMultiTurn:false,
+    stats:{toolCalls:7,agentTurns:1,rounds:1,fixed:'2/5'},
+    bottleneck:'No spec \u2014 can only fix what is visible in code',
     metrics:{'Condition':'Restricted (no spec, 1 pass)','Score':'0.40 / 1.00','Vulnerabilities fixed':'2 of 5','Why it fails':'Brief mentions SQL+passwords only; CSRF, rate limiting, session fixation absent'},
-    insight:'Without spec access the agent can only fix what is visible in the code. Three of the five vulnerabilities are implicit requirements in the spec — the Executor guesses wrong on two of them.',
+    insight:'Without spec access the agent can only fix what is visible in the code. Three of the five vulnerabilities are implicit requirements in the spec \u2014 the Executor guesses wrong on two of them.',
     agents:[{badge:'★',title:'AGENT (RESTRICTED)',inactive:false,artifact:null,
       tags:[['spec.md','off'],['workspace','on'],['all tools','on']],
       lines:[
@@ -1324,8 +1338,10 @@ const DEMO_CONDS = {
         ['err','✗ GRADER: Score 0.40 / 1.00'],
       ]}]},
   noplan:{key:'noplan',verdict:'fail',score:0.80,isMultiTurn:true,
-    metrics:{'Condition':'No Plan (Exec + Verify, multi-turn)','Score':'0.80 / 1.00','Round 1 fixes':'3 of 5','Round 2 fixes':'1 more — verifier guided','Still missing':'CSRF (§4.3) — executor guessed wrong'},
-    insight:'Without a Planner reading the spec, the Executor misses the CSRF requirement in round 1. The Verifier catches it, but the Executor round-2 fix is incomplete — it adds token generation but not validation.',
+    stats:{toolCalls:17,agentTurns:4,rounds:2,fixed:'4/5'},
+    bottleneck:'No spec analysis \u2014 executor guesses wrong on CSRF detail in round 2',
+    metrics:{'Condition':'No Plan (Exec + Verify, multi-turn)','Score':'0.80 / 1.00','Round 1 fixes':'3 of 5','Round 2 fixes':'1 more \u2014 verifier guided','Still missing':'CSRF (\u00a74.3) \u2014 executor guessed wrong'},
+    insight:'Without a Planner reading the spec, the Executor misses the CSRF requirement in round 1. The Verifier catches it, but the Executor round-2 fix is incomplete \u2014 it adds token generation but not validation.',
     rounds:[
       {label:'Round 1',feedbackNote:null,agents:[
         {badge:'1',title:'PLANNER',inactive:true,artifact:null,tags:[['spec.md','on']],lines:[]},
@@ -1367,7 +1383,9 @@ const DEMO_CONDS = {
       ]},
     ]},
   full:{key:'full',verdict:'pass',score:1.00,isMultiTurn:true,
-    metrics:{'Condition':'Full Team, Multi-turn (2 rounds)','Score':'1.00 / 1.00','vs Oracle / 1-round':'+0.40 uplift','Key mechanism':'Verifier feedback → Executor round 2'},
+    stats:{toolCalls:23,agentTurns:5,rounds:2,fixed:'5/5'},
+    bottleneck:null,
+    metrics:{'Condition':'Full Team, Multi-turn (2 rounds)','Score':'1.00 / 1.00','vs Oracle / 1-round':'+0.40 uplift','Key mechanism':'Verifier feedback \u2192 Executor round 2'},
     insight:'Round 1 produces the same result as the single-pass team. The difference: Verifier\'s attestation.json is fed back to the Executor in round 2. Two additional fixes, full score.',
     rounds:[
       {label:'Round 1',feedbackNote:null,agents:[
@@ -1437,6 +1455,11 @@ function runDemo(condKey){
   _dt.forEach(clearTimeout);_dt=[];_da=false;_dc=condKey;
   document.querySelectorAll('.demo-tab').forEach(b=>b.classList.toggle('active',b.dataset.cond===condKey));
   const cond=DEMO_CONDS[condKey];
+  const br=document.getElementById('bottleneck-row');
+  if(br){
+    if(cond.bottleneck){br.innerHTML='<div class="bottleneck-label">Bottleneck</div>'+cond.bottleneck;br.className='bottleneck-row visible';}
+    else{br.className='bottleneck-row';}
+  }
   _buildThread(cond);_animate(cond);
 }
 function _buildRound(container,round,ri){
@@ -1483,9 +1506,10 @@ function _buildThread(cond){
 }
 function _buildEvalCard(cond){
   const d=document.createElement('div');d.className='eval-card';d.id='eval-card';
-  const vt=cond.verdict==='pass'?'PASS ✓':cond.verdict==='partial'?'PARTIAL ⚠':'FAIL ✗';
+  const vt=cond.verdict==='pass'?'PASS \u2713':cond.verdict==='partial'?'PARTIAL \u26a0':'FAIL \u2717';
   const mHtml=Object.entries(cond.metrics).map(([k,v])=>`<div class="eval-metric"><div class="eval-metric-label">${k}</div><div class="eval-metric-val">${v}</div></div>`).join('');
-  d.innerHTML=`<div class="eval-header"><div><div style="font-size:0.6rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.2rem;">Grader Result</div><div class="eval-verdict ${cond.verdict}">${vt}</div></div><div class="eval-score ${cond.verdict}">${cond.score.toFixed(2)}</div></div><div class="eval-body">${mHtml}</div><div class="eval-insight">${cond.insight}</div>`;
+  const statsHtml=cond.stats?`<div class="eval-stats"><span>\u2699 ${cond.stats.toolCalls} tool calls</span><span>\u00b7</span><span>${cond.stats.agentTurns} agent turn${cond.stats.agentTurns>1?'s':''}</span><span>\u00b7</span><span>${cond.stats.rounds} round${cond.stats.rounds>1?'s':''}</span><span>\u00b7</span><span>${cond.stats.fixed} fixed</span></div>`:'';
+  d.innerHTML=`<div class="eval-header"><div><div style="font-size:0.6rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.2rem;">Grader Result</div><div class="eval-verdict ${cond.verdict}">${vt}</div></div><div class="eval-score ${cond.verdict}">${cond.score.toFixed(2)}</div></div>${statsHtml}<div class="eval-body">${mHtml}</div><div class="eval-insight">${cond.insight}</div>`;
   return d;
 }
 function _animate(cond){
@@ -1535,6 +1559,11 @@ function _animate(cond){
       if(ri>0){
         // Inject this round into DOM dynamically (after previous round finishes)
         const injectDelay=delay-350;
+        // Collapse round 0 agents before showing round 1
+        _demoTimer(()=>{
+          if(!_da||_dc!==condKey)return;
+          document.querySelectorAll('.thread-turn, .turn-connector').forEach(el=>el.classList.add('turn-past'));
+        },injectDelay-100);
         _demoTimer(()=>{
           if(!_da||_dc!==condKey)return;
           const anchor=document.getElementById('eval-card');if(!anchor)return;
