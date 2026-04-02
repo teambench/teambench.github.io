@@ -296,6 +296,56 @@
     
         .hero h1 { font-family: 'Geist Mono', monospace; font-size: clamp(2.5rem, 5.5vw, 4rem); font-weight: 900; line-height: 1.08; letter-spacing: -0.04em; margin-bottom: 1.25rem; }
         .section-title { font-family: 'Geist Mono', monospace; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -0.04em; margin-bottom: 0.75rem; line-height: 1.2; }
+
+        /* ── Live Demo ── */
+        .demo-container { max-width: 960px; margin: 0 auto; }
+        .demo-task-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.4rem; margin-bottom: 1.5rem; }
+        .demo-task-meta { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem; }
+        .demo-task-id { font-family: 'Geist Mono', monospace; font-size: 0.72rem; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 0.1rem 0.45rem; color: var(--text-muted); }
+        .demo-task-cat { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+        .demo-task-desc { font-size: 0.875rem; font-weight: 500; line-height: 1.55; color: var(--text); }
+        .demo-tabs { display: flex; gap: 0.4rem; justify-content: center; margin-bottom: 1.75rem; flex-wrap: wrap; }
+        .demo-tab { padding: 0.4rem 0.95rem; border-radius: 7px; border: 1px solid var(--border); background: transparent; color: var(--text-secondary); font-family: 'Geist', sans-serif; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .demo-tab:hover { border-color: var(--border-hover); color: var(--text); }
+        .demo-tab.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+        .demo-pipeline { display: grid; align-items: start; margin: 0 auto 1.5rem; }
+        .demo-pipeline.layout-single { grid-template-columns: 1fr; max-width: 460px; }
+        .demo-pipeline.layout-three { grid-template-columns: 1fr auto 1fr auto 1fr; }
+        .agent-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.1rem; min-height: 210px; display: flex; flex-direction: column; transition: border-color 0.3s, opacity 0.3s, filter 0.3s; }
+        .agent-card.inactive { opacity: 0.2; filter: grayscale(1); pointer-events: none; }
+        .agent-card.is-animating { border-color: var(--border-hover); }
+        .agent-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+        .agent-badge { width: 20px; height: 20px; border-radius: 50%; background: var(--text); color: var(--bg); font-size: 0.65rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: 'Geist Mono', monospace; }
+        .agent-title { font-weight: 700; font-size: 0.82rem; }
+        .agent-tags { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-bottom: 0.6rem; }
+        .agent-tag { font-family: 'Geist Mono', monospace; font-size: 0.62rem; padding: 0.1rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); background: var(--bg); color: var(--text-muted); }
+        .agent-tag.on { color: var(--text-secondary); border-color: var(--border-hover); }
+        .agent-log { font-family: 'Geist Mono', monospace; font-size: 0.695rem; line-height: 1.75; color: var(--text-secondary); flex: 1; overflow: hidden; min-height: 130px; }
+        .log-ok { color: #4ade80; } .log-err { color: #f87171; } .log-warn { color: #fbbf24; } .log-dim { color: var(--text-muted); }
+        .demo-arrow { display: flex; align-items: center; justify-content: center; padding: 0 0.5rem; padding-top: 2.5rem; color: var(--text-muted); transition: color 0.4s; }
+        .demo-arrow svg { width: 18px; height: 18px; }
+        .demo-arrow.lit { color: var(--text); }
+        .demo-score-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.4rem; margin-bottom: 1rem; }
+        .demo-score-hdr { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 0.75rem; }
+        .demo-scores-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; }
+        .sc-col { text-align: center; }
+        .sc-lbl { font-size: 0.63rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 500; line-height: 1.3; }
+        .sc-lbl.current { color: var(--text); font-weight: 700; }
+        .sc-track { height: 72px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; display: flex; align-items: flex-end; }
+        .sc-track.current { border-color: var(--border-hover); }
+        .sc-fill { width: 100%; height: 0; transition: height 0.9s cubic-bezier(0.34, 1.2, 0.64, 1); }
+        .sc-fill.c-green { background: rgba(74,222,128,0.45); } .sc-fill.c-red { background: rgba(248,113,113,0.45); } .sc-fill.c-yellow { background: rgba(251,191,36,0.4); }
+        .sc-val { font-family: 'Geist Mono', monospace; font-size: 0.75rem; font-weight: 700; margin-top: 0.3rem; opacity: 0; transition: opacity 0.4s; }
+        .sc-val.c-green { color: #4ade80; } .sc-val.c-red { color: #f87171; } .sc-val.c-yellow { color: #fbbf24; }
+        .demo-replay-row { display: flex; justify-content: center; }
+        .demo-replay-btn { padding: 0.38rem 1rem; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--text-secondary); font-family: 'Geist', sans-serif; font-size: 0.74rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.35rem; }
+        .demo-replay-btn:hover { border-color: var(--border-hover); color: var(--text); }
+        @media (max-width: 768px) {
+            .demo-pipeline.layout-three { grid-template-columns: 1fr; }
+            .demo-arrow { display: none; }
+            .demo-scores-grid { grid-template-columns: repeat(3, 1fr); }
+            .demo-scores-grid .sc-col:nth-child(4), .demo-scores-grid .sc-col:nth-child(5) { display: none; }
+        }
 </style>
 </head>
 <body>
@@ -308,6 +358,7 @@
             <ul class="nav-links">
                 <li><a href="#overview">Overview</a></li>
                 <li><a href="#leaderboard">Leaderboard</a></li>
+                <li><a href="#demo">Demo</a></li>
                 <li><a href="#tasks">Tasks</a></li>
                 <li><a href="#submit">Citation</a></li>
             </ul>
@@ -470,7 +521,43 @@
 
 <hr class="divider">
 
+<!-- Live Demo -->
+<section id="demo">
+    <div class="section-header fade-up">
+        <span class="section-label">Live Demo</span>
+        <h2 class="section-title">Watch the Pipeline in Action</h2>
+        <p class="section-desc">Step through a real task across all five conditions. See why the oracle fails where the full team succeeds.</p>
+    </div>
+    <div class="demo-container fade-up">
+        <div class="demo-task-card">
+            <div class="demo-task-meta">
+                <span class="demo-task-id">TEST7</span>
+                <span class="demo-task-cat">Testing</span>
+            </div>
+            <p class="demo-task-desc">Write an integration test suite for a payment processing service. The specification defines 8 required test scenarios, exact naming conventions, and async client requirements &mdash; details that determine whether a submission passes the grader.</p>
+        </div>
+        <div class="demo-tabs" id="demo-tabs">
+            <button class="demo-tab" data-cond="oracle" onclick="runDemo('oracle')">Oracle</button>
+            <button class="demo-tab" data-cond="restricted" onclick="runDemo('restricted')">Restricted</button>
+            <button class="demo-tab" data-cond="noplan" onclick="runDemo('noplan')">No Plan</button>
+            <button class="demo-tab" data-cond="noverify" onclick="runDemo('noverify')">No Verify</button>
+            <button class="demo-tab active" data-cond="full" onclick="runDemo('full')">Full Team</button>
+        </div>
+        <div class="demo-pipeline layout-three" id="demo-pipeline"></div>
+        <div class="demo-score-box">
+            <div class="demo-score-hdr">Score comparison &mdash; all five conditions on this task (TEST7_integration_suite)</div>
+            <div class="demo-scores-grid" id="demo-scores-grid"></div>
+        </div>
+        <div class="demo-replay-row" style="margin-top:0.75rem;">
+            <button class="demo-replay-btn" onclick="replayDemo()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+                Replay
+            </button>
+        </div>
+    </div>
+</section>
 
+<hr class="divider">
 
 <!-- Key Findings -->
 <section id="findings">
@@ -1161,6 +1248,172 @@ function buildCharts() {
 
 function rebuildCharts() { Object.values(charts).forEach(ch=>ch.destroy()); charts={}; buildCharts(); }
 buildCharts();
+
+// ── Live Demo ──
+const DEMO_CONDS = {
+  oracle:{key:'oracle',layout:'single',scores:[0.00,0.80,0.80,1.00,1.00],agents:[{badge:'★',title:'ORACLE AGENT',inactive:false,
+    tags:[['spec.md','on'],['workspace','on'],['all tools','on']],
+    lines:[['dim','$ cat spec.md workspace/'],['dim','Parsing test requirements...'],['',''],
+      ['','Writing tests/test_integration.py:'],
+      ['ok','  ✓ def test_idempotency(): ...'],['ok','  ✓ def test_partial_refund(): ...'],
+      ['ok','  ✓ def test_concurrent(): ...'],['ok','  ✓ def test_webhook(): ...'],
+      ['ok','  ✓ def test_basic_payment(): ...'],['ok','  ✓ def test_failure_rollback(): ...'],
+      ['ok','  ✓ def test_auth_check(): ...'],['ok','  ✓ def test_rate_limit(): ...'],
+      ['',''],['ok','$ pytest → 8/8 passed'],['',''],
+      ['err','✗ GRADER: naming mismatch'],
+      ['err','  Expected: test_payment_idempotency_key'],
+      ['err','  Found:    test_idempotency'],
+      ['err','  Score: 0.00 / 1.00']]}]},
+  restricted:{key:'restricted',layout:'single',scores:[0.00,0.80,0.80,1.00,1.00],agents:[{badge:'★',title:'AGENT (RESTRICTED)',inactive:false,
+    tags:[['spec.md','off'],['workspace','on'],['all tools','on']],
+    lines:[['dim','$ ls workspace/  # no spec'],['dim','Inferring from existing code...'],['',''],
+      ['','Writing tests/test_integration.py:'],
+      ['ok','  ✓ test_payment_happy_path'],['ok','  ✓ test_payment_idempotency_key'],
+      ['ok','  ✓ test_partial_refund_amount'],['ok','  ✓ test_webhook_retry_logic'],
+      ['ok','  ✓ test_concurrent_submit_lock'],['ok','  ✓ test_failure_and_rollback'],
+      ['ok','  ✓ test_expired_card_error'],
+      ['warn','  ⚠ test_auth_bypass — not in workspace'],
+      ['',''],['warn','pytest → 7/8   Score: 0.80']]}]},
+  noplan:{key:'noplan',layout:'three',scores:[0.00,0.80,0.80,1.00,1.00],agents:[
+    {badge:'1',title:'PLANNER',inactive:true,tags:[['spec.md','on']],lines:[]},
+    {badge:'2',title:'EXECUTOR',inactive:false,
+      tags:[['brief.md','on'],['workspace','on'],['spec.md','off']],
+      lines:[['dim','$ cat brief.md  # no plan'],['dim','Inferring scenarios from brief...'],['',''],
+        ['ok','  ✓ test_payment_happy_path'],['ok','  ✓ test_payment_idempotency_key'],
+        ['ok','  ✓ test_partial_refund_amount'],['ok','  ✓ test_webhook_retry_logic'],
+        ['ok','  ✓ test_concurrent_submit_lock'],['ok','  ✓ test_failure_and_rollback'],
+        ['ok','  ✓ test_expired_card_error'],['warn','  ⚠ test_auth_bypass — skipped']]},
+    {badge:'3',title:'VERIFIER',inactive:false,
+      tags:[['spec.md','on'],['workspace','on'],['read-only','on']],
+      lines:[['dim','$ diff tests/ spec.md'],['ok','  ✓ 7 / 8 scenarios present'],
+        ['err','  ✗ test_auth_bypass_prevention missing'],['',''],
+        ['warn','attestation: {"verdict":"PARTIAL","score":0.80}']]}]},
+  noverify:{key:'noverify',layout:'three',scores:[0.00,0.80,0.80,1.00,1.00],agents:[
+    {badge:'1',title:'PLANNER',inactive:false,tags:[['spec.md','on']],
+      lines:[['dim','$ cat spec.md'],['','8 required scenarios:'],
+        ['ok','  • test_payment_happy_path'],['ok','  • test_payment_idempotency_key'],
+        ['ok','  • test_partial_refund_amount'],['ok','  • test_webhook_retry_logic'],
+        ['ok','  • test_concurrent_submit_lock'],['ok','  • test_failure_and_rollback'],
+        ['ok','  • test_expired_card_error'],['ok','  • test_auth_bypass_prevention'],
+        ['dim','→ plan.md written ✓']]},
+    {badge:'2',title:'EXECUTOR',inactive:false,
+      tags:[['brief.md','on'],['plan.md','on'],['workspace','on']],
+      lines:[['dim','$ cat plan.md  # planner\'s map'],['','All 8 scenarios from plan:'],
+        ['ok','  ✓ test_payment_happy_path'],['ok','  ✓ test_payment_idempotency_key'],
+        ['ok','  ✓ test_partial_refund_amount'],['ok','  ✓ test_webhook_retry_logic'],
+        ['ok','  ✓ test_concurrent_submit_lock'],['ok','  ✓ test_failure_and_rollback'],
+        ['ok','  ✓ test_expired_card_error'],['ok','  ✓ test_auth_bypass_prevention'],
+        ['ok','pytest → 8/8   Score: 1.00']]},
+    {badge:'3',title:'VERIFIER',inactive:true,tags:[['spec.md','on']],lines:[]}]},
+  full:{key:'full',layout:'three',scores:[0.00,0.80,0.80,1.00,1.00],agents:[
+    {badge:'1',title:'PLANNER',inactive:false,tags:[['spec.md','on']],
+      lines:[['dim','$ cat spec.md'],['','Decomposing requirements:'],
+        ['ok','  → 8 scenarios identified'],['ok','  → Convention: test_{x}_{y}'],
+        ['ok','  → Framework: pytest + httpx'],['ok','  → Fixtures: teardown required'],
+        ['dim','→ plan.md written ✓']]},
+    {badge:'2',title:'EXECUTOR',inactive:false,
+      tags:[['brief.md','on'],['plan.md','on'],['workspace','on']],
+      lines:[['dim','$ cat plan.md'],
+        ['ok','  ✓ test_payment_happy_path'],['ok','  ✓ test_payment_idempotency_key'],
+        ['ok','  ✓ test_partial_refund_amount'],['ok','  ✓ test_webhook_retry_logic'],
+        ['ok','  ✓ test_concurrent_submit_lock'],['ok','  ✓ test_failure_and_rollback'],
+        ['ok','  ✓ test_expired_card_error'],['ok','  ✓ test_auth_bypass_prevention'],
+        ['ok','pytest → 8/8 ✓']]},
+    {badge:'3',title:'VERIFIER',inactive:false,
+      tags:[['spec.md','on'],['workspace','on'],['read-only','on']],
+      lines:[['dim','$ diff tests/ spec.md'],
+        ['ok','  ✓ All 8 scenarios present'],['ok','  ✓ Naming convention: PASS'],
+        ['ok','  ✓ Async fixtures: correct'],['ok','  ✓ Teardown: in place'],['',''],
+        ['ok','attestation: {"verdict":"PASS","score":1.00}']]}]}
+};
+
+let _dt=[],_da=false,_dc='full';
+function _demoTimer(fn,ms){const t=setTimeout(fn,ms);_dt.push(t);}
+function replayDemo(){runDemo(_dc);}
+function runDemo(condKey){
+  _dt.forEach(clearTimeout);_dt=[];_da=false;_dc=condKey;
+  document.querySelectorAll('.demo-tab').forEach(b=>b.classList.toggle('active',b.dataset.cond===condKey));
+  const cond=DEMO_CONDS[condKey];
+  _buildPipeline(cond);_buildScores(cond);_animate(cond);
+}
+function _buildPipeline(cond){
+  const p=document.getElementById('demo-pipeline');if(!p)return;
+  p.innerHTML='';
+  p.className='demo-pipeline '+(cond.layout==='single'?'layout-single':'layout-three');
+  if(cond.layout==='single'){p.appendChild(_agentCard(cond.agents[0],0));}
+  else{cond.agents.forEach((agent,i)=>{if(i>0)p.appendChild(_arrow(i-1));p.appendChild(_agentCard(agent,i));});}
+}
+function _agentCard(agent,idx){
+  const d=document.createElement('div');
+  d.className='agent-card'+(agent.inactive?' inactive':'');d.id='dac-'+idx;
+  const tagsHtml=agent.tags.map(([l,s])=>`<span class="agent-tag${s==='on'?' on':''}">${l}</span>`).join('');
+  d.innerHTML=`<div class="agent-header"><div class="agent-badge">${agent.badge}</div><div class="agent-title">${agent.title}</div></div><div class="agent-tags">${tagsHtml}</div><div class="agent-log" id="dal-${idx}"></div>`;
+  return d;
+}
+function _arrow(idx){
+  const d=document.createElement('div');d.className='demo-arrow';d.id='dar-'+idx;
+  d.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>`;
+  return d;
+}
+function _buildScores(cond){
+  const g=document.getElementById('demo-scores-grid');if(!g)return;
+  const labels=['Oracle','Restr.','No Plan','No Ver.','Full'];
+  const keys=['oracle','restricted','noplan','noverify','full'];
+  g.innerHTML=keys.map((k,i)=>{
+    const v=cond.scores[i],isCur=k===cond.key;
+    const cls=v>=0.9?'c-green':v>=0.5?'c-yellow':'c-red';
+    return `<div class="sc-col"><div class="sc-lbl${isCur?' current':''}">${labels[i]}${isCur?' ◀':''}</div><div class="sc-track${isCur?' current':''}"><div class="sc-fill ${cls}" id="dsf-${k}"></div></div><div class="sc-val ${cls}" id="dsv-${k}">${v.toFixed(2)}</div></div>`;
+  }).join('');
+}
+function _animate(cond){
+  _da=true;const condKey=cond.key;
+  const active=cond.agents.map((a,i)=>({...a,idx:i})).filter(a=>!a.inactive);
+  let delay=200;
+  active.forEach(agent=>{
+    const cId='dac-'+agent.idx,lId='dal-'+agent.idx;
+    _demoTimer(()=>{const c=document.getElementById(cId);if(c)c.classList.add('is-animating');},delay);
+    agent.lines.forEach(([type,text])=>{
+      delay+=text.length>0?Math.max(80,Math.min(text.length*16,200)):65;
+      const d=delay;
+      _demoTimer(()=>{
+        if(!_da||_dc!==condKey)return;
+        const log=document.getElementById(lId);if(!log)return;
+        const row=document.createElement('div');
+        if(type==='ok')row.className='log-ok';
+        else if(type==='err')row.className='log-err';
+        else if(type==='warn')row.className='log-warn';
+        else if(type==='dim')row.className='log-dim';
+        row.textContent=text;log.appendChild(row);log.scrollTop=log.scrollHeight;
+      },d);
+    });
+    delay+=350;
+    _demoTimer(()=>{
+      if(!_da||_dc!==condKey)return;
+      const c=document.getElementById(cId);if(c)c.classList.remove('is-animating');
+      const next=cond.agents[agent.idx+1];
+      if(next&&!next.inactive){const ar=document.getElementById('dar-'+agent.idx);if(ar)ar.classList.add('lit');}
+    },delay);
+    delay+=200;
+  });
+  ['oracle','restricted','noplan','noverify','full'].forEach((k,i)=>{
+    _demoTimer(()=>{
+      if(!_da||_dc!==condKey)return;
+      const f=document.getElementById('dsf-'+k),v=document.getElementById('dsv-'+k);
+      if(f)f.style.height=(cond.scores[i]*100)+'%';
+      if(v)v.style.opacity='1';
+    },delay+100+i*120);
+  });
+}
+// Build static structure on load, animate once on scroll into view
+_buildPipeline(DEMO_CONDS['full']);
+_buildScores(DEMO_CONDS['full']);
+(function(){
+  const el=document.getElementById('demo');if(!el)return;
+  const io=new IntersectionObserver(es=>{
+    if(es[0].isIntersecting){_animate(DEMO_CONDS[_dc]);io.disconnect();}
+  },{threshold:0.15});
+  io.observe(el);
+})();
 
 </script>
 </body>
