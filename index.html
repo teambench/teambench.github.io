@@ -1558,7 +1558,7 @@ function _animate(cond){
       const globalIdx=prefix+i;
       const lId='dal-'+globalIdx;
       agent.lines.forEach(([type,text])=>{
-        delay+=text.length>0?Math.max(130,Math.min(text.length*22,280)):90;
+        delay+=text.length>0?Math.max(200,Math.min(text.length*32,420)):140;
         const d=delay;
         _demoTimer(()=>{
           if(!_da||_dc!==condKey)return;
