@@ -593,8 +593,8 @@
             <p class="demo-task-desc">Fix <strong>all</strong> security vulnerabilities in the authentication module. The specification lists 5 issues at varying severity — some subtle enough to be missed without careful spec analysis. Fixes must not introduce new regressions.</p>
             <div class="demo-tools-row">
               <span class="demo-tool-badge"><span class="role">Planner</span>read_file(spec.md)</span>
-              <span class="demo-tool-badge"><span class="role">Executor</span>edit_file · run_command · read_file(plan.md)</span>
-              <span class="demo-tool-badge"><span class="role">Verifier</span>read_file · grep (read-only)</span>
+              <span class="demo-tool-badge"><span class="role">Generator</span>edit_file · run_command · read_file(plan.md)</span>
+              <span class="demo-tool-badge"><span class="role">Evaluator</span>read_file · grep (read-only)</span>
             </div>
         </div>
         <div class="demo-tabs" id="demo-tabs">
@@ -624,9 +624,9 @@
     </div>
     <div class="findings-grid fade-up">
         <div class="card finding-card"><h3>The Equalizer Effect</h3><p>The weakest model (Claude Haiku 4.5) gains the most from team coordination, with +32.1% pass rate uplift — the largest gain across all tested models.</p><span class="finding-stat">+32.1% weakest model</span></div>
-        <div class="card finding-card"><h3>Planning Drives Value</h3><p>Planning adds +4.8% on average (p=0.02). The Planner's relay of specification details provides critical knowledge the Executor cannot access through its brief alone.</p><span class="finding-stat">+4.8% planning</span></div>
-        <div class="card finding-card"><h3>Verification Overhead</h3><p>LLM verifiers add no net value and hurt 31% of tasks through false rejection of valid work. No-Verify outperforms Full Team on 81.5% of tasks — the single strongest finding in the benchmark.</p><span class="finding-stat">81.5% tasks: No-Verify beats Full Team</span></div>
-        <div class="card finding-card"><h3>Hardest Tasks Benefit Most</h3><p>Bottom quintile tasks (oracle &lt; 22%) gain +15.3% from the full team. Easy tasks show negative uplift. (driven primarily by the planning component; full three-role team shows smaller gains due to verification overhead)</p><span class="finding-stat">+15.3% on Q1</span></div>
+        <div class="card finding-card"><h3>Planning Drives Value</h3><p>Planning adds +4.8% on average (p=0.02). The Planner's relay of specification details provides critical knowledge the Generator cannot access through its brief alone.</p><span class="finding-stat">+4.8% planning</span></div>
+        <div class="card finding-card"><h3>Evaluation Overhead</h3><p>LLM evaluators add no net value and hurt 31% of tasks through false rejection of valid work. No-Verify outperforms Full Team on 81.5% of tasks — the single strongest finding in the benchmark.</p><span class="finding-stat">81.5% tasks: No-Verify beats Full Team</span></div>
+        <div class="card finding-card"><h3>Hardest Tasks Benefit Most</h3><p>Bottom quintile tasks (oracle &lt; 22%) gain +15.3% from the full team. Easy tasks show negative uplift. (driven primarily by the planning component; full three-role team shows smaller gains due to evaluation overhead)</p><span class="finding-stat">+15.3% on Q1</span></div>
         <div class="card finding-card"><h3>Generator Bottleneck</h3><p>Swapping in a stronger Generator boosts score by +0.126 avg — more than any other role upgrade.</p><span class="finding-stat">+0.126 avg score</span></div>
         <div class="card finding-card"><h3>Adversarial Tasks Amplify Teamwork</h3><p>TRAP tasks have the highest team benefit. The Planner catches spec contradictions the Generator never sees.</p><span class="finding-stat">TNI = 0.93</span></div>
     </div>
@@ -692,7 +692,7 @@
 <section id="results">
     <div class="section-header fade-up">
         <h2 class="section-title">Five Conditions to Decompose Team Value</h2>
-        <p class="section-desc">No-Verify and Full Team tie on average (0.592), with No-Verify outperforming Full Team on most individual tasks — indicating the Verifier role adds overhead rather than correctness.</p>
+        <p class="section-desc">No-Verify and Full Team tie on average (0.592), with No-Verify outperforming Full Team on most individual tasks — indicating the Evaluator role adds overhead rather than correctness.</p>
     </div>
         
 <div class="charts-grid fade-up">
@@ -1096,7 +1096,7 @@ function buildCharts() {
     });
 
     charts.ablation = new Chart(document.getElementById('chart-ablation'), {
-        type:'bar', data:{ labels:['Oracle','Restricted','No Plan','No Verify','Full Team'], datasets:[{data:[0.575,0.571,0.544,0.592,0.592],backgroundColor:[c.barAlt,c.barAlt,c.neg,c.bar,c.bar],borderRadius:4,barThickness:36}] },
+        type:'bar', data:{ labels:['Oracle','Restricted','No Plan','No Eval','Full Team'], datasets:[{data:[0.575,0.571,0.544,0.592,0.592],backgroundColor:[c.barAlt,c.barAlt,c.neg,c.bar,c.bar],borderRadius:4,barThickness:36}] },
         options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{min:0.5,max:0.62,grid:{color:c.grid},ticks:{font:{size:10}}}}}
     });
 
@@ -1347,7 +1347,7 @@ const DEMO_CONDS = {
     stats:{toolCalls:7,agentTurns:1,rounds:1,fixed:'2/5'},
     bottleneck:'No spec \u2014 can only fix what is visible in code',
     metrics:{'Condition':'Restricted (no spec, 1 pass)','Score':'0.40 / 1.00','Vulnerabilities fixed':'2 of 5','Why it fails':'Brief mentions SQL+passwords only; CSRF, rate limiting, session fixation absent'},
-    insight:'Without spec access the agent can only fix what is visible in the code. Three of the five vulnerabilities are implicit requirements in the spec \u2014 the Executor guesses wrong on two of them.',
+    insight:'Without spec access the agent can only fix what is visible in the code. Three of the five vulnerabilities are implicit requirements in the spec \u2014 the Generator guesses wrong on two of them.',
     agents:[{badge:'★',title:'AGENT (RESTRICTED)',inactive:false,artifact:null,
       tags:[['spec.md','off'],['workspace','on'],['all tools','on']],
       lines:[
@@ -1365,13 +1365,13 @@ const DEMO_CONDS = {
       ]}]},
   noplan:{key:'noplan',verdict:'fail',score:0.80,isMultiTurn:true,
     stats:{toolCalls:17,agentTurns:4,rounds:2,fixed:'4/5'},
-    bottleneck:'No spec analysis \u2014 executor guesses wrong on CSRF detail in round 2',
-    metrics:{'Condition':'No Plan (Exec + Verify, multi-turn)','Score':'0.80 / 1.00','Round 1 fixes':'3 of 5','Round 2 fixes':'1 more \u2014 verifier guided','Still missing':'CSRF (\u00a74.3) \u2014 executor guessed wrong'},
-    insight:'Without a Planner reading the spec, the Executor misses the CSRF requirement in round 1. The Verifier catches it, but the Executor round-2 fix is incomplete \u2014 it adds token generation but not validation.',
+    bottleneck:'No spec analysis \u2014 generator guesses wrong on CSRF detail in round 2',
+    metrics:{'Condition':'No Plan (Exec + Verify, multi-turn)','Score':'0.80 / 1.00','Round 1 fixes':'3 of 5','Round 2 fixes':'1 more \u2014 evaluator guided','Still missing':'CSRF (\u00a74.3) \u2014 generator guessed wrong'},
+    insight:'Without a Planner reading the spec, the Generator misses the CSRF requirement in round 1. The Evaluator catches it, but the Generator round-2 fix is incomplete \u2014 it adds token generation but not validation.',
     rounds:[
       {label:'Round 1',feedbackNote:null,agents:[
         {badge:'1',title:'PLANNER',inactive:true,artifact:null,tags:[['spec.md','on']],lines:[]},
-        {badge:'2',title:'EXECUTOR',inactive:false,
+        {badge:'2',title:'GENERATOR',inactive:false,
           tags:[['brief.md','on'],['workspace','on'],['spec.md','off']],
           artifact:{label:'→ workspace after round 1',lines:['3/5 patched (SQL, session, bcrypt)','CSRF: missing','Rate limiting: missing']},
           lines:[
@@ -1380,7 +1380,7 @@ const DEMO_CONDS = {
             ['warn','  ⚠ CSRF — not in brief'],['warn','  ⚠ Rate limiting — not in brief'],
             ['tool','run_command("npm test")'],['result','↳ 3/5 fixed'],
           ]},
-        {badge:'3',title:'VERIFIER',inactive:false,artifact:null,
+        {badge:'3',title:'EVALUATOR',inactive:false,artifact:null,
           tags:[['spec.md','on'],['workspace','on'],['read-only','on']],
           lines:[
             ['tool','grep("csrf","src/")'],['result','↳ NOT FOUND ✗'],
@@ -1389,8 +1389,8 @@ const DEMO_CONDS = {
             ['tool','write_file("attestation.json")'],['result','↳ {"verdict":"PARTIAL","missing":["csrf","rate_limit"]}'],
           ]},
       ]},
-      {label:'Round 2',feedbackNote:'Verifier flagged: CSRF (§4.3), rate limiting (§5.1)',agents:[
-        {badge:'2',title:'EXECUTOR',inactive:false,artifact:null,
+      {label:'Round 2',feedbackNote:'Evaluator flagged: CSRF (§4.3), rate limiting (§5.1)',agents:[
+        {badge:'2',title:'GENERATOR',inactive:false,artifact:null,
           tags:[['attestation.json','on'],['workspace','on']],
           lines:[
             ['tool','read_file("attestation.json")'],['result','↳ missing: csrf, rate_limit'],
@@ -1399,7 +1399,7 @@ const DEMO_CONDS = {
             ['warn','      (missing: server-side validation)'],
             ['tool','run_command("npm test")'],['result','↳ 4/5 fixed'],
           ]},
-        {badge:'3',title:'VERIFIER',inactive:false,artifact:null,
+        {badge:'3',title:'EVALUATOR',inactive:false,artifact:null,
           tags:[['spec.md','on'],['workspace','on'],['read-only','on']],
           lines:[
             ['tool','grep("csrf_validate","src/")'],['result','↳ NOT FOUND ✗'],
@@ -1411,19 +1411,19 @@ const DEMO_CONDS = {
   full:{key:'full',verdict:'pass',score:1.00,isMultiTurn:true,
     stats:{toolCalls:23,agentTurns:5,rounds:2,fixed:'5/5'},
     bottleneck:null,
-    metrics:{'Condition':'Full Team, Multi-turn (2 rounds)','Score':'1.00 / 1.00','vs Oracle / 1-round':'+0.40 uplift','Key mechanism':'Verifier feedback \u2192 Executor round 2'},
-    insight:'Round 1 produces the same result as the single-pass team. The difference: Verifier\'s attestation.json is fed back to the Executor in round 2. Two additional fixes, full score.',
+    metrics:{'Condition':'Full Team, Multi-turn (2 rounds)','Score':'1.00 / 1.00','vs Oracle / 1-round':'+0.40 uplift','Key mechanism':'Evaluator feedback \u2192 Generator round 2'},
+    insight:'Round 1 produces the same result as the single-pass team. The difference: Evaluator\'s attestation.json is fed back to the Generator in round 2. Two additional fixes, full score.',
     rounds:[
       {label:'Round 1',feedbackNote:null,agents:[
         {badge:'1',title:'PLANNER',inactive:false,tags:[['spec.md','on']],
-          artifact:{label:'→ plan.md (sent to Executor)',lines:['§2.1 SQL injection — HIGH','§2.2 Session fixation — HIGH','§2.3 Plaintext passwords — HIGH','§4.3 CSRF token — MEDIUM','§5.1 Rate limiting — MEDIUM']},
+          artifact:{label:'→ plan.md (sent to Generator)',lines:['§2.1 SQL injection — HIGH','§2.2 Session fixation — HIGH','§2.3 Plaintext passwords — HIGH','§4.3 CSRF token — MEDIUM','§5.1 Rate limiting — MEDIUM']},
           lines:[
             ['tool','read_file("spec.md")'],
             ['result','↳ 5 vulnerabilities across §2, §4, §5'],
             ['result','↳ §4.3 CSRF — easy to miss, mark explicitly'],
             ['tool','write_file("plan.md")'],['result','↳ all 5 listed with exact fix instructions'],
           ]},
-        {badge:'2',title:'EXECUTOR',inactive:false,
+        {badge:'2',title:'GENERATOR',inactive:false,
           artifact:{label:'→ workspace after round 1',lines:['3/5 patched (SQL, session, bcrypt)','CSRF: not yet implemented','Rate limiting: not yet implemented']},
           tags:[['brief.md','on'],['plan.md','on'],['workspace','on']],
           lines:[
@@ -1435,7 +1435,7 @@ const DEMO_CONDS = {
             ['warn','  ⚠ Rate limiting — deferred'],
             ['tool','run_command("pytest auth/")'],['result','↳ 9/12 pass'],
           ]},
-        {badge:'3',title:'VERIFIER',inactive:false,artifact:null,
+        {badge:'3',title:'EVALUATOR',inactive:false,artifact:null,
           tags:[['spec.md','on'],['workspace','on'],['read-only','on']],
           lines:[
             ['tool','grep("csrf_token","auth/")'],['result','↳ NOT FOUND ✗'],
@@ -1447,20 +1447,20 @@ const DEMO_CONDS = {
             ['result','↳ {"verdict":"PARTIAL","missing":["csrf","rate_limit"]}'],
           ]},
       ]},
-      {label:'Round 2',feedbackNote:'Verifier flagged: CSRF token (§4.3), rate limiting (§5.1)',agents:[
-        {badge:'2',title:'EXECUTOR',inactive:false,artifact:null,
+      {label:'Round 2',feedbackNote:'Evaluator flagged: CSRF token (§4.3), rate limiting (§5.1)',agents:[
+        {badge:'2',title:'GENERATOR',inactive:false,artifact:null,
           tags:[['attestation.json','on'],['workspace','on']],
           lines:[
             ['tool','read_file("attestation.json")'],
             ['result','↳ missing: ["csrf","rate_limit"]'],
-            ['',''],['dim','Implementing remaining fixes from verifier feedback...'],
+            ['',''],['dim','Implementing remaining fixes from evaluator feedback...'],
             ['tool','edit_file("auth/login.py")'],
             ['ok','  ✓ CSRF token validation added (§4.3)'],
             ['ok','  ✓ Rate limiting middleware added (§5.1)'],
             ['tool','run_command("pytest auth/ -v")'],
             ['result','↳ 12/12 tests pass ✓'],
           ]},
-        {badge:'3',title:'VERIFIER',inactive:false,artifact:null,
+        {badge:'3',title:'EVALUATOR',inactive:false,artifact:null,
           tags:[['spec.md','on'],['workspace','on'],['read-only','on']],
           lines:[
             ['tool','grep("csrf_token","auth/")'],['result','↳ Found — validate_csrf_token() ✓'],
@@ -1503,7 +1503,7 @@ function _buildRound(container,round,ri){
   if(round.feedbackNote){
     const fb=document.createElement('div');fb.className='round-feedback';fb.id='rfb-'+ri;
     fb.style.opacity='0';fb.style.transition='opacity 0.5s';
-    fb.innerHTML=`<div class="round-feedback-label">↩ Verifier Feedback</div>${round.feedbackNote}`;
+    fb.innerHTML=`<div class="round-feedback-label">↩ Evaluator Feedback</div>${round.feedbackNote}`;
     container.appendChild(fb);
   }
   // Build horizontal grid
