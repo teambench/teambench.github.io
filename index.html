@@ -574,7 +574,9 @@
         </div>
         <div class="demo-tabs" id="demo-tabs">
             <button class="demo-tab" data-cond="oracle" onclick="runDemo('oracle')">Oracle</button>
-            <button class="demo-tab active" data-cond="full" onclick="runDemo('full')">Full Team · Multi-turn</button>
+            <button class="demo-tab" data-cond="restricted" onclick="runDemo('restricted')">Restricted</button>
+            <button class="demo-tab" data-cond="noplan" onclick="runDemo('noplan')">No Plan</button>
+            <button class="demo-tab active" data-cond="full" onclick="runDemo('full')">Full Team</button>
         </div>
         <div class="demo-thread" id="demo-thread"></div>
         <div class="demo-replay-row" style="margin-top:0.75rem;">
@@ -1303,6 +1305,67 @@ const DEMO_CONDS = {
         ['err','✗ GRADER: 3/5 vulnerabilities fixed'],
         ['err','  Score: 0.60 / 1.00'],
       ]}]},
+  restricted:{key:'restricted',verdict:'fail',score:0.40,isMultiTurn:false,
+    metrics:{'Condition':'Restricted (no spec, 1 pass)','Score':'0.40 / 1.00','Vulnerabilities fixed':'2 of 5','Why it fails':'Brief mentions SQL+passwords only; CSRF, rate limiting, session fixation absent'},
+    insight:'Without spec access the agent can only fix what is visible in the code. Three of the five vulnerabilities are implicit requirements in the spec — the Executor guesses wrong on two of them.',
+    agents:[{badge:'★',title:'AGENT (RESTRICTED)',inactive:false,artifact:null,
+      tags:[['spec.md','off'],['workspace','on'],['all tools','on']],
+      lines:[
+        ['tool','read_file("src/auth/login.js")'],['result','↳ SQL injection visible in code'],
+        ['tool','read_file("src/models/User.js")'],['result','↳ MD5 hashing visible'],
+        ['',''],['dim','Inferring requirements from code only...'],['',''],
+        ['tool','edit_file("src/auth/login.js")'],
+        ['ok','  ✓ SQL injection fixed (parameterized)'],
+        ['ok','  ✓ bcrypt hashing added'],
+        ['warn','  ⚠ Rate limiting — not in code, skipped'],
+        ['warn','  ⚠ CSRF token — not in code, skipped'],
+        ['warn','  ⚠ Session fixation — not in code, skipped'],
+        ['tool','run_command("npm test")'],['result','↳ 2/5 vulnerabilities fixed'],
+        ['err','✗ GRADER: Score 0.40 / 1.00'],
+      ]}]},
+  noplan:{key:'noplan',verdict:'fail',score:0.80,isMultiTurn:true,
+    metrics:{'Condition':'No Plan (Exec + Verify, multi-turn)','Score':'0.80 / 1.00','Round 1 fixes':'3 of 5','Round 2 fixes':'1 more — verifier guided','Still missing':'CSRF (§4.3) — executor guessed wrong'},
+    insight:'Without a Planner reading the spec, the Executor misses the CSRF requirement in round 1. The Verifier catches it, but the Executor's round-2 fix is incomplete — it adds token generation but not validation.',
+    rounds:[
+      {label:'Round 1',feedbackNote:null,agents:[
+        {badge:'1',title:'PLANNER',inactive:true,artifact:null,tags:[['spec.md','on']],lines:[]},
+        {badge:'2',title:'EXECUTOR',inactive:false,
+          tags:[['brief.md','on'],['workspace','on'],['spec.md','off']],
+          artifact:{label:'→ workspace after round 1',lines:['3/5 patched (SQL, session, bcrypt)','CSRF: missing','Rate limiting: missing']},
+          lines:[
+            ['tool','read_file("brief.md")'],['result','↳ mentions 3 HIGH vulns'],
+            ['ok','  ✓ SQL injection fixed'],['ok','  ✓ Session fixation fixed'],['ok','  ✓ bcrypt hashing'],
+            ['warn','  ⚠ CSRF — not in brief'],['warn','  ⚠ Rate limiting — not in brief'],
+            ['tool','run_command("npm test")'],['result','↳ 3/5 fixed'],
+          ]},
+        {badge:'3',title:'VERIFIER',inactive:false,artifact:null,
+          tags:[['spec.md','on'],['workspace','on'],['read-only','on']],
+          lines:[
+            ['tool','grep("csrf","src/")'],['result','↳ NOT FOUND ✗'],
+            ['tool','grep("rate","src/")'],['result','↳ NOT FOUND ✗'],
+            ['err','  ✗ CSRF token missing (§4.3)'],['err','  ✗ Rate limiting missing (§5.1)'],
+            ['tool','write_file("attestation.json")'],['result','↳ {"verdict":"PARTIAL","missing":["csrf","rate_limit"]}'],
+          ]},
+      ]},
+      {label:'Round 2',feedbackNote:'Verifier flagged: CSRF (§4.3), rate limiting (§5.1)',agents:[
+        {badge:'2',title:'EXECUTOR',inactive:false,artifact:null,
+          tags:[['attestation.json','on'],['workspace','on']],
+          lines:[
+            ['tool','read_file("attestation.json")'],['result','↳ missing: csrf, rate_limit'],
+            ['ok','  ✓ Rate limiting middleware added'],
+            ['warn','  ⚠ CSRF — added token generation only'],
+            ['warn','      (missing: server-side validation)'],
+            ['tool','run_command("npm test")'],['result','↳ 4/5 fixed'],
+          ]},
+        {badge:'3',title:'VERIFIER',inactive:false,artifact:null,
+          tags:[['spec.md','on'],['workspace','on'],['read-only','on']],
+          lines:[
+            ['tool','grep("csrf_validate","src/")'],['result','↳ NOT FOUND ✗'],
+            ['err','  ✗ CSRF validation still missing'],
+            ['tool','write_file("attestation.json")'],['result','↳ {"verdict":"PARTIAL","score":0.80}'],
+          ]},
+      ]},
+    ]},
   full:{key:'full',verdict:'pass',score:1.00,isMultiTurn:true,
     metrics:{'Condition':'Full Team, Multi-turn (2 rounds)','Score':'1.00 / 1.00','vs Oracle / 1-round':'+0.40 uplift','Key mechanism':'Verifier feedback → Executor round 2'},
     insight:'Round 1 produces the same result as the single-pass team. The difference: Verifier\'s attestation.json is fed back to the Executor in round 2. Two additional fixes, full score.',
