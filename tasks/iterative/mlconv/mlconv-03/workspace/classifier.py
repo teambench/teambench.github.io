@@ -56,6 +56,16 @@ def train(X_train, y_train):
     return clf
 
 
+# ── Reference solution (uncomment to verify the fix works) ──────────────────
+# THRESHOLD = 0.35
+#
+# def train(X_train, y_train):
+#     base = RandomForestClassifier(n_estimators=200, random_state=42, n_jobs=1)
+#     clf = CalibratedClassifierCV(base, method='isotonic', cv=3)
+#     clf.fit(X_train, y_train)
+#     return clf
+
+
 def predict(clf, X):
     """
     Predict binary labels using THRESHOLD applied to predicted probabilities.
