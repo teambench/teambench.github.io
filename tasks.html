@@ -243,16 +243,16 @@
         /* ── Expanded Detail ── */
         .card-detail {
             max-height: 0; overflow: hidden;
-            transition: max-height 0.4s ease;
+            transition: max-height 0.5s ease;
             border-top: 0 solid var(--border);
         }
         .task-card.expanded .card-detail {
-            max-height: 800px;
+            max-height: 1600px;
             border-top: 1px solid var(--border);
         }
         .detail-inner {
             padding: 1.25rem 1.5rem 1.5rem;
-            display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+            display: flex; flex-direction: column; gap: 1.25rem;
         }
 
         .detail-section { display: flex; flex-direction: column; gap: 0.75rem; }
@@ -324,12 +324,46 @@
         .footer-links a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
         .footer-links a:hover { color: var(--text); }
 
+        /* ── Info Split (3-role view) ── */
+        .info-split { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.6rem; margin: 0.25rem 0; }
+        .info-split-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 0.75rem; font-size: 0.72rem; }
+        .info-split-title { font-weight: 700; font-size: 0.7rem; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.35rem; }
+        .info-split-row { display: flex; align-items: center; gap: 0.3rem; margin-bottom: 0.15rem; font-family: 'Geist Mono', monospace; font-size: 0.65rem; color: var(--text-secondary); }
+        .info-split-row .yes { color: #4ade80; }
+        .info-split-row .no { color: #f87171; }
+
+        /* ── Pipeline result ── */
+        .pipeline-result { display: flex; align-items: center; gap: 0.5rem; margin: 0.25rem 0; padding: 0.6rem 0.75rem; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; font-family: 'Geist Mono', monospace; font-size: 0.68rem; flex-wrap: wrap; }
+        .pipeline-step { display: flex; flex-direction: column; align-items: center; gap: 0.15rem; }
+        .pipeline-step .step-label { font-weight: 700; font-size: 0.62rem; text-transform: uppercase; }
+        .pipeline-step .step-result { font-size: 0.6rem; color: var(--text-muted); text-align: center; max-width: 90px; line-height: 1.3; }
+        .pipeline-step.success .step-label { color: #4ade80; }
+        .pipeline-step.fail .step-label { color: #f87171; }
+        .pipeline-step.neutral .step-label { color: var(--text-muted); }
+        .pipeline-arrow { color: var(--text-muted); font-size: 0.75rem; flex-shrink: 0; }
+        .pipeline-insight { font-size: 0.72rem; color: var(--text-secondary); margin-top: 0.5rem; line-height: 1.6; font-style: italic; width: 100%; }
+
+        /* ── Not-evaluated badge ── */
+        .not-eval-badge { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; color: var(--text-muted); background: var(--score-bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.3rem 0.65rem; }
+
+        /* ── Actions row ── */
+        .actions-row { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+        .copy-id-btn {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            font-size: 0.78rem; color: var(--text-secondary);
+            padding: 0.4rem 0.8rem; border: 1px solid var(--border); border-radius: 6px;
+            cursor: pointer; background: transparent; font-family: 'Geist', sans-serif;
+            transition: all 0.2s;
+        }
+        .copy-id-btn:hover { border-color: var(--border-hover); color: var(--text); background: var(--bg-card-hover); }
+        .copy-id-btn svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2; }
+
         /* ── Responsive ── */
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .detail-inner { grid-template-columns: 1fr; }
             .footer-inner { flex-direction: column; gap: 0.75rem; }
             .card-desc { white-space: normal; }
+            .info-split { grid-template-columns: 1fr; }
         }
         @media (max-width: 480px) {
             .search-row { flex-direction: column; }
@@ -857,6 +891,142 @@ function render() {
     }
 }
 
+function buildInfoSplit(task) {
+    const u = task.id.toUpperCase();
+    const isDS = /^DS/.test(u);
+    const isSec = /^SEC|^CRYPTO/.test(u);
+
+    // Determine what each role sees based on task type
+    let plannerFiles, genFiles, evalFiles;
+    let plannerTools, genTools, evalTools;
+    let plannerWrites, genWrites, evalWrites;
+
+    if (isDS) {
+        plannerFiles = [['task-spec.md', true], ['dataset', false], ['notebook', false]];
+        genFiles     = [['task-spec.md (brief)', true], ['dataset', true], ['notebook workspace', true]];
+        evalFiles    = [['task-spec.md', true], ['notebook outputs', true], ['dataset', false]];
+        plannerTools = [['edit, run', false], ['read spec', true]];
+        genTools     = [['edit notebook', true], ['run cells', true], ['read data', true]];
+        evalTools    = [['read outputs', true], ['grep/diff', true], ['edit', false]];
+        plannerWrites = 'writes plan.md';
+        genWrites     = 'modifies notebook';
+        evalWrites    = 'attestation verdict';
+    } else if (isSec) {
+        plannerFiles = [['vuln-report.md', true], ['source code', false], ['workspace', false]];
+        genFiles     = [['vuln-report.md (brief)', true], ['source code', true], ['workspace (rw)', true]];
+        evalFiles    = [['vuln-report.md', true], ['patched code', true], ['exploit test', true]];
+        plannerTools = [['edit code', false], ['read report', true]];
+        genTools     = [['edit source', true], ['run tests', true], ['grep', true]];
+        evalTools    = [['read code', true], ['run exploit', true], ['edit', false]];
+        plannerWrites = 'writes remediation plan';
+        genWrites     = 'patches vulnerability';
+        evalWrites    = 'security attestation';
+    } else {
+        plannerFiles = [['spec.md', true], ['workspace', false], ['test suite', false]];
+        genFiles     = [['brief.md', true], ['workspace (rw)', true], ['test suite', true]];
+        evalFiles    = [['spec.md', true], ['workspace (ro)', true], ['test results', true]];
+        plannerTools = [['edit, run', false], ['read spec', true]];
+        genTools     = [['edit files', true], ['run tests', true], ['ls/grep', true]];
+        evalTools    = [['read, grep', true], ['run tests', true], ['edit', false]];
+        plannerWrites = 'writes plan.md';
+        genWrites     = 'modifies code';
+        evalWrites    = 'attestation verdict';
+    }
+
+    function fileRows(files) {
+        return files.map(([name, has]) =>
+            `<div class="info-split-row"><span class="${has ? 'yes' : 'no'}">${has ? '✓' : '✗'}</span> ${escHtml(name)}</div>`
+        ).join('');
+    }
+    function toolRows(tools) {
+        return tools.map(([name, has]) =>
+            `<div class="info-split-row"><span class="${has ? 'yes' : 'no'}">${has ? '✓' : '✗'}</span> ${escHtml(name)}</div>`
+        ).join('');
+    }
+
+    const domColors = { SE: '#60a5fa', DS: '#a78bfa', ML: '#34d399' };
+    const roleColor = domColors[task.domain] || '#60a5fa';
+
+    return `
+    <div class="info-split">
+        <div class="info-split-card">
+            <div class="info-split-title" style="color:${roleColor}">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                PLANNER
+            </div>
+            ${fileRows(plannerFiles)}
+            ${toolRows(plannerTools)}
+            <div class="info-split-row" style="margin-top:0.3rem;color:var(--text-muted);">&#8594; ${escHtml(plannerWrites)}</div>
+        </div>
+        <div class="info-split-card">
+            <div class="info-split-title" style="color:${roleColor}">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                GENERATOR
+            </div>
+            ${fileRows(genFiles)}
+            ${toolRows(genTools)}
+            <div class="info-split-row" style="margin-top:0.3rem;color:var(--text-muted);">&#8594; ${escHtml(genWrites)}</div>
+        </div>
+        <div class="info-split-card">
+            <div class="info-split-title" style="color:${roleColor}">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                EVALUATOR
+            </div>
+            ${fileRows(evalFiles)}
+            ${toolRows(evalTools)}
+            <div class="info-split-row" style="margin-top:0.3rem;color:var(--text-muted);">&#8594; ${escHtml(evalWrites)}</div>
+        </div>
+    </div>`;
+}
+
+function getPipelineInsight(s) {
+    if (s.full === 0) return 'Pipeline failed completely — the full team produced no valid output.';
+    if (s.noVer > s.full + 0.05) return 'Evaluation likely hurt — possible false rejection by the Evaluator.';
+    if (s.noPlan >= s.full + 0.05) return 'Planning overhead without benefit — Generator performed as well without a plan.';
+    if (s.full > s.oracle + 0.05) return 'Team coordination improved the result beyond the oracle baseline.';
+    if (s.full < s.oracle - 0.05) return 'Evaluator overhead reduced the score relative to the oracle baseline.';
+    if (s.noPlan < s.full - 0.05) return 'Planning was critical — removing the Planner significantly reduced performance.';
+    return 'Team performance matched the oracle baseline — coordination was effective but not decisive.';
+}
+
+function buildPipelineResult(s) {
+    const planStep   = s.noPlan < s.full - 0.05 ? 'success' : (s.noPlan > s.full + 0.05 ? 'fail' : 'neutral');
+    const genScore   = ((s.oracle + s.full) / 2);
+    const genStep    = genScore >= 0.7 ? 'success' : genScore >= 0.35 ? 'neutral' : 'fail';
+    const evalStep   = s.noVer > s.full + 0.05 ? 'fail' : 'success';
+
+    const planLabel  = planStep === 'success' ? 'plan helped' : planStep === 'fail' ? 'plan hurt' : 'plan neutral';
+    const genLabel   = genStep === 'success' ? `score ${s.full.toFixed(2)}` : genStep === 'fail' ? `low score ${s.full.toFixed(2)}` : `score ${s.full.toFixed(2)}`;
+    const evalLabel  = evalStep === 'success' ? 'accepted' : 'false reject?';
+
+    const upSign = s.uplift >= 0 ? '+' : '';
+    const insight = getPipelineInsight(s);
+
+    return `
+    <div class="pipeline-result">
+        <div class="pipeline-step ${planStep}">
+            <span class="step-label">Planner</span>
+            <span class="step-result">${planLabel}</span>
+        </div>
+        <span class="pipeline-arrow">&#8212;plan.md&#8212;&gt;</span>
+        <div class="pipeline-step ${genStep}">
+            <span class="step-label">Generator</span>
+            <span class="step-result">${genLabel}</span>
+        </div>
+        <span class="pipeline-arrow">&#8212;workspace&#8212;&gt;</span>
+        <div class="pipeline-step ${evalStep}">
+            <span class="step-label">Evaluator</span>
+            <span class="step-result">${evalLabel}</span>
+        </div>
+        <span class="pipeline-arrow" style="margin-left:0.25rem;">&#8212;</span>
+        <div class="pipeline-step ${s.uplift >= 0 ? 'success' : 'fail'}">
+            <span class="step-label">Uplift</span>
+            <span class="step-result">${upSign}${s.uplift.toFixed(2)}</span>
+        </div>
+        <div class="pipeline-insight">${escHtml(insight)}</div>
+    </div>`;
+}
+
 function buildCard(task) {
     const card = document.createElement('div');
     card.className = 'task-card';
@@ -886,8 +1056,18 @@ function buildCard(task) {
         </div>`;
     }
 
-    const roleAccess = getRoleAccess(task.id);
+    const ghId = task.id.replace(/_/g, '-').toLowerCase();
+    const ghUrl = `https://github.com/ybkim95/TeamBench/tree/main/tasks/${ghId}`;
+    const isStatic = /^GH|^GO|^TS|^JS|^DB|^SQL|^DS|^INC|^CROSS|^DIST|^CR/.test(task.id.toUpperCase());
+    const taskType = isStatic ? 'GitHub issue (static)' : 'Parameterized task';
+    const diffSource = task.difficulty === 'Expert' || task.difficulty === 'Hard'
+        ? 'from GitHub issue complexity'
+        : 'generator parameter';
 
+    // Section 2: Info split
+    const infoSplitHtml = buildInfoSplit(task);
+
+    // Section 3: Score comparison
     let scoreDetail = '';
     if (haScores) {
         const s = haScores;
@@ -896,7 +1076,7 @@ function buildCard(task) {
         const upSign = up > 0 ? '+' : '';
         scoreDetail = `
         <div class="detail-section">
-            <div class="detail-label">Scores (Gemini 3 Flash)</div>
+            <div class="detail-label">Score Comparison (Gemini 3 Flash)</div>
             <div class="score-rows">
                 ${scoreRow('Oracle', s.oracle)}
                 ${scoreRow('Restricted', s.restr)}
@@ -904,18 +1084,25 @@ function buildCard(task) {
                 ${scoreRow('No Evaluator', s.noVer)}
                 ${scoreRow('Full Team', s.full)}
             </div>
-            <div><span class="score-uplift ${upClass}">Uplift: ${upSign}${up.toFixed(2)}</span></div>
+            <div><span class="score-uplift ${upClass}">Uplift vs Oracle: ${upSign}${up.toFixed(2)}</span></div>
         </div>`;
     } else {
         scoreDetail = `
         <div class="detail-section">
-            <div class="detail-label">Scores</div>
-            <p style="font-size:0.78rem;color:var(--text-muted);">Not yet evaluated in Gemini 3 Flash run.</p>
+            <div class="detail-label">Score Comparison</div>
+            <span class="not-eval-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                Not yet evaluated
+            </span>
         </div>`;
     }
 
-    const ghId = task.id.replace(/_/g, '-').toLowerCase();
-    const ghUrl = `https://github.com/ybkim95/TeamBench/tree/main/tasks/${ghId}`;
+    // Section 4: Pipeline result
+    const pipelineHtml = haScores ? `
+        <div class="detail-section">
+            <div class="detail-label">Pipeline Result</div>
+            ${buildPipelineResult(haScores)}
+        </div>` : '';
 
     card.innerHTML = `
         <div class="card-summary">
@@ -934,38 +1121,58 @@ function buildCard(task) {
         <div class="card-detail" aria-hidden="true">
             <div class="detail-inner">
                 <div class="detail-section">
-                    <div>
-                        <div class="detail-label">Description</div>
-                        <p class="detail-desc">${escHtml(task.desc)}</p>
-                    </div>
-                    <div>
-                        <div class="detail-label">Metadata</div>
-                        <div class="meta-table">
-                            <div class="meta-row"><span class="meta-key">Category</span><span class="meta-val">${escHtml(task.category)}</span></div>
-                            <div class="meta-row"><span class="meta-key">Difficulty</span><span class="meta-val">${task.difficulty}</span></div>
-                            <div class="meta-row"><span class="meta-key">Domain</span><span class="meta-val">${task.domain}</span></div>
-                            <div class="meta-row"><span class="meta-key">Task ID</span><span class="meta-val">${escHtml(task.id)}</span></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="detail-label">Role Access</div>
-                        <div class="role-table">
-                            <div class="role-row"><span class="role-name">Planner</span><span class="role-access">${escHtml(roleAccess.planner)}</span></div>
-                            <div class="role-row"><span class="role-name">Generator</span><span class="role-access">${escHtml(roleAccess.generator)}</span></div>
-                            <div class="role-row"><span class="role-name">Evaluator</span><span class="role-access">${escHtml(roleAccess.evaluator)}</span></div>
-                        </div>
-                    </div>
-                    <a href="${ghUrl}" target="_blank" rel="noopener" class="gh-link">
-                        <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                        View on GitHub
-                    </a>
+                    <div class="detail-label">Task Objective</div>
+                    <p class="detail-desc">${escHtml(task.desc)}</p>
                 </div>
+
+                <div class="detail-section">
+                    <div class="detail-label">Information Split — What Each Role Sees</div>
+                    ${infoSplitHtml}
+                </div>
+
                 ${scoreDetail}
+
+                ${pipelineHtml}
+
+                <div class="detail-section">
+                    <div class="detail-label">Metadata</div>
+                    <div class="meta-table">
+                        <div class="meta-row"><span class="meta-key">Category</span><span class="meta-val">${escHtml(task.category)}</span></div>
+                        <div class="meta-row"><span class="meta-key">Difficulty</span><span class="meta-val">${task.difficulty} <span style="color:var(--text-muted);font-size:0.68rem;">(${diffSource})</span></span></div>
+                        <div class="meta-row"><span class="meta-key">Domain</span><span class="meta-val">${task.domain}</span></div>
+                        <div class="meta-row"><span class="meta-key">Task ID</span><span class="meta-val">${escHtml(task.id)}</span></div>
+                        <div class="meta-row"><span class="meta-key">Type</span><span class="meta-val">${taskType}</span></div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-label">Actions</div>
+                    <div class="actions-row">
+                        <a href="${ghUrl}" target="_blank" rel="noopener" class="gh-link">
+                            <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            View on GitHub
+                        </a>
+                        <button class="copy-id-btn" data-copy="${escHtml(task.id)}">
+                            <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                            Copy ID
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     `;
 
     card.querySelector('.card-summary').addEventListener('click', () => toggleCard(card, task.id));
+    card.querySelector('.copy-id-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = e.currentTarget.dataset.copy;
+        navigator.clipboard.writeText(id).then(() => {
+            const btn = e.currentTarget;
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
+            setTimeout(() => { btn.innerHTML = orig; }, 1500);
+        });
+    });
     return card;
 }
 
