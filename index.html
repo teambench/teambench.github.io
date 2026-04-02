@@ -437,7 +437,7 @@
 <!-- Hero -->
 <div class="hero">
     <h1>TeamBench</h1>
-    <p class="subtitle">Planning reliably helps (+4.8%). Verification reliably hurts (−5.8%). TeamBench measures when and why role specialization matters — with OS-enforced boundaries that prevent agents from working around their constraints.</p>
+    <p class="subtitle">A benchmark of 931 verified tasks across software engineering, data science, and machine learning with OS-enforced role separation for measuring when multi-agent collaboration genuinely helps.</p>
     
     <div class="stats-bar">
         <div class="stat-item"><div class="stat-value">931</div><div class="stat-label">Tasks</div></div>
@@ -1250,8 +1250,7 @@ function buildCharts() {
                     const bases = isDark
                 ? ['rgba(96,165,250,0.72)','rgba(167,139,250,0.68)','rgba(74,222,128,0.62)','rgba(251,191,36,0.65)','rgba(248,113,113,0.60)','rgba(34,211,238,0.60)','rgba(244,114,182,0.60)']
                 : ['rgba(37,99,235,0.68)','rgba(124,58,237,0.62)','rgba(22,163,74,0.58)','rgba(180,130,20,0.62)','rgba(200,50,50,0.55)','rgba(0,150,180,0.55)','rgba(180,50,130,0.55)'];
-                    const base = bases[i % bases.length];
-                    return i % 2 === 0 ? base : base + 'cc';
+                    return bases[i % bases.length];
                 }),
                 borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
                 borderWidth: 1,
@@ -1567,7 +1566,7 @@ function _animate(cond){
       const globalIdx=prefix+i;
       const lId='dal-'+globalIdx;
       agent.lines.forEach(([type,text])=>{
-        delay+=text.length>0?Math.max(200,Math.min(text.length*32,420)):140;
+        delay+=text.length>0?Math.max(280,Math.min(text.length*42,550)):180;
         const d=delay;
         _demoTimer(()=>{
           if(!_da||_dc!==condKey)return;
