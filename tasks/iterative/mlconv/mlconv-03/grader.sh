@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Grader for MLCONV-03: Hyperparameter Sensitivity Tradeoff
+# Grader for MLCONV-03: Precision-Recall Threshold Optimization
 # Outputs a score between 0.0 and 1.0 to stdout.
 
 set -euo pipefail
 
 WORKSPACE_DIR="$(dirname "$0")/workspace"
-F1_THRESHOLD=0.85
-TIME_THRESHOLD=60.0
+PRECISION_THRESHOLD=0.90
+RECALL_THRESHOLD=0.65
 
 cd "$WORKSPACE_DIR"
 
@@ -19,34 +19,33 @@ fi
 # Run train_and_evaluate and capture output
 EVAL_OUTPUT=$(python train_and_evaluate.py 2>/dev/null || true)
 
-# Parse F1 and training time
-VAL_F1=$(echo "$EVAL_OUTPUT" | grep -oP 'Validation F1:\s*\K[0-9]+\.[0-9]+' | head -1)
-TRAIN_TIME=$(echo "$EVAL_OUTPUT" | grep -oP 'Training time:\s*\K[0-9]+\.[0-9]+' | head -1)
+# Parse precision and recall
+PRECISION=$(echo "$EVAL_OUTPUT" | grep -oP 'Precision:\s*\K[0-9]+\.[0-9]+' | head -1)
+RECALL=$(echo "$EVAL_OUTPUT"    | grep -oP 'Recall:\s*\K[0-9]+\.[0-9]+'    | head -1)
 
-if [ -z "$VAL_F1" ] || [ -z "$TRAIN_TIME" ]; then
+if [ -z "$PRECISION" ] || [ -z "$RECALL" ]; then
     echo "0.0"
     exit 0
 fi
 
 # Compute score
 python3 - <<EOF
-val_f1 = float("$VAL_F1")
-train_time = float("$TRAIN_TIME")
-f1_threshold = float("$F1_THRESHOLD")
-time_threshold = float("$TIME_THRESHOLD")
+precision = float("$PRECISION")
+recall    = float("$RECALL")
+p_thresh  = float("$PRECISION_THRESHOLD")
+r_thresh  = float("$RECALL_THRESHOLD")
 
-passes_f1 = val_f1 >= f1_threshold
-passes_time = train_time <= time_threshold
+passes_precision = precision >= p_thresh
+passes_recall    = recall    >= r_thresh
 
-if passes_f1 and passes_time:
+if passes_precision and passes_recall:
     score = 1.0
-elif passes_f1 and not passes_time:
-    # Accurate but too slow: partial credit, penalized by time overage
-    time_ratio = min(train_time / time_threshold, 5.0)
-    score = 0.5 / time_ratio
-elif passes_time and not passes_f1:
-    # Fast but inaccurate
-    score = 0.25 * (val_f1 / f1_threshold)
+elif passes_precision and not passes_recall:
+    # High precision but recall still too low: partial credit
+    score = 0.5
+elif passes_recall and not passes_precision:
+    # Recall fixed but precision dropped too much: partial credit
+    score = 0.5
 else:
     score = 0.0
 

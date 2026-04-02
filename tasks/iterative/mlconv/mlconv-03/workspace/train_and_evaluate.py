@@ -1,87 +1,78 @@
 """
 Training and evaluation script for MLCONV-03.
-Times the training, evaluates on validation set, checks both constraints.
+Trains the model, evaluates precision and recall on the test set,
+and prints whether the constraints are satisfied.
 
 DO NOT MODIFY THIS FILE.
 """
 
 import sys
 import os
-import time
 import pandas as pd
 import numpy as np
-from sklearn.metrics import f1_score
-from sklearn.pipeline import Pipeline
+from sklearn.metrics import precision_score, recall_score
 
-F1_THRESHOLD = 0.85
-TIME_THRESHOLD = 60.0  # seconds
+PRECISION_THRESHOLD = 0.90
+RECALL_THRESHOLD    = 0.65
 
 
 def main():
     # Generate data if missing
-    if not os.path.exists("data/train.csv") or not os.path.exists("data/val.csv"):
+    if (not os.path.exists("data/train.csv") or
+            not os.path.exists("data/test.csv")):
         print("Data not found. Generating dataset...")
         from generate_data import generate_dataset
         os.makedirs("data", exist_ok=True)
-        train_df, val_df = generate_dataset(seed=42)
+        train_df, test_df = generate_dataset(seed=42)
         train_df.to_csv("data/train.csv", index=False)
-        val_df.to_csv("data/val.csv", index=False)
+        test_df.to_csv("data/test.csv", index=False)
         print("Dataset generated.")
 
     # Load data
     train_df = pd.read_csv("data/train.csv")
-    val_df = pd.read_csv("data/val.csv")
+    test_df  = pd.read_csv("data/test.csv")
 
-    X_train = train_df["text"].values
+    feature_cols = [c for c in train_df.columns if c != "label"]
+    X_train = train_df[feature_cols].values
     y_train = train_df["label"].values
-    X_val = val_df["text"].values
-    y_val = val_df["label"].values
+    X_test  = test_df[feature_cols].values
+    y_test  = test_df["label"].values
 
-    print(f"Train: {len(X_train)} samples")
-    print(f"Val:   {len(X_val)} samples")
-
-    # Import hyperparameter config
-    from classifier import get_vectorizer, get_classifier
-
-    vectorizer = get_vectorizer()
-    clf = get_classifier()
-
-    print(f"\nVectorizer: {vectorizer}")
-    print(f"Classifier: {clf}")
+    print(f"Train: {len(X_train)} samples "
+          f"({int(y_train.sum())} fraud, {y_train.mean():.1%} rate)")
+    print(f"Test:  {len(X_test)} samples "
+          f"({int(y_test.sum())} fraud, {y_test.mean():.1%} rate)")
     print()
 
-    # Time the training
+    # Import classifier module
+    from classifier import train, predict, THRESHOLD
+
+    print(f"Threshold: {THRESHOLD}")
     print("Training...")
-    t0 = time.perf_counter()
 
-    vectorizer.fit(X_train)
-    X_train_vec = vectorizer.transform(X_train)
-    clf.fit(X_train_vec, y_train)
+    clf = train(X_train, y_train)
+    y_pred = predict(clf, X_test)
 
-    training_time = time.perf_counter() - t0
+    precision = precision_score(y_test, y_pred, zero_division=0)
+    recall    = recall_score(y_test, y_pred, zero_division=0)
 
-    # Evaluate on validation set
-    X_val_vec = vectorizer.transform(X_val)
-    y_pred = clf.predict(X_val_vec)
-    val_f1 = f1_score(y_val, y_pred, average='macro', zero_division=0)
-
-    print(f"Training time: {training_time:.1f} seconds")
-    print(f"Validation F1: {val_f1:.4f}")
+    print(f"Precision: {precision:.4f}")
+    print(f"Recall:    {recall:.4f}")
     print()
 
-    passes_f1 = val_f1 >= F1_THRESHOLD
-    passes_time = training_time <= TIME_THRESHOLD
+    passes_precision = precision >= PRECISION_THRESHOLD
+    passes_recall    = recall    >= RECALL_THRESHOLD
 
-    if passes_f1 and passes_time:
-        print(f"PASS  (F1 {val_f1:.4f} >= {F1_THRESHOLD}, "
-              f"time {training_time:.1f}s <= {TIME_THRESHOLD}s)")
+    if passes_precision and passes_recall:
+        print(f"PASS  (precision {precision:.4f} >= {PRECISION_THRESHOLD}, "
+              f"recall {recall:.4f} >= {RECALL_THRESHOLD})")
         sys.exit(0)
     else:
         reasons = []
-        if not passes_f1:
-            reasons.append(f"F1 {val_f1:.4f} < {F1_THRESHOLD}")
-        if not passes_time:
-            reasons.append(f"training_time {training_time:.1f}s > {TIME_THRESHOLD}s")
+        if not passes_precision:
+            reasons.append(f"precision {precision:.4f} < {PRECISION_THRESHOLD}")
+        if not passes_recall:
+            reasons.append(f"recall {recall:.4f} < {RECALL_THRESHOLD}")
         print(f"FAIL  ({'; '.join(reasons)})")
         sys.exit(1)
 

@@ -24,7 +24,7 @@ if not os.path.exists("data/train.csv"):
     print("Data not found. Generating dataset...")
     from generate_data import generate_fraud_dataset
     os.makedirs("data", exist_ok=True)
-    train_df, test_df = generate_fraud_dataset(seed=42)
+    train_df, test_df = generate_fraud_dataset(seed=42, n_train=10000, n_test=5000)
     train_df.to_csv("data/train.csv", index=False)
     test_df.to_csv("data/test.csv", index=False)
     print("Dataset generated.")

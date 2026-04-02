@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 import os
 
-def generate_fraud_dataset(seed=42, n_train=5000, n_test=1000,
+def generate_fraud_dataset(seed=42, n_train=10000, n_test=5000,
                            fraud_rate=0.002, n_features=10):
     """
     Generate a synthetic imbalanced fraud dataset.

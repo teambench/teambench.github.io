@@ -1,43 +1,46 @@
-# MLCONV-03: Speed Up the Text Classifier
+# MLCONV-03: Fix the Fraud Detector's Recall
 
 ## Your Task
 
-The sentiment classifier in `classifier.py` is too slow for production. Tune the hyperparameters so it meets **both** constraints:
+The fraud detection classifier in `classifier.py` is too conservative. It flags fraud
+with high precision but misses too many real fraud cases. Tune it so it meets **both**
+constraints simultaneously:
 
-- **Validation F1 ≥ 0.85**
-- **Training time ≤ 60 seconds**
+- **Precision >= 0.90**
+- **Recall >= 0.65**
 
 ## Files to Work With
 
-- `classifier.py` — hyperparameters are defined here (modify this)
-- `train_and_evaluate.py` — run this to check F1 and training time
-- `data/train.csv`, `data/val.csv` — text data
+- `classifier.py` — model training and threshold config (modify this)
+- `train_and_evaluate.py` — run this to check precision and recall
+- `data/train.csv`, `data/test.csv` — numeric fraud features
 
 ## Quick Start
 
 ```bash
 pip install -r requirements.txt
-python train_and_evaluate.py    # check current F1 and time
+python train_and_evaluate.py    # check current precision and recall
 ```
 
 ## Current Behavior
 
 ```
-Training time: ~180.0 seconds
-Validation F1: 0.9100
-FAIL  (training_time 180.0 > 60)
+Threshold: 0.5
+Precision: 0.9710
+Recall:    0.6091
+FAIL  (recall 0.6091 < 0.65)
 ```
 
 ## Target
 
 ```
-Training time: <= 60 seconds
-Validation F1: >= 0.85
+Precision: >= 0.90
+Recall:    >= 0.65
 PASS
 ```
 
 ## Constraints
 
-- Keep TF-IDF + Logistic Regression (don't switch model families)
-- Only modify `classifier.py`
+- Keep RandomForest (do not switch model families)
+- Modify only `classifier.py`
 - Do not modify `train_and_evaluate.py`
