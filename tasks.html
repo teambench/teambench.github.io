@@ -1040,6 +1040,25 @@ if (saved) { document.documentElement.setAttribute('data-theme', saved); updateT
 
 // ── Init ──
 applyFilters();
+
+// ── Deep link: open task from URL hash (e.g. tasks.html#GH17) ──
+function openFromHash() {
+    const hash = window.location.hash.slice(1);
+    if (!hash) return;
+    // Clear filters so the task is visible
+    clearFilters();
+    applyFilters();
+    // Find the card
+    setTimeout(() => {
+        const card = document.querySelector(`.task-card[data-id="${hash}"]`);
+        if (card) {
+            toggleCard(card, hash);
+            setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+        }
+    }, 150);
+}
+openFromHash();
+window.addEventListener('hashchange', openFromHash);
 </script>
 </body>
 </html>
