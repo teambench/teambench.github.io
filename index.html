@@ -322,6 +322,9 @@
         .agent-tag.on { color: var(--text-secondary); border-color: var(--border-hover); }
         .agent-log { font-family: 'Geist Mono', monospace; font-size: 0.695rem; line-height: 1.75; color: var(--text-secondary); flex: 1; overflow: hidden; min-height: 130px; }
         .log-ok { color: #4ade80; } .log-err { color: #f87171; } .log-warn { color: #fbbf24; } .log-dim { color: var(--text-muted); }
+        .log-tool { color: #a78bfa; font-size: 0.67rem; }
+        .log-result { color: var(--text-muted); font-size: 0.66rem; padding-left: 0.4rem; }
+        .demo-arrow-label { font-size: 0.58rem; color: var(--text-muted); text-align: center; margin-top: 0.2rem; font-family: 'Geist Mono', monospace; }
         .demo-arrow { display: flex; align-items: center; justify-content: center; padding: 0 0.5rem; padding-top: 2.5rem; color: var(--text-muted); transition: color 0.4s; }
         .demo-arrow svg { width: 18px; height: 18px; }
         .demo-arrow.lit { color: var(--text); }
@@ -534,7 +537,7 @@
                 <span class="demo-task-id">TEST7</span>
                 <span class="demo-task-cat">Testing</span>
             </div>
-            <p class="demo-task-desc">Write an integration test suite for a payment processing service. The specification defines 8 required test scenarios, exact naming conventions, and async client requirements &mdash; details that determine whether a submission passes the grader.</p>
+            <p class="demo-task-desc">Write an integration test suite for a distributed payment microservice spanning 3 service boundaries. A 1,200-line specification defines cross-service transaction contracts, mandatory async client requirements (§6.3), and 8 test scenarios covering idempotency, concurrent locking, and webhook retry logic.</p>
         </div>
         <div class="demo-tabs" id="demo-tabs">
             <button class="demo-tab" data-cond="oracle" onclick="runDemo('oracle')">Oracle</button>
@@ -1253,78 +1256,152 @@ buildCharts();
 const DEMO_CONDS = {
   oracle:{key:'oracle',layout:'single',scores:[0.00,0.80,0.80,1.00,1.00],agents:[{badge:'★',title:'ORACLE AGENT',inactive:false,
     tags:[['spec.md','on'],['workspace','on'],['all tools','on']],
-    lines:[['dim','$ cat spec.md workspace/'],['dim','Parsing test requirements...'],['',''],
-      ['','Writing tests/test_integration.py:'],
-      ['ok','  ✓ def test_idempotency(): ...'],['ok','  ✓ def test_partial_refund(): ...'],
-      ['ok','  ✓ def test_concurrent(): ...'],['ok','  ✓ def test_webhook(): ...'],
-      ['ok','  ✓ def test_basic_payment(): ...'],['ok','  ✓ def test_failure_rollback(): ...'],
-      ['ok','  ✓ def test_auth_check(): ...'],['ok','  ✓ def test_rate_limit(): ...'],
-      ['',''],['ok','$ pytest → 8/8 passed'],['',''],
-      ['err','✗ GRADER: naming mismatch'],
-      ['err','  Expected: test_payment_idempotency_key'],
-      ['err','  Found:    test_idempotency'],
-      ['err','  Score: 0.00 / 1.00']]}]},
+    lines:[
+      ['tool','read_file("spec.md")'],         ['result','↳ 1,203 lines loaded'],
+      ['tool','read_file("payment_svc/")'],    ['result','↳ 3 services, 2,100 loc'],
+      ['tool','read_file("tests/unit/")'],     ['result','↳ 4 existing unit tests'],
+      ['',''],
+      ['dim','Planning 8-scenario suite...'],
+      ['',''],
+      ['tool','write_file("tests/test_integration.py")'],
+      ['result','↳ 8 functions, mocked HTTP clients'],
+      ['tool','run_command("pytest tests/ -v")'],
+      ['result','↳ 8/8 passed ✓'],
+      ['',''],
+      ['err','✗ GRADER FAIL — §6.3 violation'],
+      ['err','  Tests must use live httpx.AsyncClient'],
+      ['err','  Mocked responses don\'t satisfy cross-'],
+      ['err','  service contract requirements'],
+      ['err','  Score: 0.00 / 1.00'],
+    ]}]},
   restricted:{key:'restricted',layout:'single',scores:[0.00,0.80,0.80,1.00,1.00],agents:[{badge:'★',title:'AGENT (RESTRICTED)',inactive:false,
     tags:[['spec.md','off'],['workspace','on'],['all tools','on']],
-    lines:[['dim','$ ls workspace/  # no spec'],['dim','Inferring from existing code...'],['',''],
-      ['','Writing tests/test_integration.py:'],
-      ['ok','  ✓ test_payment_happy_path'],['ok','  ✓ test_payment_idempotency_key'],
-      ['ok','  ✓ test_partial_refund_amount'],['ok','  ✓ test_webhook_retry_logic'],
-      ['ok','  ✓ test_concurrent_submit_lock'],['ok','  ✓ test_failure_and_rollback'],
-      ['ok','  ✓ test_expired_card_error'],
-      ['warn','  ⚠ test_auth_bypass — not in workspace'],
-      ['',''],['warn','pytest → 7/8   Score: 0.80']]}]},
+    lines:[
+      ['tool','read_file("payment_svc/client.py")'],['result','↳ AsyncClient usage found in code'],
+      ['tool','read_file("tests/unit/")'],           ['result','↳ copying existing test patterns'],
+      ['',''],
+      ['dim','Inferring contract from codebase...'],
+      ['',''],
+      ['tool','write_file("tests/test_integration.py")'],
+      ['result','↳ 7 scenarios (inferred from code)'],
+      ['tool','run_command("pytest -v")'],
+      ['result','↳ 7/8 passed'],
+      ['',''],
+      ['warn','  ⚠ test_auth_bypass_prevention — missed'],
+      ['warn','    (only in spec, not in codebase)'],
+      ['warn','pytest → 7/8   Score: 0.80'],
+    ]}]},
   noplan:{key:'noplan',layout:'three',scores:[0.00,0.80,0.80,1.00,1.00],agents:[
     {badge:'1',title:'PLANNER',inactive:true,tags:[['spec.md','on']],lines:[]},
     {badge:'2',title:'EXECUTOR',inactive:false,
       tags:[['brief.md','on'],['workspace','on'],['spec.md','off']],
-      lines:[['dim','$ cat brief.md  # no plan'],['dim','Inferring scenarios from brief...'],['',''],
-        ['ok','  ✓ test_payment_happy_path'],['ok','  ✓ test_payment_idempotency_key'],
-        ['ok','  ✓ test_partial_refund_amount'],['ok','  ✓ test_webhook_retry_logic'],
-        ['ok','  ✓ test_concurrent_submit_lock'],['ok','  ✓ test_failure_and_rollback'],
-        ['ok','  ✓ test_expired_card_error'],['warn','  ⚠ test_auth_bypass — skipped']]},
+      lines:[
+        ['tool','read_file("brief.md")'],['result','↳ high-level summary only'],
+        ['',''],
+        ['dim','No plan — inferring from brief...'],
+        ['',''],
+        ['tool','write_file("tests/test_integration.py")'],
+        ['result','↳ 7 scenarios (missed auth bypass)'],
+        ['tool','run_command("pytest -v")'],
+        ['result','↳ 7/8 passed'],
+        ['warn','  ⚠ test_auth_bypass — not in brief'],
+      ]},
     {badge:'3',title:'VERIFIER',inactive:false,
       tags:[['spec.md','on'],['workspace','on'],['read-only','on']],
-      lines:[['dim','$ diff tests/ spec.md'],['ok','  ✓ 7 / 8 scenarios present'],
-        ['err','  ✗ test_auth_bypass_prevention missing'],['',''],
-        ['warn','attestation: {"verdict":"PARTIAL","score":0.80}']]}]},
+      lines:[
+        ['tool','read_file("spec.md")'],
+        ['tool','read_file("tests/test_integration.py")'],
+        ['',''],
+        ['dim','Cross-referencing spec requirements...'],
+        ['ok','  ✓ 7 / 8 scenarios present'],
+        ['err','  ✗ test_auth_bypass_prevention missing'],
+        ['err','    (spec §7.2, scenario 8 of 8)'],
+        ['',''],
+        ['tool','write_file("attestation.json")'],
+        ['result','↳ {"verdict":"PARTIAL","score":0.80}'],
+      ]}]},
   noverify:{key:'noverify',layout:'three',scores:[0.00,0.80,0.80,1.00,1.00],agents:[
     {badge:'1',title:'PLANNER',inactive:false,tags:[['spec.md','on']],
-      lines:[['dim','$ cat spec.md'],['','8 required scenarios:'],
-        ['ok','  • test_payment_happy_path'],['ok','  • test_payment_idempotency_key'],
-        ['ok','  • test_partial_refund_amount'],['ok','  • test_webhook_retry_logic'],
-        ['ok','  • test_concurrent_submit_lock'],['ok','  • test_failure_and_rollback'],
-        ['ok','  • test_expired_card_error'],['ok','  • test_auth_bypass_prevention'],
-        ['dim','→ plan.md written ✓']]},
+      lines:[
+        ['tool','read_file("spec.md")'],
+        ['result','↳ §3.1  Transaction semantics'],
+        ['result','↳ §6.3  live httpx.AsyncClient required'],
+        ['result','↳ §7.2  naming: test_{resource}_{cond}'],
+        ['result','↳ §8.0  8 mandatory scenarios'],
+        ['',''],
+        ['dim','Identified critical §6.3 requirement'],
+        ['dim','(oracle missed this for test impl)'],
+        ['',''],
+        ['tool','write_file("plan.md")'],
+        ['result','↳ 8 stubs + exact signatures + §6.3 note'],
+      ]},
     {badge:'2',title:'EXECUTOR',inactive:false,
       tags:[['brief.md','on'],['plan.md','on'],['workspace','on']],
-      lines:[['dim','$ cat plan.md  # planner\'s map'],['','All 8 scenarios from plan:'],
-        ['ok','  ✓ test_payment_happy_path'],['ok','  ✓ test_payment_idempotency_key'],
-        ['ok','  ✓ test_partial_refund_amount'],['ok','  ✓ test_webhook_retry_logic'],
-        ['ok','  ✓ test_concurrent_submit_lock'],['ok','  ✓ test_failure_and_rollback'],
-        ['ok','  ✓ test_expired_card_error'],['ok','  ✓ test_auth_bypass_prevention'],
-        ['ok','pytest → 8/8   Score: 1.00']]},
+      lines:[
+        ['tool','read_file("plan.md")'],   ['result','↳ 8 stubs + §6.3 constraint'],
+        ['tool','read_file("brief.md")'],  ['result','↳ service overview loaded'],
+        ['',''],
+        ['dim','Following plan — using live AsyncClient'],
+        ['',''],
+        ['tool','write_file("tests/test_integration.py")'],
+        ['ok','  ✓ test_payment_happy_path'],
+        ['ok','  ✓ test_payment_idempotency_key'],
+        ['ok','  ✓ test_partial_refund_amount'],
+        ['ok','  ✓ test_webhook_retry_logic'],
+        ['ok','  ✓ test_concurrent_submit_lock'],
+        ['ok','  ✓ test_failure_and_rollback'],
+        ['ok','  ✓ test_expired_card_error'],
+        ['ok','  ✓ test_auth_bypass_prevention'],
+        ['tool','run_command("pytest -v")'],
+        ['result','↳ 8/8 PASSED ✓  Score: 1.00'],
+      ]},
     {badge:'3',title:'VERIFIER',inactive:true,tags:[['spec.md','on']],lines:[]}]},
   full:{key:'full',layout:'three',scores:[0.00,0.80,0.80,1.00,1.00],agents:[
     {badge:'1',title:'PLANNER',inactive:false,tags:[['spec.md','on']],
-      lines:[['dim','$ cat spec.md'],['','Decomposing requirements:'],
-        ['ok','  → 8 scenarios identified'],['ok','  → Convention: test_{x}_{y}'],
-        ['ok','  → Framework: pytest + httpx'],['ok','  → Fixtures: teardown required'],
-        ['dim','→ plan.md written ✓']]},
+      lines:[
+        ['tool','read_file("spec.md")'],
+        ['result','↳ §6.3  live AsyncClient — CRITICAL'],
+        ['result','↳ §7.2  naming convention'],
+        ['result','↳ §8.0  8 scenarios required'],
+        ['',''],
+        ['dim','Decomposing requirements...'],
+        ['',''],
+        ['tool','write_file("plan.md")'],
+        ['result','↳ 8 stubs, §6.3 note, teardown spec'],
+      ]},
     {badge:'2',title:'EXECUTOR',inactive:false,
       tags:[['brief.md','on'],['plan.md','on'],['workspace','on']],
-      lines:[['dim','$ cat plan.md'],
-        ['ok','  ✓ test_payment_happy_path'],['ok','  ✓ test_payment_idempotency_key'],
-        ['ok','  ✓ test_partial_refund_amount'],['ok','  ✓ test_webhook_retry_logic'],
-        ['ok','  ✓ test_concurrent_submit_lock'],['ok','  ✓ test_failure_and_rollback'],
-        ['ok','  ✓ test_expired_card_error'],['ok','  ✓ test_auth_bypass_prevention'],
-        ['ok','pytest → 8/8 ✓']]},
+      lines:[
+        ['tool','read_file("plan.md")'],  ['result','↳ plan loaded from planner'],
+        ['',''],
+        ['tool','write_file("tests/test_integration.py")'],
+        ['ok','  ✓ test_payment_happy_path'],
+        ['ok','  ✓ test_payment_idempotency_key'],
+        ['ok','  ✓ test_partial_refund_amount'],
+        ['ok','  ✓ test_webhook_retry_logic'],
+        ['ok','  ✓ test_concurrent_submit_lock'],
+        ['ok','  ✓ test_failure_and_rollback'],
+        ['ok','  ✓ test_expired_card_error'],
+        ['ok','  ✓ test_auth_bypass_prevention'],
+        ['tool','run_command("pytest -v")'],
+        ['result','↳ 8/8 PASSED ✓'],
+      ]},
     {badge:'3',title:'VERIFIER',inactive:false,
       tags:[['spec.md','on'],['workspace','on'],['read-only','on']],
-      lines:[['dim','$ diff tests/ spec.md'],
-        ['ok','  ✓ All 8 scenarios present'],['ok','  ✓ Naming convention: PASS'],
-        ['ok','  ✓ Async fixtures: correct'],['ok','  ✓ Teardown: in place'],['',''],
-        ['ok','attestation: {"verdict":"PASS","score":1.00}']]}]}
+      lines:[
+        ['tool','read_file("spec.md")'],
+        ['tool','read_file("tests/test_integration.py")'],
+        ['',''],
+        ['tool','grep("httpx.AsyncClient", "tests/")'],
+        ['result','↳ 8/8 tests use live client ✓'],
+        ['tool','grep("@pytest.mark.asyncio", "tests/")'],
+        ['result','↳ 8/8 decorated ✓'],
+        ['ok','  ✓ All §7.2 naming conventions pass'],
+        ['ok','  ✓ §6.3 AsyncClient: verified'],
+        ['',''],
+        ['tool','write_file("attestation.json")'],
+        ['result','↳ {"verdict":"PASS","score":1.00}'],
+      ]}]}
 };
 
 let _dt=[],_da=false,_dc='full';
@@ -1341,7 +1418,12 @@ function _buildPipeline(cond){
   p.innerHTML='';
   p.className='demo-pipeline '+(cond.layout==='single'?'layout-single':'layout-three');
   if(cond.layout==='single'){p.appendChild(_agentCard(cond.agents[0],0));}
-  else{cond.agents.forEach((agent,i)=>{if(i>0)p.appendChild(_arrow(i-1));p.appendChild(_agentCard(agent,i));});}
+  else{
+    cond.agents.forEach((agent,i)=>{
+      if(i>0)p.appendChild(_arrow(i-1, i===1?'plan.md →':''));
+      p.appendChild(_agentCard(agent,i));
+    });
+  }
 }
 function _agentCard(agent,idx){
   const d=document.createElement('div');
@@ -1350,9 +1432,9 @@ function _agentCard(agent,idx){
   d.innerHTML=`<div class="agent-header"><div class="agent-badge">${agent.badge}</div><div class="agent-title">${agent.title}</div></div><div class="agent-tags">${tagsHtml}</div><div class="agent-log" id="dal-${idx}"></div>`;
   return d;
 }
-function _arrow(idx){
+function _arrow(idx, label){
   const d=document.createElement('div');d.className='demo-arrow';d.id='dar-'+idx;
-  d.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>`;
+  d.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>${label?`<div class="demo-arrow-label">${label}</div>`:''}`;
   return d;
 }
 function _buildScores(cond){
@@ -1373,7 +1455,7 @@ function _animate(cond){
     const cId='dac-'+agent.idx,lId='dal-'+agent.idx;
     _demoTimer(()=>{const c=document.getElementById(cId);if(c)c.classList.add('is-animating');},delay);
     agent.lines.forEach(([type,text])=>{
-      delay+=text.length>0?Math.max(80,Math.min(text.length*16,200)):65;
+      delay+=text.length>0?Math.max(70,Math.min(text.length*15,180)):55;
       const d=delay;
       _demoTimer(()=>{
         if(!_da||_dc!==condKey)return;
@@ -1383,6 +1465,8 @@ function _animate(cond){
         else if(type==='err')row.className='log-err';
         else if(type==='warn')row.className='log-warn';
         else if(type==='dim')row.className='log-dim';
+        else if(type==='tool')row.className='log-tool';
+        else if(type==='result')row.className='log-result';
         row.textContent=text;log.appendChild(row);log.scrollTop=log.scrollHeight;
       },d);
     });
