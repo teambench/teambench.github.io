@@ -1,0 +1,24 @@
+{
+  "name": "seciter-02-cors-csp",
+  "version": "1.0.0",
+  "description": "CORS/CSP configuration exercise",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "jest --forceExit --detectOpenHandles",
+    "test:security": "jest --testPathPattern=test/security/headers.test.js --forceExit",
+    "test:functional": "jest --testPathPattern=test/functional/app.test.js --forceExit"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "jest": "^28.1.3",
+    "supertest": "^6.3.3"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testTimeout": 10000
+  }
+}

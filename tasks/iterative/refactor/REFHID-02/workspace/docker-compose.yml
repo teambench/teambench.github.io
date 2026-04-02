@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      # HIDDEN CONSTRAINT: mounts app.ini — must change to app.yaml after migration
+      - ./config/app.ini:/app/config/app.ini:ro
+    environment:
+      - PYTHONPATH=/app
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: myapp_db
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: s3cr3t
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"

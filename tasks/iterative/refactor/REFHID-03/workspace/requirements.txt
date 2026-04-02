@@ -1,0 +1,4 @@
+pytest>=7.0
+SQLAlchemy>=2.0
+# prisma is the target library — uncomment after migration:
+# prisma>=0.11.0

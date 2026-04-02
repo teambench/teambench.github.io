@@ -1,0 +1,43 @@
+// Prisma schema for REFHID-03
+// Do NOT modify this file.
+
+generator client {
+  provider             = "prisma-client-py"
+  interface            = "asyncio"
+  recursive_type_depth = 5
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  email      String   @unique
+  name       String
+  created_at DateTime @default(now())
+  orders     Order[]
+
+  @@map("users")
+}
+
+model Order {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  total      Float
+  status     String   @default("pending")
+  created_at DateTime @default(now())
+  user       User     @relation(fields: [user_id], references: [id])
+
+  @@map("orders")
+}
+
+model Product {
+  id    Int    @id @default(autoincrement())
+  name  String
+  price Float
+  stock Int    @default(0)
+
+  @@map("products")
+}
