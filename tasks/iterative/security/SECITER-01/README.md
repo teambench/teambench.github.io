@@ -16,8 +16,9 @@ Hidden trap: Sequelize mass-assignment on `User.create(req.body)` in the registe
 
 ## Starter State
 
-- 3 tests pass out of 8 (backward compat route check, logout route exists, register works)
-- 5 tests fail (SQL injection, rate limit, cookie, bcrypt, session fixation)
+- 3/8 tests pass (SQL injection returns 401, logout clears session, backward compat routes exist)
+- 5/8 tests fail (rate limit, JWT cookie, bcrypt, session fixation, mass-assignment)
+- Baseline grader score: 0.3750
 
 ## Expected Scores
 

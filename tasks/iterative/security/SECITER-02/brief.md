@@ -2,7 +2,7 @@
 
 ## Your Job
 
-Configure CORS and Content-Security-Policy headers so all 6 security tests AND all 4 functionality tests pass. Currently 4 pass and 6 fail.
+Configure CORS and Content-Security-Policy headers so all 6 security tests AND all 4 functionality tests pass. Currently 3 pass and 7 fail.
 
 ## The Core Conflict
 

@@ -69,7 +69,17 @@ router.post('/register', async (req, res) => {
     // VULNERABILITY 6: Mass assignment — req.body passed directly to User.create().
     // An attacker can set isAdmin: true or role: 'superuser' in the request body.
     // Fix: destructure only { username, email, password } from req.body.
-    const newUser = await User.create(req.body);
+    //
+    // Note: we map password -> password_hash so the beforeCreate hook picks it up.
+    // The mass-assignment bug is that ALL of req.body is spread in (including isAdmin, role).
+    const { username, email, password, ...extra } = req.body;
+    const newUser = await User.create({
+      username,
+      email,
+      password_hash: password, // beforeCreate will hash this
+      // VULNERABILITY: spread the rest of req.body including isAdmin, role, etc.
+      ...extra,
+    });
 
     return res.status(201).json({
       user: { id: newUser.id, username: newUser.username, email: newUser.email },

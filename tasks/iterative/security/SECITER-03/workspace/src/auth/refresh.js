@@ -34,6 +34,7 @@ function refreshToken(oldToken) {
         const newToken = jwt.sign(payload, JWT_SECRET, {
           algorithm: JWT_ALGORITHM,
           expiresIn: JWT_EXPIRY,
+          jwtid: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
         });
 
         resolve({ token: newToken, decoded: payload });

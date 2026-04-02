@@ -18,8 +18,9 @@ jsonwebtoken v9 drops the async callback API. Three files use `jwt.verify(token,
 
 ## Starter State
 
-- Tests: 6/12 pass (auth tests all pass with v8 callbacks, but break after upgrade)
-- Audit: 3 critical/high CVEs
+- Tests: 12/12 pass with vulnerable packages installed (v8 callbacks work fine)
+- Audit: 5 critical/high CVEs (lodash, jsonwebtoken, express-fileupload)
+- Baseline grader score: 0.5000 (audit fails, tests pass)
 
 ## Expected Scores
 

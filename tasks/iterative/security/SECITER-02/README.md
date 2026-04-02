@@ -12,8 +12,9 @@ Configure CORS and Content-Security-Policy headers so all 6 security tests AND a
 
 ## Starter State
 
-- 1/10 security tests pass (CORS allowed origin reflects — but reflects ALL origins, which is wrong)
-- 3/10 functional tests fail (no nonce in HTML, no CSP header, nonce mismatch)
+- 3/10 tests pass (allowed-origin CORS header present, GET / returns 200, /api/data responds)
+- 7/10 tests fail (disallowed origin not rejected, no CSP, no security headers, no nonce in HTML)
+- Baseline grader score: 0.3000
 
 ## Expected Scores
 

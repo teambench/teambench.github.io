@@ -16,38 +16,34 @@ if [ ! -d "node_modules" ]; then
   npm install --silent 2>/dev/null || npm install
 fi
 
+parse_passed() {
+  local json="$1"
+  local tmpfile
+  tmpfile=$(mktemp)
+  echo "$json" > "$tmpfile"
+  node -e "
+const fs = require('fs');
+try {
+  const raw = fs.readFileSync('$tmpfile', 'utf8');
+  const jsonStart = raw.indexOf('{');
+  if (jsonStart === -1) { console.log(0); process.exit(0); }
+  const data = JSON.parse(raw.slice(jsonStart));
+  console.log(data.numPassedTests || 0);
+} catch(e) { console.log(0); }
+" 2>/dev/null || echo "0"
+  rm -f "$tmpfile"
+}
+
 echo "[grader] Running security tests..."
-SEC_OUTPUT=$(./node_modules/.bin/jest --testPathPattern=test/security/headers.test.js \
+SEC_JSON=$(./node_modules/.bin/jest --testPathPattern=test/security/headers.test.js \
   --forceExit --detectOpenHandles --no-coverage --json 2>/dev/null || true)
 
 echo "[grader] Running functional tests..."
-FUNC_OUTPUT=$(./node_modules/.bin/jest --testPathPattern=test/functional/app.test.js \
+FUNC_JSON=$(./node_modules/.bin/jest --testPathPattern=test/functional/app.test.js \
   --forceExit --detectOpenHandles --no-coverage --json 2>/dev/null || true)
 
-count_passed() {
-  local json="$1"
-  echo "$json" | node -e "
-const chunks = [];
-process.stdin.on('data', d => chunks.push(d));
-process.stdin.on('end', () => {
-  const raw = chunks.join('');
-  const jsonStart = raw.indexOf('{\"');
-  if (jsonStart === -1) { console.log(0); return; }
-  try {
-    const data = JSON.parse(raw.slice(jsonStart));
-    let passed = 0;
-    (data.testResults || []).forEach(suite => {
-      (suite.testResults || []).forEach(t => {
-        if (t.status === 'passed') passed++;
-      });
-    });
-    console.log(passed);
-  } catch(e) { console.log(0); }
-})" 2>/dev/null || echo "0"
-}
-
-SEC_PASSED=$(count_passed "$SEC_OUTPUT")
-FUNC_PASSED=$(count_passed "$FUNC_OUTPUT")
+SEC_PASSED=$(parse_passed "$SEC_JSON")
+FUNC_PASSED=$(parse_passed "$FUNC_JSON")
 
 TOTAL_PASSED=$(( SEC_PASSED + FUNC_PASSED ))
 TOTAL_PASSED=$(( TOTAL_PASSED > TOTAL_TESTS ? TOTAL_TESTS : TOTAL_PASSED ))

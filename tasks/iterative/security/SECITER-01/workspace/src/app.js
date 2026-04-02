@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(session({
   secret: process.env.SESSION_SECRET || 'test-session-secret',
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   name: 'sessionId',
   cookie: {
     httpOnly: true,

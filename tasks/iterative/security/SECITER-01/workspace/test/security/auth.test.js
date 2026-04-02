@@ -136,12 +136,15 @@ test('5. Session ID is regenerated after successful login', async () => {
 
   const agent = request.agent(app);
 
-  // Get a session ID before login
+  // GET /health initializes a session (saveUninitialized: true)
   const preRes = await agent.get('/health');
   const preCookies = preRes.headers['set-cookie'] || [];
   const preSession = preCookies.find(c => c.startsWith('sessionId='));
 
-  // Log in
+  // Pre-login session must exist
+  expect(preSession).toBeDefined();
+
+  // Log in with correct credentials
   const loginRes = await agent
     .post('/api/v1/auth/login')
     .send({ username: 'eve', password: 'loginpass' });
@@ -151,15 +154,14 @@ test('5. Session ID is regenerated after successful login', async () => {
   const postCookies = loginRes.headers['set-cookie'] || [];
   const postSession = postCookies.find(c => c.startsWith('sessionId='));
 
-  // If there was a pre-login session, the post-login session must differ
-  if (preSession && postSession) {
-    const preVal = preSession.split(';')[0];
-    const postVal = postSession.split(';')[0];
-    expect(preVal).not.toEqual(postVal);
-  } else {
-    // A new session must have been set after login
-    expect(postSession).toBeDefined();
-  }
+  // After successful login, a new session cookie MUST be issued (session.regenerate() called)
+  // If session ID was NOT regenerated, no Set-Cookie appears here — that is the vulnerability.
+  expect(postSession).toBeDefined();
+
+  // The new session ID must differ from the pre-login one
+  const preVal = preSession.split(';')[0];
+  const postVal = postSession.split(';')[0];
+  expect(preVal).not.toEqual(postVal);
 });
 
 // ─── Test 6: Session Cleared After Logout ────────────────────────────────────

@@ -18,53 +18,51 @@ fi
 
 echo "[grader] Running test suite..."
 
-# Run jest, capture output
-TEST_OUTPUT=$(./node_modules/.bin/jest --testPathPattern=test/security/auth.test.js \
+# Run jest with --json, capture output (stderr has human output, stdout has JSON)
+TEST_JSON=$(./node_modules/.bin/jest --testPathPattern=test/security/auth.test.js \
   --forceExit \
   --detectOpenHandles \
   --no-coverage \
   --json \
   2>/dev/null || true)
 
-# Parse JSON output for pass/fail counts
-PASSED=$(echo "$TEST_OUTPUT" | node -e "
-const chunks = [];
-process.stdin.on('data', d => chunks.push(d));
-process.stdin.on('end', () => {
-  const raw = chunks.join('');
-  // Jest --json outputs a JSON blob; find it (it may have prefixed log lines)
-  const jsonStart = raw.indexOf('{\"');
-  if (jsonStart === -1) { console.log(0); process.exit(0); }
-  try {
-    const data = JSON.parse(raw.slice(jsonStart));
-    let passed = 0;
-    (data.testResults || []).forEach(suite => {
-      (suite.testResults || []).forEach(t => {
-        if (t.status === 'passed') passed++;
-      });
-    });
-    console.log(passed);
-  } catch(e) { console.log(0); }
-})" 2>/dev/null || echo "0")
+# Parse using top-level numPassedTests / numFailedTests from Jest JSON
+PASSED=$(node -e "
+try {
+  const raw = $(printf '%s' "$TEST_JSON" | node -e "
+    const c=[]; process.stdin.on('data',d=>c.push(d)); process.stdin.on('end',()=>{
+      console.log(JSON.stringify(c.join('')));
+    });" 2>/dev/null || echo '""');
+  const data = JSON.parse(raw);
+  console.log(data.numPassedTests || 0);
+} catch(e) { console.log(0); }
+" 2>/dev/null || echo "0")
 
-FAILED=$(echo "$TEST_OUTPUT" | node -e "
-const chunks = [];
-process.stdin.on('data', d => chunks.push(d));
-process.stdin.on('end', () => {
-  const raw = chunks.join('');
-  const jsonStart = raw.indexOf('{\"');
-  if (jsonStart === -1) { console.log($TOTAL_TESTS); process.exit(0); }
-  try {
-    const data = JSON.parse(raw.slice(jsonStart));
-    let failed = 0;
-    (data.testResults || []).forEach(suite => {
-      (suite.testResults || []).forEach(t => {
-        if (t.status === 'failed') failed++;
-      });
-    });
-    console.log(failed);
-  } catch(e) { console.log($TOTAL_TESTS); }
-})" 2>/dev/null || echo "$TOTAL_TESTS")
+# Simpler approach: use node to parse the JSON directly from a temp file
+TMPFILE=$(mktemp)
+echo "$TEST_JSON" > "$TMPFILE"
+
+PASSED=$(node -e "
+const fs = require('fs');
+try {
+  const raw = fs.readFileSync('$TMPFILE', 'utf8');
+  const jsonStart = raw.indexOf('{');
+  const data = JSON.parse(raw.slice(jsonStart));
+  console.log(data.numPassedTests || 0);
+} catch(e) { console.log(0); }
+" 2>/dev/null || echo "0")
+
+FAILED=$(node -e "
+const fs = require('fs');
+try {
+  const raw = fs.readFileSync('$TMPFILE', 'utf8');
+  const jsonStart = raw.indexOf('{');
+  const data = JSON.parse(raw.slice(jsonStart));
+  console.log(data.numFailedTests || 0);
+} catch(e) { console.log($TOTAL_TESTS); }
+" 2>/dev/null || echo "$TOTAL_TESTS")
+
+rm -f "$TMPFILE"
 
 # Clamp to valid range
 PASSED=$(( PASSED > TOTAL_TESTS ? TOTAL_TESTS : PASSED ))
