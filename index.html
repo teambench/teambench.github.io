@@ -343,11 +343,37 @@
         .demo-replay-row { display: flex; justify-content: center; }
         .demo-replay-btn { padding: 0.38rem 1rem; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--text-secondary); font-family: 'Geist', sans-serif; font-size: 0.74rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.35rem; }
         .demo-replay-btn:hover { border-color: var(--border-hover); color: var(--text); }
+        /* Thread layout */
+        .demo-thread { max-width: 660px; margin: 0 auto 1.5rem; }
+        .thread-turn { position: relative; }
+        .turn-header { display: flex; align-items: flex-start; gap: 0.6rem; margin-bottom: 0.4rem; }
+        .turn-meta { flex: 1; }
+        .turn-name { font-weight: 700; font-size: 0.82rem; margin-bottom: 0.2rem; }
+        .turn-body { margin-left: 2.1rem; border-left: 1px solid var(--border); padding-left: 1rem; padding-bottom: 0.5rem; }
+        .turn-connector { margin-left: 0.7rem; width: 1px; height: 2rem; background: var(--border); transition: background 0.4s; position: relative; }
+        .turn-connector::after { content: ''; position: absolute; bottom: -1px; left: -3px; border: 4px solid transparent; border-top: 5px solid var(--border); transition: border-top-color 0.4s; }
+        .turn-connector.lit { background: var(--border-hover); }
+        .turn-connector.lit::after { border-top-color: var(--border-hover); }
+        .turn-artifact { margin-top: 0.65rem; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.85rem; font-family: 'Geist Mono', monospace; font-size: 0.67rem; opacity: 0; transition: opacity 0.5s; }
+        .artifact-label { color: var(--text-secondary); font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
+        .artifact-line { color: var(--text-secondary); line-height: 1.75; }
+        /* Eval card */
+        .eval-card { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; opacity: 0; transform: translateY(8px); transition: opacity 0.5s, transform 0.5s; margin-top: 0.5rem; }
+        .eval-card.show { opacity: 1; transform: translateY(0); }
+        .eval-header { padding: 0.85rem 1.1rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); background: var(--bg-card); }
+        .eval-verdict { font-weight: 800; font-size: 0.88rem; font-family: 'Geist Mono', monospace; }
+        .eval-verdict.pass, .eval-score.pass { color: #4ade80; }
+        .eval-verdict.partial, .eval-score.partial { color: #fbbf24; }
+        .eval-verdict.fail, .eval-score.fail { color: #f87171; }
+        .eval-score { font-family: 'Geist Mono', monospace; font-size: 1.5rem; font-weight: 900; letter-spacing: -0.04em; }
+        .eval-body { padding: 0.75rem 1.1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; background: var(--bg-card); }
+        .eval-metric-label { font-size: 0.6rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.15rem; }
+        .eval-metric-val { font-family: 'Geist Mono', monospace; font-size: 0.78rem; font-weight: 700; color: var(--text); }
+        .eval-insight { padding: 0.65rem 1.1rem; font-size: 0.78rem; color: var(--text-secondary); line-height: 1.65; border-top: 1px solid var(--border); }
         @media (max-width: 768px) {
             .demo-pipeline.layout-three { grid-template-columns: 1fr; }
             .demo-arrow { display: none; }
-            .demo-scores-grid { grid-template-columns: repeat(3, 1fr); }
-            .demo-scores-grid .sc-col:nth-child(4), .demo-scores-grid .sc-col:nth-child(5) { display: none; }
+            .eval-body { grid-template-columns: 1fr; }
         }
 </style>
 </head>
@@ -546,11 +572,7 @@
             <button class="demo-tab" data-cond="noverify" onclick="runDemo('noverify')">No Verify</button>
             <button class="demo-tab active" data-cond="full" onclick="runDemo('full')">Full Team</button>
         </div>
-        <div class="demo-pipeline layout-three" id="demo-pipeline"></div>
-        <div class="demo-score-box">
-            <div class="demo-score-hdr">Score comparison &mdash; all five conditions on this task (TEST7_integration_suite)</div>
-            <div class="demo-scores-grid" id="demo-scores-grid"></div>
-        </div>
+        <div class="demo-thread" id="demo-thread"></div>
         <div class="demo-replay-row" style="margin-top:0.75rem;">
             <button class="demo-replay-btn" onclick="replayDemo()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
@@ -1254,154 +1276,133 @@ buildCharts();
 
 // ── Live Demo ──
 const DEMO_CONDS = {
-  oracle:{key:'oracle',layout:'single',scores:[0.00,0.80,0.80,1.00,1.00],agents:[{badge:'★',title:'ORACLE AGENT',inactive:false,
-    tags:[['spec.md','on'],['workspace','on'],['all tools','on']],
-    lines:[
-      ['tool','read_file("spec.md")'],         ['result','↳ 1,203 lines loaded'],
-      ['tool','read_file("payment_svc/")'],    ['result','↳ 3 services, 2,100 loc'],
-      ['tool','read_file("tests/unit/")'],     ['result','↳ 4 existing unit tests'],
-      ['',''],
-      ['dim','Planning 8-scenario suite...'],
-      ['',''],
-      ['tool','write_file("tests/test_integration.py")'],
-      ['result','↳ 8 functions, mocked HTTP clients'],
-      ['tool','run_command("pytest tests/ -v")'],
-      ['result','↳ 8/8 passed ✓'],
-      ['',''],
-      ['err','✗ GRADER FAIL — §6.3 violation'],
-      ['err','  Tests must use live httpx.AsyncClient'],
-      ['err','  Mocked responses don\'t satisfy cross-'],
-      ['err','  service contract requirements'],
-      ['err','  Score: 0.00 / 1.00'],
-    ]}]},
-  restricted:{key:'restricted',layout:'single',scores:[0.00,0.80,0.80,1.00,1.00],agents:[{badge:'★',title:'AGENT (RESTRICTED)',inactive:false,
-    tags:[['spec.md','off'],['workspace','on'],['all tools','on']],
-    lines:[
-      ['tool','read_file("payment_svc/client.py")'],['result','↳ AsyncClient usage found in code'],
-      ['tool','read_file("tests/unit/")'],           ['result','↳ copying existing test patterns'],
-      ['',''],
-      ['dim','Inferring contract from codebase...'],
-      ['',''],
-      ['tool','write_file("tests/test_integration.py")'],
-      ['result','↳ 7 scenarios (inferred from code)'],
-      ['tool','run_command("pytest -v")'],
-      ['result','↳ 7/8 passed'],
-      ['',''],
-      ['warn','  ⚠ test_auth_bypass_prevention — missed'],
-      ['warn','    (only in spec, not in codebase)'],
-      ['warn','pytest → 7/8   Score: 0.80'],
-    ]}]},
-  noplan:{key:'noplan',layout:'three',scores:[0.00,0.80,0.80,1.00,1.00],agents:[
-    {badge:'1',title:'PLANNER',inactive:true,tags:[['spec.md','on']],lines:[]},
-    {badge:'2',title:'EXECUTOR',inactive:false,
-      tags:[['brief.md','on'],['workspace','on'],['spec.md','off']],
+  oracle:{key:'oracle',verdict:'fail',score:0.00,
+    metrics:{'Condition':'Oracle (full access)','Score':'0.00 / 1.00','vs Restricted':'−0.80 (worse than no-spec!)','TNI':'N/A (is baseline)'},
+    insight:'Oracle read §6.3 but implemented mocked HTTP calls. Tests passed locally — grader rejected because cross-service contracts require live requests.',
+    agents:[{badge:'★',title:'ORACLE AGENT',inactive:false,artifact:null,
+      tags:[['spec.md','on'],['workspace','on'],['all tools','on']],
       lines:[
-        ['tool','read_file("brief.md")'],['result','↳ high-level summary only'],
-        ['',''],
-        ['dim','No plan — inferring from brief...'],
-        ['',''],
+        ['tool','read_file("spec.md")'],['result','↳ 1,203 lines loaded'],
+        ['tool','read_file("payment_svc/")'],['result','↳ 3 services, 2,100 loc'],
+        ['tool','read_file("tests/unit/")'],['result','↳ 4 existing unit tests'],
+        ['',''],['dim','Planning 8-scenario suite...'],['',''],
         ['tool','write_file("tests/test_integration.py")'],
-        ['result','↳ 7 scenarios (missed auth bypass)'],
-        ['tool','run_command("pytest -v")'],
-        ['result','↳ 7/8 passed'],
-        ['warn','  ⚠ test_auth_bypass — not in brief'],
-      ]},
-    {badge:'3',title:'VERIFIER',inactive:false,
-      tags:[['spec.md','on'],['workspace','on'],['read-only','on']],
-      lines:[
-        ['tool','read_file("spec.md")'],
-        ['tool','read_file("tests/test_integration.py")'],
-        ['',''],
-        ['dim','Cross-referencing spec requirements...'],
-        ['ok','  ✓ 7 / 8 scenarios present'],
-        ['err','  ✗ test_auth_bypass_prevention missing'],
-        ['err','    (spec §7.2, scenario 8 of 8)'],
-        ['',''],
-        ['tool','write_file("attestation.json")'],
-        ['result','↳ {"verdict":"PARTIAL","score":0.80}'],
+        ['result','↳ 8 functions, mocked HTTP clients'],
+        ['tool','run_command("pytest tests/ -v")'],['result','↳ 8/8 passed ✓'],['',''],
+        ['err','✗ GRADER FAIL — §6.3 violation'],
+        ['err','  Tests must use live httpx.AsyncClient'],
+        ['err','  Mocked responses don\'t satisfy cross-service'],
+        ['err','  contract requirements  |  Score: 0.00 / 1.00'],
       ]}]},
-  noverify:{key:'noverify',layout:'three',scores:[0.00,0.80,0.80,1.00,1.00],agents:[
-    {badge:'1',title:'PLANNER',inactive:false,tags:[['spec.md','on']],
+  restricted:{key:'restricted',verdict:'partial',score:0.80,
+    metrics:{'Condition':'Restricted (no spec)','Score':'0.80 / 1.00','vs Oracle':'+0.80 (better than oracle!)','TNI':'>1.0 (exceeds oracle ceiling)'},
+    insight:'Without spec access, agent inferred AsyncClient from existing code — accidentally correct. Missed test_auth_bypass_prevention, which only appears in spec §7.2.',
+    agents:[{badge:'★',title:'AGENT (RESTRICTED)',inactive:false,artifact:null,
+      tags:[['spec.md','off'],['workspace','on'],['all tools','on']],
       lines:[
-        ['tool','read_file("spec.md")'],
-        ['result','↳ §3.1  Transaction semantics'],
-        ['result','↳ §6.3  live httpx.AsyncClient required'],
-        ['result','↳ §7.2  naming: test_{resource}_{cond}'],
-        ['result','↳ §8.0  8 mandatory scenarios'],
-        ['',''],
-        ['dim','Identified critical §6.3 requirement'],
-        ['dim','(oracle missed this for test impl)'],
-        ['',''],
-        ['tool','write_file("plan.md")'],
-        ['result','↳ 8 stubs + exact signatures + §6.3 note'],
-      ]},
-    {badge:'2',title:'EXECUTOR',inactive:false,
-      tags:[['brief.md','on'],['plan.md','on'],['workspace','on']],
-      lines:[
-        ['tool','read_file("plan.md")'],   ['result','↳ 8 stubs + §6.3 constraint'],
-        ['tool','read_file("brief.md")'],  ['result','↳ service overview loaded'],
-        ['',''],
-        ['dim','Following plan — using live AsyncClient'],
-        ['',''],
-        ['tool','write_file("tests/test_integration.py")'],
-        ['ok','  ✓ test_payment_happy_path'],
-        ['ok','  ✓ test_payment_idempotency_key'],
-        ['ok','  ✓ test_partial_refund_amount'],
-        ['ok','  ✓ test_webhook_retry_logic'],
-        ['ok','  ✓ test_concurrent_submit_lock'],
-        ['ok','  ✓ test_failure_and_rollback'],
-        ['ok','  ✓ test_expired_card_error'],
-        ['ok','  ✓ test_auth_bypass_prevention'],
-        ['tool','run_command("pytest -v")'],
-        ['result','↳ 8/8 PASSED ✓  Score: 1.00'],
-      ]},
-    {badge:'3',title:'VERIFIER',inactive:true,tags:[['spec.md','on']],lines:[]}]},
-  full:{key:'full',layout:'three',scores:[0.00,0.80,0.80,1.00,1.00],agents:[
-    {badge:'1',title:'PLANNER',inactive:false,tags:[['spec.md','on']],
-      lines:[
-        ['tool','read_file("spec.md")'],
-        ['result','↳ §6.3  live AsyncClient — CRITICAL'],
-        ['result','↳ §7.2  naming convention'],
-        ['result','↳ §8.0  8 scenarios required'],
-        ['',''],
-        ['dim','Decomposing requirements...'],
-        ['',''],
-        ['tool','write_file("plan.md")'],
-        ['result','↳ 8 stubs, §6.3 note, teardown spec'],
-      ]},
-    {badge:'2',title:'EXECUTOR',inactive:false,
-      tags:[['brief.md','on'],['plan.md','on'],['workspace','on']],
-      lines:[
-        ['tool','read_file("plan.md")'],  ['result','↳ plan loaded from planner'],
-        ['',''],
-        ['tool','write_file("tests/test_integration.py")'],
-        ['ok','  ✓ test_payment_happy_path'],
-        ['ok','  ✓ test_payment_idempotency_key'],
-        ['ok','  ✓ test_partial_refund_amount'],
-        ['ok','  ✓ test_webhook_retry_logic'],
-        ['ok','  ✓ test_concurrent_submit_lock'],
-        ['ok','  ✓ test_failure_and_rollback'],
-        ['ok','  ✓ test_expired_card_error'],
-        ['ok','  ✓ test_auth_bypass_prevention'],
-        ['tool','run_command("pytest -v")'],
-        ['result','↳ 8/8 PASSED ✓'],
-      ]},
-    {badge:'3',title:'VERIFIER',inactive:false,
-      tags:[['spec.md','on'],['workspace','on'],['read-only','on']],
-      lines:[
-        ['tool','read_file("spec.md")'],
-        ['tool','read_file("tests/test_integration.py")'],
-        ['',''],
-        ['tool','grep("httpx.AsyncClient", "tests/")'],
-        ['result','↳ 8/8 tests use live client ✓'],
-        ['tool','grep("@pytest.mark.asyncio", "tests/")'],
-        ['result','↳ 8/8 decorated ✓'],
-        ['ok','  ✓ All §7.2 naming conventions pass'],
-        ['ok','  ✓ §6.3 AsyncClient: verified'],
-        ['',''],
-        ['tool','write_file("attestation.json")'],
-        ['result','↳ {"verdict":"PASS","score":1.00}'],
-      ]}]}
+        ['tool','read_file("payment_svc/client.py")'],['result','↳ AsyncClient usage found in code'],
+        ['tool','read_file("tests/unit/")'],['result','↳ copying existing patterns'],
+        ['',''],['dim','Inferring contracts from codebase...'],['',''],
+        ['tool','write_file("tests/test_integration.py")'],['result','↳ 7 scenarios (inferred from code)'],
+        ['tool','run_command("pytest -v")'],['result','↳ 7/8 passed'],['',''],
+        ['warn','  ⚠ test_auth_bypass_prevention — missed'],
+        ['warn','    (in spec §7.2, not in codebase)'],
+        ['warn','Score: 0.80 / 1.00'],
+      ]}]},
+  noplan:{key:'noplan',verdict:'partial',score:0.80,
+    metrics:{'Condition':'No Plan (Exec + Verify)','Score':'0.80 / 1.00','vs Oracle':'+0.80','Verifier caught':'1 missing scenario'},
+    insight:'Verifier caught the missing test_auth_bypass_prevention — but the Executor had already submitted. The Verifier can flag issues but cannot fix them.',
+    agents:[
+      {badge:'1',title:'PLANNER',inactive:true,artifact:null,tags:[['spec.md','on']],lines:[]},
+      {badge:'2',title:'EXECUTOR',inactive:false,
+        tags:[['brief.md','on'],['workspace','on'],['spec.md','off']],
+        artifact:{label:'→ workspace/tests/ (passed to Verifier)',lines:['test_integration.py  (7 functions, 218 lines)','pytest: 7/8 passed  ⚠ auth_bypass missing']},
+        lines:[
+          ['tool','read_file("brief.md")'],['result','↳ high-level summary, no plan'],
+          ['',''],['dim','Inferring scenarios from brief...'],['',''],
+          ['tool','write_file("tests/test_integration.py")'],['result','↳ 7 scenarios (missed auth bypass)'],
+          ['tool','run_command("pytest -v")'],['result','↳ 7/8 passed'],
+          ['warn','  ⚠ test_auth_bypass — not in brief'],
+        ]},
+      {badge:'3',title:'VERIFIER',inactive:false,artifact:null,
+        tags:[['spec.md','on'],['workspace','on'],['read-only','on']],
+        lines:[
+          ['tool','read_file("spec.md")'],
+          ['tool','read_file("tests/test_integration.py")'],
+          ['',''],['dim','Cross-referencing §7.2 requirements...'],
+          ['ok','  ✓ 7 / 8 scenarios present'],
+          ['err','  ✗ test_auth_bypass_prevention missing'],
+          ['err','    (spec §7.2, scenario 8 of 8)'],
+          ['tool','write_file("attestation.json")'],
+          ['result','↳ {"verdict":"PARTIAL","score":0.80}'],
+        ]}]},
+  noverify:{key:'noverify',verdict:'pass',score:1.00,
+    metrics:{'Condition':'No Verify (Plan + Exec)','Score':'1.00 / 1.00','vs Oracle':'+1.00','Planning value':'+4.8% avg, +100% on this task'},
+    insight:'Planner\'s §6.3 note was the key unlock — Executor used live AsyncClient and all 8 scenarios matched spec naming. Verification not needed here.',
+    agents:[
+      {badge:'1',title:'PLANNER',inactive:false,
+        tags:[['spec.md','on']],
+        artifact:{label:'→ plan.md (sent to Executor)',lines:['• 8 stubs with exact function signatures','§6.3: use httpx.AsyncClient — NOT mocks  ← KEY','Naming: test_{resource}_{condition}','Fixtures: async teardown required (§8.1)']},
+        lines:[
+          ['tool','read_file("spec.md")'],
+          ['result','↳ §3.1  Transaction semantics'],
+          ['result','↳ §6.3  live httpx.AsyncClient required  ← KEY'],
+          ['result','↳ §7.2  naming: test_{resource}_{cond}'],
+          ['result','↳ §8.0  8 mandatory scenarios'],
+          ['',''],['dim','Oracle missed §6.3 implication for test impl.'],
+          ['tool','write_file("plan.md")'],['result','↳ 8 stubs + §6.3 constraint + teardown spec'],
+        ]},
+      {badge:'2',title:'EXECUTOR',inactive:false,artifact:null,
+        tags:[['brief.md','on'],['plan.md','on'],['workspace','on']],
+        lines:[
+          ['tool','read_file("plan.md")'],['result','↳ planner\'s analysis loaded'],
+          ['',''],['dim','Following plan — using live AsyncClient...'],
+          ['tool','write_file("tests/test_integration.py")'],
+          ['ok','  ✓ test_payment_happy_path'],['ok','  ✓ test_payment_idempotency_key'],
+          ['ok','  ✓ test_partial_refund_amount'],['ok','  ✓ test_webhook_retry_logic'],
+          ['ok','  ✓ test_concurrent_submit_lock'],['ok','  ✓ test_failure_and_rollback'],
+          ['ok','  ✓ test_expired_card_error'],['ok','  ✓ test_auth_bypass_prevention'],
+          ['tool','run_command("pytest -v")'],['result','↳ 8/8 PASSED ✓  Score: 1.00'],
+        ]},
+      {badge:'3',title:'VERIFIER',inactive:true,artifact:null,tags:[['spec.md','on']],lines:[]}]},
+  full:{key:'full',verdict:'pass',score:1.00,
+    metrics:{'Condition':'Full Team (3 roles)','Score':'1.00 / 1.00','vs Oracle':'+1.00  (TNI = ∞)','Verifier accuracy':'30.5% avg — adds signal here'},
+    insight:'Planner\'s §6.3 note guided the Executor; Verifier\'s independent grep checks confirmed compliance beyond pytest output. Complete end-to-end pipeline.',
+    agents:[
+      {badge:'1',title:'PLANNER',inactive:false,
+        tags:[['spec.md','on']],
+        artifact:{label:'→ plan.md (sent to Executor)',lines:['§6.3: live httpx.AsyncClient — NOT mocks  ← KEY','§7.2: naming test_{resource}_{condition}','8 stubs with exact signatures + teardown spec']},
+        lines:[
+          ['tool','read_file("spec.md")'],
+          ['result','↳ §6.3  live AsyncClient — CRITICAL'],
+          ['result','↳ §7.2  naming convention'],
+          ['result','↳ §8.0  8 scenarios required'],
+          ['tool','write_file("plan.md")'],['result','↳ 8 stubs, §6.3 note, teardown spec'],
+        ]},
+      {badge:'2',title:'EXECUTOR',inactive:false,
+        tags:[['brief.md','on'],['plan.md','on'],['workspace','on']],
+        artifact:{label:'→ workspace/tests/ (read by Verifier)',lines:['test_integration.py  (8 functions, 247 lines)','All using httpx.AsyncClient (per plan §6.3)','pytest: 8/8 PASSED']},
+        lines:[
+          ['tool','read_file("plan.md")'],['result','↳ plan loaded from planner'],
+          ['tool','write_file("tests/test_integration.py")'],
+          ['ok','  ✓ test_payment_happy_path'],['ok','  ✓ test_payment_idempotency_key'],
+          ['ok','  ✓ test_partial_refund_amount'],['ok','  ✓ test_webhook_retry_logic'],
+          ['ok','  ✓ test_concurrent_submit_lock'],['ok','  ✓ test_failure_and_rollback'],
+          ['ok','  ✓ test_expired_card_error'],['ok','  ✓ test_auth_bypass_prevention'],
+          ['tool','run_command("pytest -v")'],['result','↳ 8/8 PASSED ✓'],
+        ]},
+      {badge:'3',title:'VERIFIER',inactive:false,
+        tags:[['spec.md','on'],['workspace','on'],['read-only','on']],
+        artifact:{label:'→ attestation.json',lines:['{"verdict":"PASS","score":1.00,','  "checks":{"naming":"PASS","client":"PASS",','            "scenarios":"8/8","teardown":"PASS"}}']},
+        lines:[
+          ['tool','read_file("spec.md")'],
+          ['tool','read_file("tests/test_integration.py")'],
+          ['tool','grep("httpx.AsyncClient","tests/")'],['result','↳ 8/8 tests use live client ✓'],
+          ['tool','grep("@pytest.mark.asyncio","tests/")'],['result','↳ 8/8 decorated ✓'],
+          ['ok','  ✓ All §7.2 naming conventions pass'],
+          ['ok','  ✓ §6.3 AsyncClient: verified'],
+          ['tool','write_file("attestation.json")'],
+        ]}]}
 };
 
 let _dt=[],_da=false,_dc='full';
@@ -1411,49 +1412,36 @@ function runDemo(condKey){
   _dt.forEach(clearTimeout);_dt=[];_da=false;_dc=condKey;
   document.querySelectorAll('.demo-tab').forEach(b=>b.classList.toggle('active',b.dataset.cond===condKey));
   const cond=DEMO_CONDS[condKey];
-  _buildPipeline(cond);_buildScores(cond);_animate(cond);
+  _buildThread(cond);_animate(cond);
 }
-function _buildPipeline(cond){
-  const p=document.getElementById('demo-pipeline');if(!p)return;
-  p.innerHTML='';
-  p.className='demo-pipeline '+(cond.layout==='single'?'layout-single':'layout-three');
-  if(cond.layout==='single'){p.appendChild(_agentCard(cond.agents[0],0));}
-  else{
-    cond.agents.forEach((agent,i)=>{
-      if(i>0)p.appendChild(_arrow(i-1, i===1?'plan.md →':''));
-      p.appendChild(_agentCard(agent,i));
-    });
-  }
+function _buildThread(cond){
+  const c=document.getElementById('demo-thread');if(!c)return;
+  c.innerHTML='';
+  cond.agents.forEach((agent,i)=>{
+    if(agent.inactive)return;
+    const hasNext=cond.agents.slice(i+1).some(a=>!a.inactive);
+    const tagsHtml=agent.tags.map(([l,s])=>`<span class="agent-tag${s==='on'?' on':''}">${l}</span>`).join('');
+    const artHtml=agent.artifact?`<div class="turn-artifact" id="art-${i}"><div class="artifact-label">${agent.artifact.label}</div>${agent.artifact.lines.map(l=>`<div class="artifact-line">${l}</div>`).join('')}</div>`:'';
+    const turn=document.createElement('div');
+    turn.className='thread-turn';turn.id='tt-'+i;
+    turn.innerHTML=`<div class="turn-header"><div class="agent-badge">${agent.badge}</div><div class="turn-meta"><div class="turn-name">${agent.title}</div><div class="agent-tags">${tagsHtml}</div></div></div><div class="turn-body"><div class="agent-log" id="dal-${i}"></div>${artHtml}</div>${hasNext?`<div class="turn-connector" id="tc-${i}"></div>`:''}`;
+    c.appendChild(turn);
+  });
+  c.appendChild(_buildEvalCard(cond));
 }
-function _agentCard(agent,idx){
-  const d=document.createElement('div');
-  d.className='agent-card'+(agent.inactive?' inactive':'');d.id='dac-'+idx;
-  const tagsHtml=agent.tags.map(([l,s])=>`<span class="agent-tag${s==='on'?' on':''}">${l}</span>`).join('');
-  d.innerHTML=`<div class="agent-header"><div class="agent-badge">${agent.badge}</div><div class="agent-title">${agent.title}</div></div><div class="agent-tags">${tagsHtml}</div><div class="agent-log" id="dal-${idx}"></div>`;
+function _buildEvalCard(cond){
+  const d=document.createElement('div');d.className='eval-card';d.id='eval-card';
+  const vt=cond.verdict==='pass'?'PASS ✓':cond.verdict==='partial'?'PARTIAL ⚠':'FAIL ✗';
+  const mHtml=Object.entries(cond.metrics).map(([k,v])=>`<div class="eval-metric"><div class="eval-metric-label">${k}</div><div class="eval-metric-val">${v}</div></div>`).join('');
+  d.innerHTML=`<div class="eval-header"><div><div style="font-size:0.6rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.2rem;">Grader Result</div><div class="eval-verdict ${cond.verdict}">${vt}</div></div><div class="eval-score ${cond.verdict}">${cond.score.toFixed(2)}</div></div><div class="eval-body">${mHtml}</div><div class="eval-insight">${cond.insight}</div>`;
   return d;
-}
-function _arrow(idx, label){
-  const d=document.createElement('div');d.className='demo-arrow';d.id='dar-'+idx;
-  d.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>${label?`<div class="demo-arrow-label">${label}</div>`:''}`;
-  return d;
-}
-function _buildScores(cond){
-  const g=document.getElementById('demo-scores-grid');if(!g)return;
-  const labels=['Oracle','Restr.','No Plan','No Ver.','Full'];
-  const keys=['oracle','restricted','noplan','noverify','full'];
-  g.innerHTML=keys.map((k,i)=>{
-    const v=cond.scores[i],isCur=k===cond.key;
-    const cls=v>=0.9?'c-green':v>=0.5?'c-yellow':'c-red';
-    return `<div class="sc-col"><div class="sc-lbl${isCur?' current':''}">${labels[i]}${isCur?' ◀':''}</div><div class="sc-track${isCur?' current':''}"><div class="sc-fill ${cls}" id="dsf-${k}"></div></div><div class="sc-val ${cls}" id="dsv-${k}">${v.toFixed(2)}</div></div>`;
-  }).join('');
 }
 function _animate(cond){
   _da=true;const condKey=cond.key;
   const active=cond.agents.map((a,i)=>({...a,idx:i})).filter(a=>!a.inactive);
   let delay=200;
   active.forEach(agent=>{
-    const cId='dac-'+agent.idx,lId='dal-'+agent.idx;
-    _demoTimer(()=>{const c=document.getElementById(cId);if(c)c.classList.add('is-animating');},delay);
+    const lId='dal-'+agent.idx;
     agent.lines.forEach(([type,text])=>{
       delay+=text.length>0?Math.max(70,Math.min(text.length*15,180)):55;
       const d=delay;
@@ -1470,32 +1458,31 @@ function _animate(cond){
         row.textContent=text;log.appendChild(row);log.scrollTop=log.scrollHeight;
       },d);
     });
-    delay+=350;
+    delay+=300;
+    if(agent.artifact){
+      _demoTimer(()=>{
+        if(!_da||_dc!==condKey)return;
+        const a=document.getElementById('art-'+agent.idx);if(a)a.style.opacity='1';
+      },delay);
+      delay+=500;
+    }
     _demoTimer(()=>{
       if(!_da||_dc!==condKey)return;
-      const c=document.getElementById(cId);if(c)c.classList.remove('is-animating');
-      const next=cond.agents[agent.idx+1];
-      if(next&&!next.inactive){const ar=document.getElementById('dar-'+agent.idx);if(ar)ar.classList.add('lit');}
+      const tc=document.getElementById('tc-'+agent.idx);if(tc)tc.classList.add('lit');
     },delay);
-    delay+=200;
+    delay+=300;
   });
-  ['oracle','restricted','noplan','noverify','full'].forEach((k,i)=>{
-    _demoTimer(()=>{
-      if(!_da||_dc!==condKey)return;
-      const f=document.getElementById('dsf-'+k),v=document.getElementById('dsv-'+k);
-      if(f)f.style.height=(cond.scores[i]*100)+'%';
-      if(v)v.style.opacity='1';
-    },delay+100+i*120);
-  });
+  _demoTimer(()=>{
+    if(!_da||_dc!==condKey)return;
+    const ec=document.getElementById('eval-card');if(ec)ec.classList.add('show');
+  },delay+100);
 }
-// Build static structure on load, animate once on scroll into view
-_buildPipeline(DEMO_CONDS['full']);
-_buildScores(DEMO_CONDS['full']);
+_buildThread(DEMO_CONDS['full']);
 (function(){
   const el=document.getElementById('demo');if(!el)return;
   const io=new IntersectionObserver(es=>{
     if(es[0].isIntersecting){_animate(DEMO_CONDS[_dc]);io.disconnect();}
-  },{threshold:0.15});
+  },{threshold:0.1});
   io.observe(el);
 })();
 
