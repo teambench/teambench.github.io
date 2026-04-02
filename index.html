@@ -409,6 +409,7 @@
                 <li><a href="#demo">Demo</a></li>
                 <li><a href="#tasks">Tasks</a></li>
                 <li><a href="#submit">Citation</a></li>
+                <li><a href="#faq">FAQ</a></li>
             </ul>
         </div>
         <div class="nav-right" style="display:flex; align-items:center;">
@@ -428,7 +429,7 @@
 <!-- Hero -->
 <div class="hero">
     <h1>TeamBench</h1>
-    <p class="subtitle">A benchmark with OS-enforced role separation for measuring agent collaboration benefits.</p>
+    <p class="subtitle">Planning reliably helps (+4.8%). Verification reliably hurts (−5.8%). TeamBench measures when and why role specialization matters — with OS-enforced boundaries that prevent agents from working around their constraints.</p>
     
     <div class="stats-bar">
         <div class="stat-item"><div class="stat-value">931</div><div class="stat-label">Tasks</div></div>
@@ -614,10 +615,10 @@
         <p class="section-desc">Team benefit concentrates on the hardest tasks and weakest models.</p>
     </div>
     <div class="findings-grid fade-up">
-        <div class="card finding-card"><h3>The Equalizer Effect</h3><p>Team coordination helps weakest models the most. The lowest-scoring model gained +32.1%.</p><span class="finding-stat">+32.1% weakest</span></div>
-        <div class="card finding-card"><h3>Planning Drives Value</h3><p>The Planner's spec relay gives generators knowledge they can't recover on their own. Removing planning costs &minus;4.8% on average (p=0.02).</p><span class="finding-stat">+4.8% planning</span></div>
-        <div class="card finding-card"><h3>Evaluation Overhead</h3><p>LLM evaluators hurt more than they help. False rejections cost 31% of tasks. Net effect: &minus;5.8%.</p><span class="finding-stat">&minus;5.8% net</span></div>
-        <div class="card finding-card"><h3>Hardest Tasks Benefit Most</h3><p>Bottom quintile tasks (oracle &lt; 22%) gain +15.3% from the full team. Easy tasks show negative uplift.</p><span class="finding-stat">+15.3% on Q1</span></div>
+        <div class="card finding-card"><h3>The Equalizer Effect</h3><p>The weakest model (Claude Haiku 4.5) gains the most from team coordination, with +32.1% pass rate uplift — the largest gain across all tested models.</p><span class="finding-stat">+32.1% weakest model</span></div>
+        <div class="card finding-card"><h3>Planning Drives Value</h3><p>Planning adds +4.8% on average (p=0.02). The Planner's relay of specification details provides critical knowledge the Executor cannot access through its brief alone.</p><span class="finding-stat">+4.8% planning</span></div>
+        <div class="card finding-card"><h3>Verification Overhead</h3><p>LLM verifiers add no net value and hurt 31% of tasks through false rejection of valid work. No-Verify outperforms Full Team on 81.5% of tasks — the single strongest finding in the benchmark.</p><span class="finding-stat">81.5% tasks: No-Verify beats Full Team</span></div>
+        <div class="card finding-card"><h3>Hardest Tasks Benefit Most</h3><p>Bottom quintile tasks (oracle &lt; 22%) gain +15.3% from the full team. Easy tasks show negative uplift. (driven primarily by the planning component; full three-role team shows smaller gains due to verification overhead)</p><span class="finding-stat">+15.3% on Q1</span></div>
         <div class="card finding-card"><h3>Generator Bottleneck</h3><p>Swapping in a stronger Generator boosts score by +0.126 avg — more than any other role upgrade.</p><span class="finding-stat">+0.126 avg score</span></div>
         <div class="card finding-card"><h3>Adversarial Tasks Amplify Teamwork</h3><p>TRAP tasks have the highest team benefit. The Planner catches spec contradictions the Generator never sees.</p><span class="finding-stat">TNI = 0.93</span></div>
     </div>
@@ -682,7 +683,8 @@
 <!-- Charts -->
 <section id="results">
     <div class="section-header fade-up">
-        <h2 class="section-title">Visualizations</h2>
+        <h2 class="section-title">Five Conditions to Decompose Team Value</h2>
+        <p class="section-desc">No-Verify and Full Team tie on average (0.592), with No-Verify outperforming Full Team on most individual tasks — indicating the Verifier role adds overhead rather than correctness.</p>
     </div>
         
 <div class="charts-grid fade-up">
@@ -721,8 +723,11 @@
             <div class="chart-wrap"><canvas id="chart-ablation"></canvas></div>
         </div>
     </div>
+    <p style="max-width:700px;margin:1rem auto 0;text-align:center;font-size:0.8rem;color:var(--text-muted);line-height:1.7;">
+        <strong>Note:</strong> All conditions use a single LLM call per agent role. The team pipeline uses 2–3× more LLM calls than the oracle. A compute-matched oracle comparison (oracle with 3 sequential self-calls) is ongoing — results pending.
+    </p>
 
-    
+
 </section>
 
 <hr class="divider">
@@ -788,11 +793,8 @@
 
 <hr class="divider">
 
-
-<hr class="divider">
-
 <!-- FAQ -->
-<!-- <section id="faq">
+<section id="faq">
     <div class="section-header fade-up">
         <h2 class="section-title">FAQ</h2>
     </div>
@@ -837,7 +839,7 @@
     </div>
 </section>
 
-<hr class="divider"> -->
+<hr class="divider">
 
 <div class="cta">
     
