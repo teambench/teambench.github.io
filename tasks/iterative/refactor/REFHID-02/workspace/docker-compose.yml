@@ -6,7 +6,6 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      # HIDDEN CONSTRAINT: mounts app.ini — must change to app.yaml after migration
       - ./config/app.ini:/app/config/app.ini:ro
     environment:
       - PYTHONPATH=/app

@@ -8,7 +8,6 @@ TOTAL=10
 
 cd "$WORKSPACE"
 
-# Ensure dependencies
 if ! python -c "import yaml" &>/dev/null 2>&1; then
     pip install PyYAML -q 2>/dev/null || true
 fi
@@ -16,39 +15,10 @@ if ! python -m pytest --version &>/dev/null 2>&1; then
     pip install pytest -q 2>/dev/null || true
 fi
 
-# Run tests
-REPORT_FILE="$(mktemp /tmp/refhid02_report.XXXXXX.json)"
-python -m pytest test/ \
-    --tb=no \
-    -q \
-    --json-report \
-    --json-report-file="$REPORT_FILE" \
-    2>/dev/null || true
+OUTPUT=$(python -m pytest test/ --tb=no -q 2>&1 || true)
 
-if [ ! -s "$REPORT_FILE" ]; then
-    pip install pytest-json-report -q 2>/dev/null || true
-    python -m pytest test/ \
-        --tb=no \
-        -q \
-        --json-report \
-        --json-report-file="$REPORT_FILE" \
-        2>/dev/null || true
-fi
-
-PASSED=0
-if [ -s "$REPORT_FILE" ]; then
-    PASSED=$(python3 -c "
-import json
-with open('$REPORT_FILE') as f:
-    data = json.load(f)
-print(data.get('summary', {}).get('passed', 0))
-" 2>/dev/null || echo 0)
-else
-    OUTPUT=$(python -m pytest test/ --tb=no -q 2>&1 || true)
-    PASSED=$(echo "$OUTPUT" | grep -oP '^\d+ passed' | grep -oP '^\d+' || echo 0)
-fi
-
-rm -f "$REPORT_FILE"
+PASSED=$(echo "$OUTPUT" | grep -oP '\d+(?= passed)' | tail -1 || echo 0)
+PASSED=${PASSED:-0}
 
 python3 -c "
 passed = int('$PASSED')
