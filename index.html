@@ -574,8 +574,7 @@
         </div>
         <div class="demo-tabs" id="demo-tabs">
             <button class="demo-tab" data-cond="oracle" onclick="runDemo('oracle')">Oracle</button>
-            <button class="demo-tab" data-cond="single" onclick="runDemo('single')">Team · 1 Round</button>
-            <button class="demo-tab active" data-cond="full" onclick="runDemo('full')">Team · Multi-turn</button>
+            <button class="demo-tab active" data-cond="full" onclick="runDemo('full')">Full Team · Multi-turn</button>
         </div>
         <div class="demo-thread" id="demo-thread"></div>
         <div class="demo-replay-row" style="margin-top:0.75rem;">
@@ -1304,47 +1303,6 @@ const DEMO_CONDS = {
         ['err','✗ GRADER: 3/5 vulnerabilities fixed'],
         ['err','  Score: 0.60 / 1.00'],
       ]}]},
-  single:{key:'single',verdict:'fail',score:0.60,isMultiTurn:false,
-    metrics:{'Condition':'Full Team, 1 Round','Score':'0.60 / 1.00','Verifier found':'2 missing fixes','Result':'Verifier can flag — cannot force re-run'},
-    insight:'The Verifier correctly identified both missing vulnerabilities. But in a single-pass pipeline, there is no mechanism to send findings back. The pipeline terminates with a PARTIAL verdict.',
-    agents:[
-      {badge:'1',title:'PLANNER',inactive:false,tags:[['spec.md','on']],
-        artifact:{label:'→ plan.md (sent to Executor)',lines:['§2.1 SQL injection — HIGH','§2.2 Session fixation — HIGH','§2.3 Plaintext passwords — HIGH','§4.3 CSRF token — MEDIUM','§5.1 Rate limiting — MEDIUM']},
-        lines:[
-          ['tool','read_file("spec.md")'],
-          ['result','↳ §2  3 HIGH-severity issues'],
-          ['result','↳ §4  CSRF — easy to miss (marked MEDIUM)'],
-          ['result','↳ §5  Rate limiting — often skipped'],
-          ['tool','write_file("plan.md")'],['result','↳ All 5 vulnerabilities listed in priority order'],
-        ]},
-      {badge:'2',title:'EXECUTOR',inactive:false,
-        tags:[['brief.md','on'],['plan.md','on'],['workspace','on']],
-        artifact:{label:'→ workspace (read by Verifier)',lines:['3/5 vulnerabilities patched','CSRF token: not implemented','Rate limiting: not implemented','pytest: 9/12 pass']},
-        lines:[
-          ['tool','read_file("plan.md")'],['result','↳ 5 issues listed'],
-          ['dim','Fixing HIGH severity first...'],
-          ['ok','  ✓ SQL injection fixed'],
-          ['ok','  ✓ Session fixation fixed'],
-          ['ok','  ✓ bcrypt hashing added'],
-          ['warn','  ⚠ CSRF — ran out of context budget'],
-          ['warn','  ⚠ Rate limiting — deferred to "phase 2"'],
-          ['tool','run_command("pytest auth/")'],['result','↳ 9/12 pass'],
-        ]},
-      {badge:'3',title:'VERIFIER',inactive:false,artifact:null,
-        tags:[['spec.md','on'],['workspace','on'],['read-only','on']],
-        lines:[
-          ['tool','grep("csrf_token","auth/")'],['result','↳ 0 matches — NOT FOUND ✗'],
-          ['tool','grep("rate_limit","auth/")'],['result','↳ 0 matches — NOT FOUND ✗'],
-          ['ok','  ✓ SQL injection: fixed'],
-          ['ok','  ✓ Session fixation: fixed'],
-          ['ok','  ✓ Password hashing: fixed'],
-          ['err','  ✗ CSRF token: missing (§4.3)'],
-          ['err','  ✗ Rate limiting: missing (§5.1)'],
-          ['tool','write_file("attestation.json")'],
-          ['result','↳ {"verdict":"PARTIAL","fixed":3,"total":5}'],
-          ['',''],
-          ['warn','⚠ Pipeline ends here. No re-run possible.'],
-        ]}]},
   full:{key:'full',verdict:'pass',score:1.00,isMultiTurn:true,
     metrics:{'Condition':'Full Team, Multi-turn (2 rounds)','Score':'1.00 / 1.00','vs Oracle / 1-round':'+0.40 uplift','Key mechanism':'Verifier feedback → Executor round 2'},
     insight:'Round 1 produces the same result as the single-pass team. The difference: Verifier\'s attestation.json is fed back to the Executor in round 2. Two additional fixes, full score.',
