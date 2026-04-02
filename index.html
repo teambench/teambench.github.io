@@ -1439,33 +1439,35 @@ function runDemo(condKey){
   const cond=DEMO_CONDS[condKey];
   _buildThread(cond);_animate(cond);
 }
+function _buildRound(container,round,ri){
+  // Round separator
+  const sep=document.createElement('div');sep.className='round-sep';
+  sep.innerHTML=`<div class="round-sep-line"></div><div class="round-sep-label${ri>0?' r2':''}">${round.label}</div><div class="round-sep-line"></div>`;
+  container.appendChild(sep);
+  // Feedback note
+  if(round.feedbackNote){
+    const fb=document.createElement('div');fb.className='round-feedback';fb.id='rfb-'+ri;
+    fb.style.opacity='0';fb.style.transition='opacity 0.5s';
+    fb.innerHTML=`<div class="round-feedback-label">↩ Verifier Feedback</div>${round.feedbackNote}`;
+    container.appendChild(fb);
+  }
+  // Agents
+  round.agents.forEach((agent,i)=>{
+    const globalIdx='r'+ri+'a'+i;
+    const hasNext=i<round.agents.length-1;
+    const tagsHtml=agent.tags.map(([l,s])=>`<span class="agent-tag${s==='on'?' on':''}">${l}</span>`).join('');
+    const artHtml=agent.artifact?`<div class="turn-artifact" id="art-${globalIdx}"><div class="artifact-label">${agent.artifact.label}</div>${agent.artifact.lines.map(l=>`<div class="artifact-line">${l}</div>`).join('')}</div>`:'';
+    const turn=document.createElement('div');turn.className='thread-turn';turn.id='tt-'+globalIdx;
+    turn.innerHTML=`<div class="turn-header"><div class="agent-badge">${agent.badge}</div><div class="turn-meta"><div class="turn-name">${agent.title}</div><div class="agent-tags">${tagsHtml}</div></div></div><div class="turn-body"><div class="agent-log" id="dal-${globalIdx}"></div>${artHtml}</div>${hasNext?`<div class="turn-connector" id="tc-${globalIdx}"></div>`:''}`;
+    container.appendChild(turn);
+  });
+}
 function _buildThread(cond){
   const c=document.getElementById('demo-thread');if(!c)return;
   c.innerHTML='';
   if(cond.isMultiTurn&&cond.rounds){
-    cond.rounds.forEach((round,ri)=>{
-      // Round separator
-      const sep=document.createElement('div');sep.className='round-sep';
-      sep.innerHTML=`<div class="round-sep-line"></div><div class="round-sep-label${ri===1?' r2':''}">${round.label}</div><div class="round-sep-line"></div>`;
-      c.appendChild(sep);
-      // Feedback note for round 2+
-      if(round.feedbackNote){
-        const fb=document.createElement('div');fb.className='round-feedback';fb.id='rfb-'+ri;
-        fb.style.opacity='0';fb.style.transition='opacity 0.5s';
-        fb.innerHTML=`<div class="round-feedback-label">↩ Verifier Feedback</div>${round.feedbackNote}`;
-        c.appendChild(fb);
-      }
-      // Agents in this round
-      round.agents.forEach((agent,i)=>{
-        const globalIdx='r'+ri+'a'+i;
-        const hasNext=i<round.agents.length-1;
-        const tagsHtml=agent.tags.map(([l,s])=>`<span class="agent-tag${s==='on'?' on':''}">${l}</span>`).join('');
-        const artHtml=agent.artifact?`<div class="turn-artifact" id="art-${globalIdx}"><div class="artifact-label">${agent.artifact.label}</div>${agent.artifact.lines.map(l=>`<div class="artifact-line">${l}</div>`).join('')}</div>`:'';
-        const turn=document.createElement('div');turn.className='thread-turn';turn.id='tt-'+globalIdx;
-        turn.innerHTML=`<div class="turn-header"><div class="agent-badge">${agent.badge}</div><div class="turn-meta"><div class="turn-name">${agent.title}</div><div class="agent-tags">${tagsHtml}</div></div></div><div class="turn-body"><div class="agent-log" id="dal-${globalIdx}"></div>${artHtml}</div>${hasNext?`<div class="turn-connector" id="tc-${globalIdx}"></div>`:''}`;
-        c.appendChild(turn);
-      });
-    });
+    // Only build round 1 initially; subsequent rounds are injected during animation
+    _buildRound(c,cond.rounds[0],0);
   } else {
     cond.agents.forEach((agent,i)=>{
       if(agent.inactive)return;
@@ -1530,14 +1532,24 @@ function _animate(cond){
   }
   if(cond.isMultiTurn&&cond.rounds){
     cond.rounds.forEach((round,ri)=>{
-      // Reveal feedback note before round 2+
-      if(ri>0&&round.feedbackNote){
-        delay+=300;
+      if(ri>0){
+        // Inject this round into DOM dynamically (after previous round finishes)
+        const injectDelay=delay-350;
         _demoTimer(()=>{
           if(!_da||_dc!==condKey)return;
-          const fb=document.getElementById('rfb-'+ri);if(fb)fb.style.opacity='1';
-        },delay);
-        delay+=500;
+          const anchor=document.getElementById('eval-card');if(!anchor)return;
+          const tmp=document.createElement('div');
+          _buildRound(tmp,round,ri);
+          while(tmp.firstChild)anchor.parentNode.insertBefore(tmp.firstChild,anchor);
+        },injectDelay);
+        // Reveal feedback note
+        if(round.feedbackNote){
+          _demoTimer(()=>{
+            if(!_da||_dc!==condKey)return;
+            const fb=document.getElementById('rfb-'+ri);if(fb)fb.style.opacity='1';
+          },delay);
+          delay+=500;
+        }
       }
       animateAgents(round.agents,'r'+ri+'a');
       delay+=400;
