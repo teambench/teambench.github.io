@@ -397,6 +397,18 @@
         @media (max-width: 480px) {
             .search-row { flex-direction: column; }
         }
+
+        /* ── Spec/Brief tabs ── */
+        .spec-brief-section { margin-bottom: 1rem; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+        .sb-tabs { display: flex; border-bottom: 1px solid var(--border); }
+        .sb-tab { flex: 1; padding: 0.5rem 0.75rem; font-family: 'Geist Mono', monospace; font-size: 0.72rem; font-weight: 600; background: var(--bg); border: none; color: var(--text-muted); cursor: pointer; transition: all 0.2s; text-align: center; }
+        .sb-tab:first-child { border-right: 1px solid var(--border); }
+        .sb-tab.active { background: var(--bg-card); color: var(--text); }
+        .sb-tab:hover { color: var(--text-secondary); }
+        .sb-content { padding: 0; }
+        .sb-pre { font-family: 'Geist Mono', monospace; font-size: 0.72rem; line-height: 1.7; color: var(--text-secondary); padding: 0.75rem 1rem; margin: 0; white-space: pre-wrap; word-break: break-word; max-height: 400px; overflow-y: auto; background: var(--bg); }
+        .sb-source { font-size: 0.7rem; color: var(--text-muted); padding: 0.4rem 1rem; border-top: 1px solid var(--border); }
+        .sb-source a { color: var(--text-secondary); text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -1169,6 +1181,19 @@ function buildCard(task) {
                     }
                 })()}
 
+                <div class="spec-brief-section" id="sb-${escHtml(task.id)}">
+                    <div class="sb-tabs">
+                        <button class="sb-tab active" onclick="showTab('${escHtml(task.id)}','spec')">spec.md (Planner only)</button>
+                        <button class="sb-tab" onclick="showTab('${escHtml(task.id)}','brief')">brief.md (Generator only)</button>
+                    </div>
+                    <div class="sb-content" id="sb-spec-${escHtml(task.id)}">
+                        <pre class="sb-pre">Loading...</pre>
+                    </div>
+                    <div class="sb-content" id="sb-brief-${escHtml(task.id)}" style="display:none;">
+                        <pre class="sb-pre">Loading...</pre>
+                    </div>
+                </div>
+
                 <details class="role-details" style="margin-bottom:0.75rem;">
                     <summary style="font-size:0.72rem;font-weight:600;color:var(--text-muted);cursor:pointer;padding:0.3rem 0;">Role access details</summary>
                     ${infoSplitHtml}
@@ -1241,6 +1266,7 @@ function toggleCard(card, id) {
         card.classList.add('expanded');
         card.querySelector('.card-detail').setAttribute('aria-hidden', 'false');
         expandedId = id;
+        loadSpecBrief(id);
         // Smooth scroll to card
         card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     } else {
@@ -1291,6 +1317,57 @@ if (saved) { document.documentElement.setAttribute('data-theme', saved); updateT
 
 // ── Init ──
 applyFilters();
+
+// ── Real spec.md / brief.md content ──
+const taskContent = {};
+
+function loadSpecBrief(taskId) {
+    const content = taskContent[taskId] ||
+        Object.values(taskContent).find(t => t.id.startsWith(taskId)) ||
+        Object.values(taskContent).find(t => t.id.toLowerCase().startsWith(taskId.toLowerCase()));
+
+    const specEl = document.getElementById('sb-spec-' + taskId);
+    const briefEl = document.getElementById('sb-brief-' + taskId);
+
+    if (content && specEl) {
+        const specText = content.spec_excerpt || 'Spec not available for this task.';
+        const fullNote = content.spec_length > 500 ? '\n\n... [' + (content.spec_length - 500) + ' more characters — view full spec on GitHub]' : '';
+        specEl.querySelector('.sb-pre').textContent = specText + fullNote;
+    }
+    if (content && briefEl) {
+        const briefText = content.brief_excerpt || 'Brief not available for this task.';
+        const fullNote = content.brief_length > 400 ? '\n\n... [' + (content.brief_length - 400) + ' more characters]' : '';
+        briefEl.querySelector('.sb-pre').textContent = briefText + fullNote;
+    }
+    if (!content && specEl) {
+        specEl.querySelector('.sb-pre').textContent = 'Content not available — task may use a different ID format.';
+    }
+}
+
+function showTab(taskId, tab) {
+    const specEl = document.getElementById('sb-spec-' + taskId);
+    const briefEl = document.getElementById('sb-brief-' + taskId);
+    const section = document.getElementById('sb-' + taskId);
+    if (!section) return;
+    const tabs = section.querySelectorAll('.sb-tab');
+    tabs.forEach((t, i) => t.classList.toggle('active', (tab === 'spec' && i === 0) || (tab === 'brief' && i === 1)));
+    if (specEl) specEl.style.display = tab === 'spec' ? 'block' : 'none';
+    if (briefEl) briefEl.style.display = tab === 'brief' ? 'block' : 'none';
+}
+
+fetch('task_content.json')
+    .then(r => r.json())
+    .then(data => {
+        data.forEach(t => {
+            taskContent[t.id] = t;
+            const prefix = t.id.match(/^[A-Za-z]+\d+/);
+            if (prefix) taskContent[prefix[0]] = t;
+        });
+        console.log('Task content loaded:', Object.keys(taskContent).length, 'entries');
+        // Populate any already-expanded card
+        if (expandedId) loadSpecBrief(expandedId);
+    })
+    .catch(e => console.warn('task_content.json not loaded:', e));
 
 // ── Deep link: open task from URL hash (e.g. tasks.html#GH17) ──
 function openFromHash() {
