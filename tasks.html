@@ -1154,15 +1154,25 @@ function buildCard(task) {
         </div>
         <div class="card-detail" aria-hidden="true">
             <div class="detail-inner">
-                <div class="detail-section">
-                    <div class="detail-label">Task Objective</div>
-                    <p class="detail-desc">${escHtml(task.desc)}</p>
-                </div>
+                ${(function(){
+                    const meta = taskMeta[task.id];
+                    if (meta) {
+                        const filesHtml = (meta.files||[]).map(f => '<span class="file-badge">'+escHtml(f)+'</span>').join(' ');
+                        const tagsHtml = (meta.tags||[]).map(t => '<span class="tag-badge">'+escHtml(t)+'</span>').join(' ');
+                        const srcLink = meta.source && meta.source.startsWith('github') ? '<a href="https://'+escHtml(meta.source)+'" target="_blank" style="color:var(--text-secondary);text-decoration:underline;">'+escHtml(meta.source)+'</a>' : escHtml(meta.source||'');
+                        return '<div class="detail-section"><div class="detail-label">About This Task</div><p class="detail-desc" style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">'+escHtml(meta.detail)+'</p><div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.4rem;">Source: '+srcLink+'</div></div>'
+                        + '<div class="info-gap"><div class="info-gap-header">What the Planner sees that the Generator cannot</div><p class="info-gap-text">'+escHtml(meta.spec_excerpt)+'</p><div class="info-gap-why">'+escHtml(meta.why_team_helps)+'</div></div>'
+                        + '<div class="detail-section"><div class="detail-row"><span class="detail-label" style="min-width:5rem;">Key files</span><span class="detail-files">'+filesHtml+'</span></div><div class="detail-row"><span class="detail-label" style="min-width:5rem;">Tests</span><span style="font-size:0.78rem;color:var(--text-secondary);">'+escHtml(meta.tests)+'</span></div><div class="detail-row"><span class="detail-label" style="min-width:5rem;">Grader</span><span style="font-family:\'Geist Mono\',monospace;font-size:0.72rem;color:var(--text-secondary);">'+escHtml(meta.grader)+'</span></div><div class="detail-row"><span class="detail-label" style="min-width:5rem;">Tools</span><span>'+(meta.tools||[]).map(t => '<span class="file-badge">'+escHtml(t)+'</span>').join(' ')+'</span></div></div>'
+                        + '<div class="detail-section"><div style="display:flex;flex-wrap:wrap;gap:0.3rem;">'+tagsHtml+'</div></div>';
+                    } else {
+                        return '<div class="detail-section"><div class="detail-label">Task Objective</div><p class="detail-desc">'+escHtml(task.desc)+'</p></div>';
+                    }
+                })()}
 
-                <div class="detail-section">
-                    <div class="detail-label">Information Split — What Each Role Sees</div>
+                <details class="role-details" style="margin-bottom:0.75rem;">
+                    <summary style="font-size:0.72rem;font-weight:600;color:var(--text-muted);cursor:pointer;padding:0.3rem 0;">Role access details</summary>
                     ${infoSplitHtml}
-                </div>
+                </details>
 
                 ${scoreDetail}
 
