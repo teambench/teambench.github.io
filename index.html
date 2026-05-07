@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TeamBench: A Multi-Agent Teamwork Benchmark with OS-Enforced Role Separation</title>
-    <meta name="description" content="TeamBench is a benchmark of 851 task templates expanding to 931 seeded evaluation instances across 19 base categories for evaluating multi-agent LLM coordination under operating-system-enforced Planner / Executor / Verifier role separation. NeurIPS 2026 Datasets and Benchmarks Track.">
+    <meta name="description" content="TeamBench is a benchmark of 851 task templates expanding to 931 seeded evaluation instances across 19 base categories for evaluating multi-agent LLM coordination under operating-system-enforced Planner / Executor / Verifier role separation.">
     <meta property="og:title" content="TeamBench: A Multi-Agent Teamwork Benchmark with OS-Enforced Role Separation">
-    <meta property="og:description" content="851 task templates / 931 instances. OS-enforced Planner-Executor-Verifier roles. Verifiers approve 49% of failing submissions. Submitted to NeurIPS 2026 D&B.">
+    <meta property="og:description" content="851 task templates / 931 instances. OS-enforced Planner-Executor-Verifier roles. Verifiers approve 49% of failing submissions on the deterministic grader.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://teambench.github.io">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="TeamBench (NeurIPS 2026 D&B)">
+    <meta name="twitter:title" content="TeamBench">
     <meta name="twitter:description" content="A multi-agent teamwork benchmark with OS-enforced Planner / Executor / Verifier role separation. 851 templates, 931 instances.">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -435,14 +435,8 @@
 
 <!-- Hero -->
 <div class="hero">
-    <div style="display:inline-block;padding:0.3rem 0.85rem;border:1px solid var(--border);border-radius:99px;font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:1.5rem;">NeurIPS 2026 &middot; Datasets and Benchmarks Track</div>
     <h1>TeamBench</h1>
     <p class="subtitle" style="font-size:1.05rem;max-width:720px;">A multi-agent teamwork benchmark with <strong>operating-system-enforced</strong> Planner / Executor / Verifier role separation. 851 task templates expand to 931 seeded evaluation instances across 19 base categories of software engineering, data engineering, distributed systems, security, and incident response.</p>
-    <div style="font-size:0.78rem;color:var(--text-muted);max-width:760px;margin:-1.25rem auto 2rem;line-height:1.8;">
-        Yubin Kim<sup>1,2</sup>, Chanwoo Park<sup>1</sup>, Taehan Kim<sup>4</sup>, Eugene Park<sup>1</sup>, Samuel Schmidgall<sup>3</sup>, Salman Rahman<sup>2</sup>, Chunjong Park<sup>3</sup>, Cynthia Breazeal<sup>1</sup>, Xin Liu<sup>2</sup>, Hamid Palangi<sup>2</sup>, Hae Won Park<sup>1</sup>, Daniel McDuff<sup>2</sup><br>
-        <span style="font-size:0.72rem;">&nbsp;<sup>1</sup>MIT &nbsp; <sup>2</sup>Google Research &nbsp; <sup>3</sup>Google DeepMind &nbsp; <sup>4</sup>Independent Researcher</span>
-    </div>
-
     <div class="hero-actions" style="margin-bottom:2.5rem;">
         <a class="btn-fill" href="https://github.com/ybkim95/TeamBench" target="_blank">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
@@ -452,11 +446,8 @@
             <img class="ext-logo" src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HF">
             Dataset
         </a>
-        <a class="btn-ghost" href="https://huggingface.co/datasets/ybkim95/teambench/resolve/main/croissant.json" target="_blank">
-            Croissant 1.1
-        </a>
         <a class="btn-ghost" href="https://teambench.github.io/human-eval/" target="_blank">
-            Human Eval
+            <span style="font-size:1rem;line-height:1;">👤💻 + 🤖</span>&nbsp;Human Eval
         </a>
     </div>
 
@@ -479,37 +470,34 @@
         <div class="table-wrap" style="max-height:600px;overflow-y:auto;">
             <table>
                 <thead style="position:sticky;top:0;background:var(--bg-card);z-index:1;">
-                    <tr><th style="white-space:nowrap;">#</th><th>Model</th><th>Org</th><th>Oracle</th><th>Executor</th><th style="white-space:nowrap;">No Planner</th><th style="white-space:nowrap;">No Verify</th><th>Full</th><th>Uplift</th><th style="white-space:nowrap;">Date</th></tr>
+                    <tr><th style="white-space:nowrap;">#</th><th>Model</th><th>Org</th><th>Oracle</th><th>Restricted</th><th style="white-space:nowrap;">No Plan</th><th style="white-space:nowrap;">No Verify</th><th>Full</th><th>Uplift</th><th style="white-space:nowrap;">Date</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td><span class="rank rank-gold">1</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">Claude Sonnet 4.6</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">21.4</td><td class="mono">17.9</td><td class="mono">35.7</td><td class="mono">35.7</td><td class="mono best">42.9</td><td class="mono">+21.5</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr><td><span class="rank" style="background:linear-gradient(135deg,#c0c0c0,#a0a0a0);color:#000;">2</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">Claude Haiku 4.5</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">10.7</td><td class="mono">10.7</td><td class="mono">17.9</td><td class="mono">21.4</td><td class="mono best">42.9</td><td class="mono">+32.2</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr><td><span class="rank" style="background:linear-gradient(135deg,#cd7f32,#b06a28);color:#fff;">3</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">GPT-5.4</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">35.7</td><td class="mono">21.4</td><td class="mono best">42.9</td><td class="mono">+42.9</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr><td><span class="rank">4</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">GPT-5-Mini</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">17.9</td><td class="mono">10.7</td><td class="mono">28.6</td><td class="mono">32.1</td><td class="mono best">35.7</td><td class="mono">+17.8</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr><td><span class="rank">5</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">Gemini 3 Flash</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">17.9</td><td class="mono">17.9</td><td class="mono">14.3</td><td class="mono">25.0</td><td class="mono best">35.7</td><td class="mono">+17.8</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr><td><span class="rank">6</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">Gemini 3.1 Lite</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">10.7</td><td class="mono">14.3</td><td class="mono">14.3</td><td class="mono">21.4</td><td class="mono best">32.1</td><td class="mono">+21.4</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr><td><span class="rank">7</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">GPT-5.3-chat</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">14.3</td><td class="mono">10.7</td><td class="mono">7.1</td><td class="mono">21.4</td><td class="mono best">28.6</td><td class="mono">+14.3</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr style="border-top:2px solid var(--border);"><td><span class="rank">8</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">Qwen3.5-4B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">10.7</td><td class="mono">7.1</td><td class="mono">12.0</td><td class="mono">7.4</td><td class="mono best">21.4</td><td class="mono">+10.7</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr><td><span class="rank">9</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">GPT-5-Nano</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">14.3</td><td class="mono">0.0</td><td class="mono">14.3</td><td class="mono">7.1</td><td class="mono best">17.9</td><td class="mono">+3.6</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr style="border-top:2px solid var(--border);"><td><span class="rank">10</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">Qwen3.5-9B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">7.1</td><td class="mono">3.6</td><td class="mono">10.7</td><td class="mono">7.1</td><td class="mono best">17.9</td><td class="mono">+10.8</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr><td><span class="rank">11</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">GPT-OSS-20B</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">7.1</td><td class="mono">3.6</td><td class="mono">3.6</td><td class="mono">3.6</td><td class="mono best">7.1</td><td class="mono">+0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr style="border-top:2px solid var(--border);"><td><span class="rank">12</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">Qwen3-14B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono best">7.1</td><td class="mono">+7.1</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr><td><span class="rank">13</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">Qwen3.5-27B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">3.6</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono best">3.6</td><td class="mono">+0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr><td><span class="rank">14</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">Qwen3.5-2B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">3.6</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono best">3.6</td><td class="mono">+0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr><td><span class="rank">15</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">Qwen3-8B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono best">3.6</td><td class="mono">+3.6</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr><td><span class="rank">16</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">Qwen3-Coder-30B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">3.6</td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono">3.6</td><td class="mono">0.0</td><td class="mono">-3.6</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr><td><span class="rank">17</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">Qwen3-4B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">3.6</td><td class="mono best">0.0</td><td class="mono">+0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr><td><span class="rank">18</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">CodeGemma 7B</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono best">0.0</td><td class="mono">+0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr><td><span class="rank">18</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">DeepSeek-R1-Distill-32B</td><td><span class="family-tag"><img src="deepseek-logo.png" alt="">DeepSeek</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono best">0.0</td><td class="mono">+0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr><td><span class="rank">18</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">Devstral-24B</td><td><span class="family-tag"><img src="google-logo.png" alt="">Mistral</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono best">0.0</td><td class="mono">+0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr><td><span class="rank">18</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">Gemma 3 27B</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono best">0.0</td><td class="mono">+0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr><td><span class="rank">18</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">Qwen2.5-Coder-32B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono best">0.0</td><td class="mono">+0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
-                    <tr><td><span class="rank">18</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">Qwen3.5-0.8B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono best">0.0</td><td class="mono">+0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
+                    <tr><td><span class="rank rank-gold">1</span></td><td class="model-name">Gemma 4 31B</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">21.4</td><td class="mono">32.9</td><td class="mono">35.6</td><td class="mono">24.0</td><td class="mono best">36.4</td><td class="mono">+14.9</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank" style="background:linear-gradient(135deg,#c0c0c0,#a0a0a0);color:#000;">2</span></td><td class="model-name">GPT-5.4 Mini</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">18.9</td><td class="mono">23.3</td><td class="mono">24.4</td><td class="mono">24.4</td><td class="mono best">30.0</td><td class="mono">+11.1</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank" style="background:linear-gradient(135deg,#cd7f32,#b06a28);color:#fff;">3</span></td><td class="model-name">Gemini 3.1 Pro</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">14.6</td><td class="mono">20.2</td><td class="mono">19.2</td><td class="mono">26.1</td><td class="mono best">28.4</td><td class="mono">+13.8</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">4</span></td><td class="model-name">Claude Sonnet 4.6</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">7.8</td><td class="mono">27.8</td><td class="mono">22.7</td><td class="mono">15.8</td><td class="mono best">28.2</td><td class="mono">+20.5</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">5</span></td><td class="model-name">GPT-5.4</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">12.2</td><td class="mono">34.8</td><td class="mono">23.6</td><td class="mono">38.9</td><td class="mono best">27.8</td><td class="mono">+15.6</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">6</span></td><td class="model-name">Claude Haiku 4.5</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">12.2</td><td class="mono">28.9</td><td class="mono">20.0</td><td class="mono">11.8</td><td class="mono best">25.6</td><td class="mono">+13.3</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">7</span></td><td class="model-name">GPT-5.4 Nano</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">4.4</td><td class="mono">18.0</td><td class="mono">10.5</td><td class="mono">19.1</td><td class="mono best">25.0</td><td class="mono">+20.6</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">8</span></td><td class="model-name">Gemini 3 Flash</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">12.2</td><td class="mono">15.6</td><td class="mono">8.9</td><td class="mono">27.8</td><td class="mono best">24.4</td><td class="mono">+12.2</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">9</span></td><td class="model-name">Gemini 3.1 Lite</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">4.5</td><td class="mono">14.4</td><td class="mono">10.0</td><td class="mono">18.0</td><td class="mono best">15.9</td><td class="mono">+11.4</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">10</span></td><td class="model-name">Claude Opus 4.7</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">20.0</td><td class="mono">23.3</td><td class="mono">31.1</td><td class="mono">33.3</td><td class="mono best">15.7</td><td class="mono">-4.3</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">11</span></td><td class="model-name">GPT-5 Nano</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">5.6</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td><td class="mono best">6.7</td><td class="mono">+1.2</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">12</span></td><td class="model-name">Qwen3 14B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">3.3</td><td class="mono">2.2</td><td class="mono">2.2</td><td class="mono">1.1</td><td class="mono best">2.2</td><td class="mono">-1.1</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">13</span></td><td class="model-name">GPT-OSS 20B</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">6.7</td><td class="mono">12.2</td><td class="mono">8.9</td><td class="mono">7.8</td><td class="mono best">1.3</td><td class="mono">-5.3</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">14</span></td><td class="model-name">Qwen3 32B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">3.3</td><td class="mono">1.1</td><td class="mono">5.6</td><td class="mono best">1.1</td><td class="mono">+1.1</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">15</span></td><td class="model-name">GPT-OSS 120B</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">2.2</td><td class="mono">0.0</td><td class="mono">1.1</td><td class="mono">10.0</td><td class="mono best">0.0</td><td class="mono">-2.2</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">16</span></td><td class="model-name">Qwen3 4B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">1.1</td><td class="mono">—</td><td class="mono">1.1</td><td class="mono">0.0</td><td class="mono best">0.0</td><td class="mono">-1.1</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">17</span></td><td class="model-name">Qwen3 8B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">1.1</td><td class="mono">4.4</td><td class="mono">1.1</td><td class="mono">3.3</td><td class="mono best">0.0</td><td class="mono">-1.1</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">18</span></td><td class="model-name">Gemini 2.5 Pro</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">0.0</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td><td class="mono best">—</td><td class="mono">—</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">19</span></td><td class="model-name">Qwen3 30B A3B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">4.5</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td><td class="mono best">—</td><td class="mono">—</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">20</span></td><td class="model-name">Qwen3.5 0.8B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">—</td><td class="mono">—</td><td class="mono best">—</td><td class="mono">—</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
                 </tbody>
             </table>
         </div>
         <div style="padding:0.75rem 1rem;font-size:0.75rem;color:var(--text-muted);border-top:1px solid var(--border);">
-            23 models &mdash; TeamBench-Mini, seed 0, pass rate (%) &mdash; sorted by Full Team (ties broken by avg partial score)<br>Pass@3: GPT-5.4 Full Team 82.9% vs Oracle 0.0% &mdash; team coordination scales dramatically with retries
+            20 models &mdash; TeamBench-90 leaderboard, seed 0, pass rate (%) &mdash; sorted by Full Team. TeamBench-Verified (57 of 90 tasks) ships alongside the full LB90.
         </div>
     </div>
 </section>
@@ -801,28 +789,7 @@
     </div>
 </section>
 
-<hr class="divider">
-
-<!-- Citation -->
-<section id="citation">
-    <div class="section-header fade-up">
-        <h2 class="section-title">Cite</h2>
-    </div>
-    <div class="fade-up" style="max-width:700px;margin:0 auto;">
-        <div style="position:relative;">
-            <pre id="bibtex-block" style="font-family:'Geist Mono',monospace;font-size:0.78rem;line-height:1.7;background:var(--bg-card);padding:1.25rem 1.5rem;border-radius:10px;border:1px solid var(--border);overflow-x:auto;white-space:pre-wrap;">@inproceedings{kim2026teambench,
-  title     = {TeamBench: A Multi-Agent Teamwork Benchmark with OS-Enforced Role Separation},
-  author    = {Kim, Yubin and Park, Chanwoo and Kim, Taehan and Park, Eugene and
-               Schmidgall, Samuel and Rahman, Salman and Park, Chunjong and
-               Breazeal, Cynthia and Liu, Xin and Palangi, Hamid and
-               Park, Hae Won and McDuff, Daniel},
-  booktitle = {NeurIPS 2026 Datasets and Benchmarks Track},
-  year      = {2026}
-}</pre>
-            <button onclick="navigator.clipboard.writeText(document.getElementById('bibtex-block').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy BibTeX',1500)})" style="position:absolute;top:0.75rem;right:0.75rem;padding:0.35rem 0.75rem;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text-secondary);font-family:'Geist',sans-serif;font-size:0.72rem;font-weight:600;cursor:pointer;transition:all 0.2s;">Copy BibTeX</button>
-        </div>
-    </div>
-</section>
+<!-- Citation section removed: paper still under review. Restore after acceptance. -->
 
 <hr class="divider">
 
@@ -874,13 +841,47 @@
 
 <hr class="divider">
 
+<!-- Authors -->
+<section id="authors">
+    <div class="section-header fade-up">
+        <h2 class="section-title">Authors</h2>
+    </div>
+    <div class="fade-up" style="max-width:760px;margin:0 auto;text-align:center;">
+        <div style="font-size:0.95rem;line-height:2.2;color:var(--text);margin-bottom:1.5rem;">
+            Yubin Kim<sup>1,2</sup> &nbsp;&middot;&nbsp;
+            Chanwoo Park<sup>1</sup> &nbsp;&middot;&nbsp;
+            Taehan Kim<sup>4</sup> &nbsp;&middot;&nbsp;
+            Eugene Park<sup>1</sup> &nbsp;&middot;&nbsp;
+            Samuel Schmidgall<sup>3</sup> &nbsp;&middot;&nbsp;
+            Salman Rahman<sup>2</sup> &nbsp;&middot;&nbsp;
+            Chunjong Park<sup>3</sup> &nbsp;&middot;&nbsp;
+            Cynthia Breazeal<sup>1</sup> &nbsp;&middot;&nbsp;
+            Xin Liu<sup>2</sup> &nbsp;&middot;&nbsp;
+            Hamid Palangi<sup>2</sup> &nbsp;&middot;&nbsp;
+            Hae Won Park<sup>1</sup> &nbsp;&middot;&nbsp;
+            Daniel McDuff<sup>2</sup>
+        </div>
+        <div style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">
+            <sup>1</sup>MIT &nbsp;&middot;&nbsp;
+            <sup>2</sup>Google Research &nbsp;&middot;&nbsp;
+            <sup>3</sup>Google DeepMind &nbsp;&middot;&nbsp;
+            <sup>4</sup>Independent Researcher
+        </div>
+        <div style="margin-top:1.5rem;font-size:0.78rem;color:var(--text-muted);">
+            Correspondence: <a href="mailto:ybkim95@media.mit.edu" style="color:var(--text-secondary);text-decoration:underline;">ybkim95@media.mit.edu</a>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
 <div class="cta">
     
 </div>
 
 <footer>
     <div class="footer-inner">
-        <span>TeamBench &copy; 2026 &mdash; Yubin Kim, Chanwoo Park, Taehan Kim, Eugene Park, Samuel Schmidgall, Salman Rahman, Chunjong Park, Cynthia Breazeal, Xin Liu, Hamid Palangi, Hae Won Park, Daniel McDuff. MIT &middot; Google Research &middot; Google DeepMind. Released under the MIT license.</span>
+        <span>TeamBench &copy; 2026 &mdash; MIT &middot; Google Research &middot; Google DeepMind &middot; MIT license</span>
         <div class="footer-links">
             <a href="https://github.com/ybkim95/TeamBench" target="_blank">GitHub</a>
             <a href="https://huggingface.co/datasets/ybkim95/teambench" target="_blank">HuggingFace</a>
@@ -893,110 +894,63 @@
 <script>
 // ── Task category data with examples ──
 const categories = [
-    { name: "Web Framework (Python)", count: 47, tasks: [
-        { id: "GH17", desc: "Fix aiohttp infinite callback loop when time is not monotonic." },
-        { id: "GH74", desc: "Fix Flask blueprint URL routing regression." },
-        { id: "GH71", desc: "Fix Starlette session tracking on access and modification." }
-    ]},
-    { name: "Web Framework (Go)", count: 60, tasks: [
-        { id: "GH15", desc: "Fix Gin context.Value string key collision with OpenTelemetry." },
-        { id: "GH16", desc: "Fix Fiber CORS middleware logic error on non-preflight requests." },
-        { id: "GO3", desc: "Fix Go channel deadlocks in producer-consumer pipeline." }
-    ]},
-    { name: "Frontend (TypeScript)", count: 42, tasks: [
-        { id: "TS1", desc: "Fix TypeScript API type mismatches between shared types and handlers." },
-        { id: "TS2", desc: "Fix React component state bugs: stale closures, missing deps, cleanup." },
-        { id: "GH154", desc: "Fix Svelte reactive statement ordering regression." }
-    ]},
-    { name: "Database / ORM", count: 56, tasks: [
-        { id: "DB1", desc: "Resolve conflicting database migrations with FK constraints." },
-        { id: "DB2", desc: "Fix query plan regressions: add indexes for real bottlenecks only." },
-        { id: "GH22", desc: "Fix Prisma client BigInt precision in responses." }
-    ]},
-    { name: "Data Validation", count: 17, tasks: [
-        { id: "GH20", desc: "Fix Pydantic computed fields exclude_if support." },
-        { id: "GH21", desc: "Fix Pydantic smart union branch selection on validation error." }
-    ]},
-    { name: "Security / Crypto", count: 15, tasks: [
-        { id: "SEC1", desc: "Fix security vulnerabilities from web application audit." },
-        { id: "CRYPTO1", desc: "Fix AES-GCM nonce reuse, weak PBKDF2, truncated tag." }
-    ]},
-    { name: "Testing", count: 24, tasks: [
-        { id: "TEST1", desc: "Write test suite for calculator engine from specification." },
-        { id: "GH69", desc: "Fix pytest caplog handler regression with disabled logging." },
-        { id: "GH72", desc: "Fix pytest fixture reordering on alternate Python implementations." }
-    ]},
-    { name: "DevOps / CI/CD", count: 34, tasks: [
-        { id: "DEVOPS1", desc: "Fix Dockerfile multi-stage build with 5 intentional bugs." },
-        { id: "DEVOPS2", desc: "Fix GitHub Actions CI/CD pipeline: real bugs vs flaky tests." },
-        { id: "INFRA2", desc: "Repair CI pipeline distinguishing real failures from false alarms." }
-    ]},
-    { name: "Async / Runtime", count: 63, tasks: [
-        { id: "GH13", desc: "Fix Starlette background tasks blocking subsequent requests." },
-        { id: "GH70", desc: "Fix Tokio async runtime task scheduling edge case." },
-        { id: "GH25", desc: "Fix aiohttp redirect handling on 3xx responses." }
-    ]},
-    { name: "HTTP Client / Network", count: 45, tasks: [
-        { id: "GH3", desc: "Fix credential leak through HTTP redirect headers in httpx." },
-        { id: "GH98", desc: "Fix urllib3 connection pool retry logic." },
-        { id: "GH136", desc: "Fix mitmproxy TLS interception edge case." }
-    ]},
-    { name: "Task Queue / Pipeline", count: 26, tasks: [
-        { id: "GH14", desc: "Fix Celery chain-of-groups silently swallowing failures." },
-        { id: "PIPE1", desc: "Repair ETL pipeline to pass end-to-end integration tests." },
-        { id: "GH67", desc: "Fix Celery mock connection interface TypeError." }
-    ]},
-    { name: "Template / Serialization", count: 30, tasks: [
-        { id: "GH28", desc: "Fix Jinja2 template inheritance scoping regression." },
-        { id: "GH76", desc: "Fix Serde field alias handling inside flatten structs." },
-        { id: "GH156", desc: "Fix PyYAML safe_load edge case with special characters." }
-    ]},
-    { name: "CLI / Package Mgmt", count: 26, tasks: [
-        { id: "GH12", desc: "Fix Click boolean flag envvar always evaluating True." },
-        { id: "GH68", desc: "Fix Cobra subcommand argument validation." },
-        { id: "GH23", desc: "Fix Poetry package name validation in update command." }
-    ]},
-    { name: "Adversarial / TRAP", count: 8, tasks: [
-        { id: "TRAP1", desc: "Spec vs secondary docs conflict: selective validation needed." },
-        { id: "TRAP5", desc: "10 audit findings: 4 are false positives, only 5-10 genuine." }
-    ]},
-    { name: "Cross-System", count: 7, tasks: [
-        { id: "CROSS1", desc: "Fix Python client to communicate with Go server: 3 mismatches." },
-        { id: "CROSS3", desc: "JSON to proto3 bridge with 6 bugs." }
-    ]},
-    { name: "Multi-language", count: 9, tasks: [
-        { id: "MULTI1", desc: "Fix bugs spanning Flask backend, JS frontend, bash deploy." },
-        { id: "MULTI3", desc: "Fix polyglot interface bugs across language boundaries." }
-    ]},
-    { name: "Distributed Systems", count: 6, tasks: [
-        { id: "DIST1", desc: "Fix 3 race conditions: TOCTOU, missing ack, type-unsafe priority." },
-        { id: "DIST2", desc: "Fix Raft consensus: log-up-to-date, prevLogIndex, old-term commits." }
-    ]},
-    { name: "Performance", count: 1, tasks: [
-        { id: "PERF1", desc: "Optimize data processing: fix bottlenecks, preserve constraints." }
-    ]},
-    { name: "API Design", count: 1, tasks: [
-        { id: "API1", desc: "Add v2 API endpoints with backward-compatible v1 shims." }
-    ]},
-    { name: "Logging / Infra", count: 50, tasks: [
-        { id: "GH130", desc: "Fix structured logging output format regression." },
-        { id: "GH148", desc: "Fix Consul service discovery health check timing." }
-    ]},
-    { name: "Other Real-World", count: 386, tasks: [
-        { id: "GH95", desc: "Fix Arrow date parsing edge case with timezone offsets." },
-        { id: "GH158", desc: "Fix attrs frozen class mutation detection." },
-        { id: "GH99", desc: "Fix psycopg connection pool exhaustion under load." }
-    ]},
-    { name: "Data Science (RDS)", count: 30, tasks: [
-        { id: "DS1", desc: "Detect and fix feature leakage in ML pipeline using UCI Adult Income dataset." },
-        { id: "DS6", desc: "Identify Simpson's paradox and correct aggregation strategy." },
-        { id: "DS8", desc: "Fix A/B test analysis: correct for multiple comparisons and early stopping." }
-    ]},
-    { name: "Real Incidents (RINC)", count: 10, tasks: [
-        { id: "RINC1", desc: "Reproduce and fix CVE root cause in dependency chain." },
-        { id: "RINC5", desc: "Reconstruct incident from post-mortem logs and implement corrective patch." },
-        { id: "RINC9", desc: "Fix distributed tracing gap exposed by real production incident." }
-    ]}
+    { name: "GitHub Issues", count: 733, tasks: [
+        { id: "info", desc: "Adapted from active OSS repositories (Flask, Click, httpx, Requests, Pydantic, Django, pytest, FastAPI, SQLAlchemy, Celery, Werkzeug, NumPy, SciPy, Keras, spaCy, ...)." }
+    ] },
+    { name: "Security", count: 32, tasks: [
+        { id: "info", desc: "Vulnerability patching, cryptographic correctness, audit triage, input validation." }
+    ] },
+    { name: "Software Eng.", count: 31, tasks: [
+        { id: "info", desc: "Hidden specs, backward compatibility, refactoring, error handling, configuration." }
+    ] },
+    { name: "Incident", count: 26, tasks: [
+        { id: "info", desc: "Cascade failure, memory leak, rollback planning, log forensics, post-mortems." }
+    ] },
+    { name: "Operations", count: 17, tasks: [
+        { id: "info", desc: "Container debugging, monitoring, capacity planning, dockerfile fix, log analysis." }
+    ] },
+    { name: "Data Eng.", count: 15, tasks: [
+        { id: "info", desc: "Schema drift, ETL repair, query optimization, data reconciliation, csv cleanup." }
+    ] },
+    { name: "Testing", count: 12, tasks: [
+        { id: "info", desc: "Spec-to-tests, mutation resistance, property-based, integration suite." }
+    ] },
+    { name: "Policy", count: 9, tasks: [
+        { id: "info", desc: "Access control, data retention, license compliance, audit logging." }
+    ] },
+    { name: "Info. Retr.", count: 8, tasks: [
+        { id: "info", desc: "Evidence QA, misinformation traps, multi-source retrieval, doc clustering." }
+    ] },
+    { name: "Distributed", count: 7, tasks: [
+        { id: "info", desc: "Race conditions, Raft consensus, idempotency, leader election, distributed locks." }
+    ] },
+    { name: "Adversarial", count: 7, tasks: [
+        { id: "info", desc: "Spec conflicts, false bug reports, security theater, version paradoxes." }
+    ] },
+    { name: "Code Rev.", count: 6, tasks: [
+        { id: "info", desc: "API review, style enforcement, perf review, test coverage, review checklists." }
+    ] },
+    { name: "Multi-lang.", count: 6, tasks: [
+        { id: "info", desc: "Go concurrency, JavaScript XSS, polyglot debugging, deploy pipelines." }
+    ] },
+    { name: "Long-Hor.", count: 6, tasks: [
+        { id: "info", desc: "Multi-step migrations, staged deployments, audit trails, zero-downtime cutovers." }
+    ] },
+    { name: "Pipeline", count: 6, tasks: [
+        { id: "info", desc: "ETL fix, API gateway, message queues, stream processing, CI/CD." }
+    ] },
+    { name: "Cross-Sys.", count: 5, tasks: [
+        { id: "info", desc: "API contract mismatches, schema evolution, protocol bridges, auth federation." }
+    ] },
+    { name: "Specification", count: 3, tasks: [
+        { id: "info", desc: "Feature implementation from RFC, config schema design, API design." }
+    ] },
+    { name: "Integration", count: 1, tasks: [
+        { id: "info", desc: "Pipeline repair, API versioning, DB migration coordination." }
+    ] },
+    { name: "Negotiation", count: 1, tasks: [
+        { id: "info", desc: "Trade-off configuration under competing constraints (cost / perf / SLA)." }
+    ] },
 ];
 
 // Build expandable category list
@@ -1116,17 +1070,17 @@ function buildCharts() {
     });
 
     charts.models = new Chart(document.getElementById('chart-models'), {
-        type:'bar', data:{ labels:['Sonnet 4.6','Haiku 4.5','G3 Flash','G3.1 Lite','GPT5-Mini','GPT5-Nano'], datasets:[{label:'Oracle',data:[21.4,10.7,17.9,10.7,17.9,14.3],backgroundColor:c.barAlt,borderRadius:3,barThickness:16},{label:'Full Team',data:[42.9,42.9,35.7,32.1,35.7,17.9],backgroundColor:c.bar,borderRadius:3,barThickness:16}] },
+        type:'bar', data:{ labels:['Gemma 4 31B','GPT5.4 Mini','G3.1 Pro','Sonnet 4.6','GPT5.4','Haiku 4.5'], datasets:[{label:'Oracle',data:[21.4, 18.9, 14.6, 7.8, 12.2, 12.2],backgroundColor:c.barAlt,borderRadius:3,barThickness:16},{label:'Full Team',data:[36.4, 30.0, 28.4, 28.2, 27.8, 25.6],backgroundColor:c.bar,borderRadius:3,barThickness:16}] },
         options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{boxWidth:10,padding:12,font:{size:10}}}},scales:{x:{grid:{display:false},ticks:{font:{size:9}}},y:{grid:{color:c.grid},ticks:{callback:v=>v+'%',font:{size:10}}}}}
     });
 
     charts.ablation = new Chart(document.getElementById('chart-ablation'), {
-        type:'bar', data:{ labels:['Oracle','Restricted','No Plan','No Eval','Full Team'], datasets:[{data:[0.575,0.571,0.544,0.592,0.592],backgroundColor:[c.barAlt,c.barAlt,c.neg,c.bar,c.bar],borderRadius:4,barThickness:36}] },
-        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{min:0.5,max:0.62,grid:{color:c.grid},ticks:{font:{size:10}}}}}
+        type:'bar', data:{ labels:['Oracle','Restricted','No Plan','No Eval','Full Team'], datasets:[{data:[0.542,0.533,0.509,0.59,0.535],backgroundColor:[c.barAlt,c.barAlt,c.neg,c.bar,c.bar],borderRadius:4,barThickness:36}] },
+        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{min:0.45,max:0.62,grid:{color:c.grid},ticks:{font:{size:10}}}}}
     });
 
     charts.quintile = new Chart(document.getElementById('chart-quintile'), {
-        type:'bar', data:{ labels:['Q1 (Hardest)','Q2','Q3','Q4','Q5 (Easiest)'], datasets:[{data:[0.153,0.062,-0.013,-0.036,-0.074],backgroundColor:ctx=>ctx.raw>=0?c.bar:c.neg,borderRadius:4,barThickness:32}] },
+        type:'bar', data:{ labels:['Q1 (Hardest)','Q2','Q3','Q4','Q5 (Easiest)'], datasets:[{data:[0.1664,0.1031,-0.0879,-0.1162,-0.0929],backgroundColor:ctx=>ctx.raw>=0?c.bar:c.neg,borderRadius:4,barThickness:32}] },
         options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:c.grid},ticks:{callback:v=>(v>=0?'+':'')+(v*100).toFixed(1)+'%',font:{size:10}}}}}
     });
 
@@ -1206,12 +1160,12 @@ function buildCharts() {
     charts.domain = new Chart(document.getElementById('chart-domain'), {
         type: 'doughnut',
         data: {
-            labels: ['SWE', 'DS', 'ML'],
+            labels: ['GitHub Issues', 'Authored', 'UCI Data', 'Post-Mortems'],
             datasets: [{
-                data: [831, 50, 50],
+                data: [650, 161, 30, 10],
                 backgroundColor: isDark
-                    ? ['rgba(96,165,250,0.80)','rgba(167,139,250,0.75)','rgba(74,222,128,0.70)']
-                    : ['rgba(37,99,235,0.75)','rgba(124,58,237,0.70)','rgba(22,163,74,0.65)'],
+                    ? ['rgba(96,165,250,0.80)','rgba(167,139,250,0.75)','rgba(74,222,128,0.70)','rgba(251,191,36,0.65)']
+                    : ['rgba(37,99,235,0.75)','rgba(124,58,237,0.70)','rgba(22,163,74,0.65)','rgba(180,130,20,0.65)'],
                 borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
                 borderWidth: 1,
                 hoverBorderColor: isDark ? '#fff' : '#000',
@@ -1238,7 +1192,7 @@ function buildCharts() {
         data: {
             labels: ['Easy', 'Medium', 'Hard', 'Expert'],
             datasets: [{
-                data: [38, 247, 582, 86],
+                data: [9, 670, 235, 17],
                 backgroundColor: [
                     'rgba(134,199,149,0.75)',
                     'rgba(250,204,88,0.75)',
