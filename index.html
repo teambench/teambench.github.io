@@ -436,7 +436,7 @@
 <!-- Hero -->
 <div class="hero">
     <h1>TeamBench</h1>
-    <p class="subtitle" style="font-size:1.05rem;max-width:720px;">A multi-agent teamwork benchmark with <strong>operating-system-enforced</strong> Planner / Executor / Verifier role separation. 851 task templates expand to 931 seeded evaluation instances across 19 base categories of software engineering, data engineering, distributed systems, security, and incident response.</p>
+    <p class="subtitle" style="font-size:1.05rem;max-width:740px;">Most multi-agent benchmarks let one model play every role. <strong>TeamBench</strong> enforces Planner, Executor, and Verifier in separate containers, so a team pass rate actually measures a team. 851 tasks, 5 ablation conditions, deterministic graders.</p>
     <div class="hero-actions" style="margin-bottom:2.5rem;">
         <a class="btn-fill" href="https://github.com/ybkim95/TeamBench" target="_blank">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
@@ -658,33 +658,33 @@
                     <tr><th>#</th><th>Code</th><th>Planner</th><th>Executor</th><th>Verifier</th><th>Pass</th><th>Partial</th><th>Cost</th><th>Pass/$</th><th>Turns</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td><span class="rank">1</span></td><td class="mono" style="font-size:0.78rem;">PGEAVA</td><td>Google</td><td>Anthropic</td><td>Anthropic</td><td class="mono best">26.7%</td><td class="mono">0.695</td><td class="mono">$20.52</td><td class="mono">0.013</td><td class="mono">54.1</td></tr>
-                    <tr><td><span class="rank">2</span></td><td class="mono" style="font-size:0.78rem;">POEOVA</td><td>OpenAI</td><td>OpenAI</td><td>Anthropic</td><td class="mono">22.7%</td><td class="mono">0.679</td><td class="mono">$10.98</td><td class="mono">0.021</td><td class="mono">30.9</td></tr>
-                    <tr><td><span class="rank">3</span></td><td class="mono" style="font-size:0.78rem;">PGEAVO</td><td>Google</td><td>Anthropic</td><td>OpenAI</td><td class="mono">22.7%</td><td class="mono">0.672</td><td class="mono">$11.77</td><td class="mono">0.019</td><td class="mono">49.8</td></tr>
-                    <tr><td><span class="rank">4</span></td><td class="mono" style="font-size:0.78rem;">PAEAVA</td><td>Anthropic</td><td>Anthropic</td><td>Anthropic</td><td class="mono">22.7%</td><td class="mono">0.639</td><td class="mono">$39.58</td><td class="mono">0.006</td><td class="mono">54.3</td></tr>
-                    <tr><td><span class="rank">5</span></td><td class="mono" style="font-size:0.78rem;">POEGVG</td><td>OpenAI</td><td>Google</td><td>Google</td><td class="mono">21.3%</td><td class="mono">0.612</td><td class="mono">$3.73</td><td class="mono">0.057</td><td class="mono">36.2</td></tr>
-                    <tr><td><span class="rank">6</span></td><td class="mono" style="font-size:0.78rem;">PAEAVO</td><td>Anthropic</td><td>Anthropic</td><td>OpenAI</td><td class="mono">21.3%</td><td class="mono">0.650</td><td class="mono">$29.88</td><td class="mono">0.007</td><td class="mono">45.0</td></tr>
-                    <tr><td><span class="rank">7</span></td><td class="mono" style="font-size:0.78rem;">POEGVO</td><td>OpenAI</td><td>Google</td><td>OpenAI</td><td class="mono">20.0%</td><td class="mono">0.600</td><td class="mono">$2.99</td><td class="mono">0.067</td><td class="mono">31.3</td></tr>
-                    <tr><td><span class="rank">8</span></td><td class="mono" style="font-size:0.78rem;">PAEOVO</td><td>Anthropic</td><td>OpenAI</td><td>OpenAI</td><td class="mono">20.0%</td><td class="mono">0.639</td><td class="mono">$9.53</td><td class="mono">0.021</td><td class="mono">37.2</td></tr>
-                    <tr><td><span class="rank">9</span></td><td class="mono" style="font-size:0.78rem;">POEOVO</td><td>OpenAI</td><td>OpenAI</td><td>OpenAI</td><td class="mono">18.7%</td><td class="mono">0.592</td><td class="mono">$2.09</td><td class="mono best">0.089</td><td class="mono">25.2</td></tr>
-                    <tr><td><span class="rank">10</span></td><td class="mono" style="font-size:0.78rem;">PGEOVO</td><td>Google</td><td>OpenAI</td><td>OpenAI</td><td class="mono">18.7%</td><td class="mono">0.627</td><td class="mono">$2.36</td><td class="mono">0.079</td><td class="mono">38.3</td></tr>
-                    <tr><td><span class="rank">11</span></td><td class="mono" style="font-size:0.78rem;">PAEGVO</td><td>Anthropic</td><td>Google</td><td>OpenAI</td><td class="mono">18.7%</td><td class="mono">0.583</td><td class="mono">$12.45</td><td class="mono">0.015</td><td class="mono">46.7</td></tr>
-                    <tr><td><span class="rank">12</span></td><td class="mono" style="font-size:0.78rem;">PAEGVA</td><td>Anthropic</td><td>Google</td><td>Anthropic</td><td class="mono">18.7%</td><td class="mono">0.618</td><td class="mono">$21.62</td><td class="mono">0.009</td><td class="mono">51.7</td></tr>
-                    <tr><td><span class="rank">13</span></td><td class="mono" style="font-size:0.78rem;">POEAVO</td><td>OpenAI</td><td>Anthropic</td><td>OpenAI</td><td class="mono">17.3%</td><td class="mono">0.448</td><td class="mono">$6.15</td><td class="mono">0.028</td><td class="mono">19.9</td></tr>
-                    <tr><td><span class="rank">14</span></td><td class="mono" style="font-size:0.78rem;">POEAVG</td><td>OpenAI</td><td>Anthropic</td><td>Google</td><td class="mono">17.3%</td><td class="mono">0.466</td><td class="mono">$6.99</td><td class="mono">0.025</td><td class="mono">23.5</td></tr>
-                    <tr><td><span class="rank">15</span></td><td class="mono" style="font-size:0.78rem;">PAEGVG</td><td>Anthropic</td><td>Google</td><td>Google</td><td class="mono">17.3%</td><td class="mono">0.605</td><td class="mono">$13.34</td><td class="mono">0.013</td><td class="mono">50.9</td></tr>
-                    <tr><td><span class="rank">16</span></td><td class="mono" style="font-size:0.78rem;">PAEAVG</td><td>Anthropic</td><td>Anthropic</td><td>Google</td><td class="mono">17.3%</td><td class="mono">0.646</td><td class="mono">$29.48</td><td class="mono">0.006</td><td class="mono">51.6</td></tr>
-                    <tr><td><span class="rank">17</span></td><td class="mono" style="font-size:0.78rem;">PGEGVO</td><td>Google</td><td>Google</td><td>OpenAI</td><td class="mono">16.0%</td><td class="mono">0.557</td><td class="mono">$3.67</td><td class="mono">0.044</td><td class="mono">45.3</td></tr>
-                    <tr><td><span class="rank">18</span></td><td class="mono" style="font-size:0.78rem;">PAEOVA</td><td>Anthropic</td><td>OpenAI</td><td>Anthropic</td><td class="mono">16.0%</td><td class="mono">0.602</td><td class="mono">$18.31</td><td class="mono">0.009</td><td class="mono">44.9</td></tr>
-                    <tr><td><span class="rank">19</span></td><td class="mono" style="font-size:0.78rem;">PGEOVG</td><td>Google</td><td>OpenAI</td><td>Google</td><td class="mono">14.7%</td><td class="mono">0.559</td><td class="mono">$3.33</td><td class="mono">0.044</td><td class="mono">45.7</td></tr>
-                    <tr><td><span class="rank">20</span></td><td class="mono" style="font-size:0.78rem;">PGEAVG</td><td>Google</td><td>Anthropic</td><td>Google</td><td class="mono">14.7%</td><td class="mono">0.496</td><td class="mono">$8.13</td><td class="mono">0.018</td><td class="mono">35.6</td></tr>
-                    <tr><td><span class="rank">21</span></td><td class="mono" style="font-size:0.78rem;">PAEOVG</td><td>Anthropic</td><td>OpenAI</td><td>Google</td><td class="mono">14.7%</td><td class="mono">0.617</td><td class="mono">$10.87</td><td class="mono">0.013</td><td class="mono">43.9</td></tr>
-                    <tr><td><span class="rank">22</span></td><td class="mono" style="font-size:0.78rem;">POEAVA</td><td>OpenAI</td><td>Anthropic</td><td>Anthropic</td><td class="mono">14.7%</td><td class="mono">0.437</td><td class="mono">$12.41</td><td class="mono">0.012</td><td class="mono">24.2</td></tr>
-                    <tr><td><span class="rank">23</span></td><td class="mono" style="font-size:0.78rem;">PGEGVG</td><td>Google</td><td>Google</td><td>Google</td><td class="mono">13.3%</td><td class="mono">0.570</td><td class="mono">$4.98</td><td class="mono">0.027</td><td class="mono">54.6</td></tr>
-                    <tr><td><span class="rank">24</span></td><td class="mono" style="font-size:0.78rem;">POEGVA</td><td>OpenAI</td><td>Google</td><td>Anthropic</td><td class="mono">13.3%</td><td class="mono">0.399</td><td class="mono">$7.98</td><td class="mono">0.017</td><td class="mono">24.5</td></tr>
-                    <tr><td><span class="rank">25</span></td><td class="mono" style="font-size:0.78rem;">POEOVG</td><td>OpenAI</td><td>OpenAI</td><td>Google</td><td class="mono">12.0%</td><td class="mono">0.602</td><td class="mono">$2.66</td><td class="mono">0.045</td><td class="mono">29.5</td></tr>
-                    <tr><td><span class="rank">26</span></td><td class="mono" style="font-size:0.78rem;">PGEOVA</td><td>Google</td><td>OpenAI</td><td>Anthropic</td><td class="mono">10.7%</td><td class="mono">0.317</td><td class="mono">$7.43</td><td class="mono">0.014</td><td class="mono">32.0</td></tr>
-                    <tr><td><span class="rank">27</span></td><td class="mono" style="font-size:0.78rem;">PGEGVA</td><td>Google</td><td>Google</td><td>Anthropic</td><td class="mono">10.7%</td><td class="mono">0.371</td><td class="mono">$8.11</td><td class="mono">0.013</td><td class="mono">37.0</td></tr>
+                    <tr><td><span class="rank">1</span></td><td class="mono" style="font-size:0.78rem;">PGEAVA</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono best">26.7%</td><td class="mono">0.695</td><td class="mono">$20.52</td><td class="mono">0.013</td><td class="mono">54.1</td></tr>
+                    <tr><td><span class="rank">2</span></td><td class="mono" style="font-size:0.78rem;">POEOVA</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">22.7%</td><td class="mono">0.679</td><td class="mono">$10.98</td><td class="mono">0.021</td><td class="mono">30.9</td></tr>
+                    <tr><td><span class="rank">3</span></td><td class="mono" style="font-size:0.78rem;">PGEAVO</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">22.7%</td><td class="mono">0.672</td><td class="mono">$11.77</td><td class="mono">0.019</td><td class="mono">49.8</td></tr>
+                    <tr><td><span class="rank">4</span></td><td class="mono" style="font-size:0.78rem;">PAEAVA</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">22.7%</td><td class="mono">0.639</td><td class="mono">$39.58</td><td class="mono">0.006</td><td class="mono">54.3</td></tr>
+                    <tr><td><span class="rank">5</span></td><td class="mono" style="font-size:0.78rem;">POEGVG</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">21.3%</td><td class="mono">0.612</td><td class="mono">$3.73</td><td class="mono">0.057</td><td class="mono">36.2</td></tr>
+                    <tr><td><span class="rank">6</span></td><td class="mono" style="font-size:0.78rem;">PAEAVO</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">21.3%</td><td class="mono">0.650</td><td class="mono">$29.88</td><td class="mono">0.007</td><td class="mono">45.0</td></tr>
+                    <tr><td><span class="rank">7</span></td><td class="mono" style="font-size:0.78rem;">POEGVO</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">20.0%</td><td class="mono">0.600</td><td class="mono">$2.99</td><td class="mono">0.067</td><td class="mono">31.3</td></tr>
+                    <tr><td><span class="rank">8</span></td><td class="mono" style="font-size:0.78rem;">PAEOVO</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">20.0%</td><td class="mono">0.639</td><td class="mono">$9.53</td><td class="mono">0.021</td><td class="mono">37.2</td></tr>
+                    <tr><td><span class="rank">9</span></td><td class="mono" style="font-size:0.78rem;">POEOVO</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">18.7%</td><td class="mono">0.592</td><td class="mono">$2.09</td><td class="mono best">0.089</td><td class="mono">25.2</td></tr>
+                    <tr><td><span class="rank">10</span></td><td class="mono" style="font-size:0.78rem;">PGEOVO</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">18.7%</td><td class="mono">0.627</td><td class="mono">$2.36</td><td class="mono">0.079</td><td class="mono">38.3</td></tr>
+                    <tr><td><span class="rank">11</span></td><td class="mono" style="font-size:0.78rem;">PAEGVO</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">18.7%</td><td class="mono">0.583</td><td class="mono">$12.45</td><td class="mono">0.015</td><td class="mono">46.7</td></tr>
+                    <tr><td><span class="rank">12</span></td><td class="mono" style="font-size:0.78rem;">PAEGVA</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">18.7%</td><td class="mono">0.618</td><td class="mono">$21.62</td><td class="mono">0.009</td><td class="mono">51.7</td></tr>
+                    <tr><td><span class="rank">13</span></td><td class="mono" style="font-size:0.78rem;">POEAVO</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">17.3%</td><td class="mono">0.448</td><td class="mono">$6.15</td><td class="mono">0.028</td><td class="mono">19.9</td></tr>
+                    <tr><td><span class="rank">14</span></td><td class="mono" style="font-size:0.78rem;">POEAVG</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">17.3%</td><td class="mono">0.466</td><td class="mono">$6.99</td><td class="mono">0.025</td><td class="mono">23.5</td></tr>
+                    <tr><td><span class="rank">15</span></td><td class="mono" style="font-size:0.78rem;">PAEGVG</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">17.3%</td><td class="mono">0.605</td><td class="mono">$13.34</td><td class="mono">0.013</td><td class="mono">50.9</td></tr>
+                    <tr><td><span class="rank">16</span></td><td class="mono" style="font-size:0.78rem;">PAEAVG</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">17.3%</td><td class="mono">0.646</td><td class="mono">$29.48</td><td class="mono">0.006</td><td class="mono">51.6</td></tr>
+                    <tr><td><span class="rank">17</span></td><td class="mono" style="font-size:0.78rem;">PGEGVO</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">16.0%</td><td class="mono">0.557</td><td class="mono">$3.67</td><td class="mono">0.044</td><td class="mono">45.3</td></tr>
+                    <tr><td><span class="rank">18</span></td><td class="mono" style="font-size:0.78rem;">PAEOVA</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">16.0%</td><td class="mono">0.602</td><td class="mono">$18.31</td><td class="mono">0.009</td><td class="mono">44.9</td></tr>
+                    <tr><td><span class="rank">19</span></td><td class="mono" style="font-size:0.78rem;">PGEOVG</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">14.7%</td><td class="mono">0.559</td><td class="mono">$3.33</td><td class="mono">0.044</td><td class="mono">45.7</td></tr>
+                    <tr><td><span class="rank">20</span></td><td class="mono" style="font-size:0.78rem;">PGEAVG</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">14.7%</td><td class="mono">0.496</td><td class="mono">$8.13</td><td class="mono">0.018</td><td class="mono">35.6</td></tr>
+                    <tr><td><span class="rank">21</span></td><td class="mono" style="font-size:0.78rem;">PAEOVG</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">14.7%</td><td class="mono">0.617</td><td class="mono">$10.87</td><td class="mono">0.013</td><td class="mono">43.9</td></tr>
+                    <tr><td><span class="rank">22</span></td><td class="mono" style="font-size:0.78rem;">POEAVA</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">14.7%</td><td class="mono">0.437</td><td class="mono">$12.41</td><td class="mono">0.012</td><td class="mono">24.2</td></tr>
+                    <tr><td><span class="rank">23</span></td><td class="mono" style="font-size:0.78rem;">PGEGVG</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">13.3%</td><td class="mono">0.570</td><td class="mono">$4.98</td><td class="mono">0.027</td><td class="mono">54.6</td></tr>
+                    <tr><td><span class="rank">24</span></td><td class="mono" style="font-size:0.78rem;">POEGVA</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">13.3%</td><td class="mono">0.399</td><td class="mono">$7.98</td><td class="mono">0.017</td><td class="mono">24.5</td></tr>
+                    <tr><td><span class="rank">25</span></td><td class="mono" style="font-size:0.78rem;">POEOVG</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">12.0%</td><td class="mono">0.602</td><td class="mono">$2.66</td><td class="mono">0.045</td><td class="mono">29.5</td></tr>
+                    <tr><td><span class="rank">26</span></td><td class="mono" style="font-size:0.78rem;">PGEOVA</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">10.7%</td><td class="mono">0.317</td><td class="mono">$7.43</td><td class="mono">0.014</td><td class="mono">32.0</td></tr>
+                    <tr><td><span class="rank">27</span></td><td class="mono" style="font-size:0.78rem;">PGEGVA</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">10.7%</td><td class="mono">0.371</td><td class="mono">$8.11</td><td class="mono">0.013</td><td class="mono">37.0</td></tr>
                 </tbody>
             </table>
         </div>
@@ -890,8 +890,6 @@
         <div class="footer-links">
             <a href="https://github.com/ybkim95/TeamBench" target="_blank">GitHub</a>
             <a href="https://huggingface.co/datasets/ybkim95/teambench" target="_blank">HuggingFace</a>
-            <a href="https://huggingface.co/datasets/ybkim95/teambench/resolve/main/croissant.json" target="_blank">Croissant</a>
-            <a href="mailto:ybkim95@mit.edu">Contact</a>
         </div>
     </div>
 </footer>
@@ -1033,32 +1031,310 @@ function gc() {
 
 // Scatter data: oracle vs team scores for representative tasks
 const scatterData = [
-    {x:0.25,y:1.00,l:'MULTI1'},{x:0.04,y:0.83,l:'LH2'},{x:0.00,y:1.00,l:'TEST7'},
-    {x:0.30,y:1.00,l:'D8'},{x:0.29,y:1.00,l:'P6'},{x:0.20,y:0.27,l:'O2'},
-    {x:0.00,y:0.67,l:'TEST2'},{x:0.28,y:0.31,l:'SEC3'},{x:0.71,y:0.71,l:'TRAP5'},
-    {x:0.70,y:1.00,l:'CROSS5'},{x:1.00,y:1.00,l:'SPEC7'},{x:0.33,y:0.42,l:'DIST1'},
-    {x:0.93,y:1.00,l:'IR4'},{x:0.92,y:1.00,l:'INC4'},{x:0.90,y:0.90,l:'CR3'},
-    {x:0.92,y:1.00,l:'GO2'},{x:1.00,y:1.00,l:'INT2'},{x:0.30,y:0.55,l:'NEG1'},
-    {x:0.88,y:0.00,l:'D1'},{x:0.80,y:0.80,l:'INC1'},{x:0.55,y:0.55,l:'SPEC1'},
-    {x:0.92,y:0.75,l:'GH2'},{x:0.27,y:1.00,l:'GH5'},
-    {x:0.90,y:1.00,l:'GH10'},{x:0.62,y:0.88,l:'GH1'},{x:0.64,y:0.91,l:'GH9'},
-    {x:0.89,y:0.89,l:'GH8'},{x:0.64,y:0.64,l:'GH4'},{x:0.62,y:0.92,l:'GH3'},
-    {x:0.73,y:0.73,l:'GH11'},{x:0.25,y:0.25,l:'GH6'},{x:0.90,y:0.90,l:'GH7'},
-    {x:0.67,y:0.83,l:'SEC1'},{x:0.33,y:1.00,l:'NEG2'},{x:0.06,y:0.10,l:'LH1'},
-    {x:0.83,y:0.82,l:'PIPE1'},{x:0.50,y:0.40,l:'CROSS1'},{x:0.60,y:0.60,l:'TRAP3'}
+    {x:0.5,y:0.0,l:'CR1'},
+    {x:0.92,y:0.77,l:'CR2'},
+    {x:0.9,y:1.0,l:'CR3'},
+    {x:0.56,y:0.62,l:'CR4'},
+    {x:0.0,y:0.257,l:'CR5'},
+    {x:0.06,y:0.303,l:'CR6'},
+    {x:1.0,y:1.0,l:'CROSS1'},
+    {x:1.0,y:1.0,l:'CROSS3'},
+    {x:0.7,y:0.7,l:'CROSS5'},
+    {x:1.0,y:0.0,l:'CROSS6'},
+    {x:0.6,y:0.6,l:'CROSS7'},
+    {x:0.5,y:1.0,l:'CRYPTO'},
+    {x:0.3,y:0.3,l:'CRYPTO'},
+    {x:0.9,y:0.9,l:'CRYPTO'},
+    {x:0.44,y:0.5,l:'D1'},
+    {x:0.27,y:0.36,l:'D2'},
+    {x:0.73,y:0.82,l:'D3'},
+    {x:0.59,y:0.0,l:'D4'},
+    {x:0.8,y:0.8,l:'D5'},
+    {x:0.83,y:0.89,l:'D6'},
+    {x:1.0,y:1.0,l:'D7'},
+    {x:0.297,y:1.0,l:'D8'},
+    {x:0.8,y:0.9,l:'D9'},
+    {x:0.333,y:0.417,l:'DIST1'},
+    {x:0.2,y:0.2,l:'DIST5'},
+    {x:1.0,y:0.633,l:'DIST6'},
+    {x:0.75,y:0.0,l:'GO1'},
+    {x:0.92,y:1.0,l:'GO2'},
+    {x:0.4,y:0.0,l:'INC10'},
+    {x:0.8,y:0.9,l:'INC1'},
+    {x:0.9,y:1.0,l:'INC2'},
+    {x:0.92,y:0.0,l:'INC3'},
+    {x:0.92,y:1.0,l:'INC4'},
+    {x:0.91,y:1.0,l:'INC5'},
+    {x:0.67,y:0.67,l:'INC6'},
+    {x:0.0,y:0.0,l:'INC7'},
+    {x:0.6,y:0.7,l:'INC8'},
+    {x:0.8,y:0.7,l:'INC8'},
+    {x:0.3,y:0.3,l:'INC9'},
+    {x:0.08,y:0.42,l:'INT1'},
+    {x:1.0,y:1.0,l:'INT2'},
+    {x:0.5,y:0.0,l:'INT3'},
+    {x:0.67,y:0.33,l:'IR1'},
+    {x:0.29,y:0.29,l:'IR2'},
+    {x:0.92,y:1.0,l:'IR3'},
+    {x:0.93,y:1.0,l:'IR4'},
+    {x:0.26,y:0.297,l:'IR5'},
+    {x:0.0,y:0.0,l:'IR6'},
+    {x:0.75,y:0.75,l:'IR7'},
+    {x:0.8,y:0.0,l:'IR8'},
+    {x:0.43,y:0.0,l:'JS1'},
+    {x:0.78,y:0.87,l:'JS2'},
+    {x:0.0,y:0.0,l:'LH1'},
+    {x:0.037,y:0.833,l:'LH2'},
+    {x:0.9,y:0.95,l:'LH3'},
+    {x:0.43,y:0.43,l:'LH4'},
+    {x:0.0,y:0.0,l:'LH5'},
+    {x:0.55,y:0.0,l:'LH6'},
+    {x:0.82,y:0.0,l:'LH7'},
+    {x:0.25,y:1.0,l:'MULTI1'},
+    {x:0.5,y:0.5,l:'MULTI2'},
+    {x:0.9,y:0.9,l:'MULTI2'},
+    {x:1.0,y:1.0,l:'MULTI3'},
+    {x:0.9,y:1.0,l:'MULTI4'},
+    {x:0.167,y:0.267,l:'MULTI5'},
+    {x:0.9,y:1.0,l:'MULTI6'},
+    {x:0.9,y:1.0,l:'MULTI7'},
+    {x:0.25,y:0.293,l:'MULTI8'},
+    {x:0.5,y:0.4,l:'NEG1'},
+    {x:1.0,y:1.0,l:'NEG2'},
+    {x:0.8,y:1.0,l:'NEG3'},
+    {x:0.9,y:1.0,l:'NEG4'},
+    {x:0.9,y:1.0,l:'NEG5'},
+    {x:0.0,y:0.083,l:'O1'},
+    {x:0.2,y:0.2,l:'O2'},
+    {x:0.153,y:0.153,l:'O3'},
+    {x:0.333,y:0.333,l:'O4'},
+    {x:0.6,y:0.73,l:'O5'},
+    {x:0.77,y:0.0,l:'O6'},
+    {x:1.0,y:1.0,l:'O7'},
+    {x:0.237,y:0.287,l:'O8'},
+    {x:0.5,y:0.6,l:'O9'},
+    {x:0.0,y:0.0,l:'P1'},
+    {x:0.25,y:0.0,l:'P2'},
+    {x:0.303,y:0.333,l:'P3'},
+    {x:0.86,y:0.57,l:'P4'},
+    {x:0.93,y:0.93,l:'P5'},
+    {x:0.287,y:1.0,l:'P6'},
+    {x:0.297,y:1.0,l:'P7'},
+    {x:0.3,y:0.4,l:'P8'},
+    {x:0.243,y:0.243,l:'PIPE1'},
+    {x:0.92,y:0.0,l:'PIPE2'},
+    {x:0.8,y:0.8,l:'PIPE2'},
+    {x:0.77,y:0.0,l:'PIPE3'},
+    {x:1.0,y:1.0,l:'PIPE3'},
+    {x:0.93,y:1.0,l:'PIPE4'},
+    {x:0.0,y:0.0,l:'S1'},
+    {x:0.25,y:0.0,l:'S2'},
+    {x:0.17,y:0.17,l:'S3'},
+    {x:0.21,y:0.21,l:'S4'},
+    {x:0.067,y:0.11,l:'S5'},
+    {x:0.0,y:0.0,l:'S6'},
+    {x:0.237,y:0.287,l:'S7'},
+    {x:0.19,y:0.237,l:'SCALE1'},
+    {x:0.0,y:0.0,l:'SEC1'},
+    {x:0.9,y:0.7,l:'SEC2'},
+    {x:0.283,y:0.307,l:'SEC3'},
+    {x:0.31,y:0.0,l:'SEC4'},
+    {x:0.307,y:0.64,l:'SEC5'},
+    {x:0.85,y:0.46,l:'SEC6'},
+    {x:0.47,y:0.6,l:'SEC7'},
+    {x:0.83,y:0.92,l:'SEC8'},
+    {x:0.77,y:0.0,l:'SEC9'},
+    {x:0.45,y:0.0,l:'SPEC1'},
+    {x:0.75,y:0.67,l:'SPEC2'},
+    {x:0.262,y:0.262,l:'SPEC3'},
+    {x:0.0,y:0.85,l:'SPEC4'},
+    {x:0.457,y:0.457,l:'SPEC5'},
+    {x:0.95,y:1.0,l:'SPEC6'},
+    {x:1.0,y:1.0,l:'SPEC7'},
+    {x:0.0,y:0.0,l:'SQL1'},
+    {x:0.47,y:0.87,l:'SQL2'},
+    {x:0.09,y:0.183,l:'SYNTH1'},
+    {x:0.233,y:0.267,l:'TEST1'},
+    {x:0.0,y:0.667,l:'TEST2'},
+    {x:0.0,y:0.307,l:'TEST3'},
+    {x:0.287,y:0.287,l:'TEST4'},
+    {x:0.223,y:0.277,l:'TEST5'},
+    {x:0.3,y:0.667,l:'TEST6'},
+    {x:0.0,y:1.0,l:'TEST7'},
+    {x:0.75,y:0.88,l:'TEST8'},
+    {x:0.297,y:0.333,l:'TEST9'},
+    {x:1.0,y:1.0,l:'TRAP1'},
+    {x:0.4,y:0.6,l:'TRAP3'},
+    {x:0.71,y:0.71,l:'TRAP5'},
+    {x:1.0,y:1.0,l:'TRAP6'},
+    {x:0.8,y:0.8,l:'TRAP7'},
+    {x:0.9,y:0.9,l:'TRAP8'},
+    {x:0.5,y:0.833,l:'cross1'},
+    {x:1.0,y:1.0,l:'cross2'},
+    {x:0.867,y:1.0,l:'cross3'},
+    {x:1.0,y:1.0,l:'cross4'},
+    {x:0.2,y:0.2,l:'crypto'},
+    {x:1.0,y:1.0,l:'crypto'},
+    {x:0.067,y:0.067,l:'crypto'},
+    {x:0.2,y:0.2,l:'crypto'},
+    {x:0.444,y:0.444,l:'dist1'},
+    {x:0.417,y:0.444,l:'dist2'},
+    {x:0.528,y:0.417,l:'dist3'},
+    {x:0.917,y:0.972,l:'dist4'},
+    {x:0.933,y:0.933,l:'trap1'},
+    {x:1.0,y:1.0,l:'trap2'},
+    {x:0.867,y:1.0,l:'trap3'},
+    {x:0.553,y:0.527,l:'trap4'},
+    {x:0.62,y:0.597,l:'trap5'}
 ];
 
-// Planning vs evaluation value data
 const pvData = [
-    {x:0.25,y:0.75,l:'MULTI1'},{x:0.73,y:0.77,l:'LH2'},{x:0.73,y:0.00,l:'TEST7'},
-    {x:0.41,y:0.00,l:'D8'},{x:0.81,y:0.00,l:'P6'},{x:0.07,y:-0.07,l:'O2'},
-    {x:0.09,y:-0.33,l:'TEST2'},{x:0.05,y:0.13,l:'SEC3'},{x:0.00,y:-0.08,l:'TRAP5'},
-    {x:0.00,y:-0.30,l:'CROSS5'},{x:0.00,y:0.00,l:'SPEC7'},{x:0.17,y:0.00,l:'DIST1'},
-    {x:0.07,y:0.13,l:'IR4'},{x:0.42,y:0.00,l:'INC4'},{x:0.10,y:0.00,l:'CR3'},
-    {x:0.00,y:0.00,l:'GO2'},{x:0.00,y:0.00,l:'INT2'},
-    {x:-0.50,y:-0.30,l:'INC7'},{x:0.33,y:0.67,l:'NEG2'},{x:-0.40,y:-0.20,l:'CROSS6'},
-    {x:0.40,y:0.00,l:'P1'},{x:-0.30,y:-0.10,l:'LH7'},{x:0.00,y:-1.00,l:'O6'}
+    {x:-0.62,y:-0.62,l:'CR1'},
+    {x:0.08,y:0.0,l:'CR2'},
+    {x:0.0,y:0.1,l:'CR3'},
+    {x:0.37,y:0.06,l:'CR4'},
+    {x:0.103,y:0.13,l:'CR5'},
+    {x:0.0,y:0.03,l:'CR6'},
+    {x:0.6,y:0.1,l:'CROSS1'},
+    {x:0.0,y:0.0,l:'CROSS3'},
+    {x:-0.3,y:0.0,l:'CROSS5'},
+    {x:-1.0,y:-1.0,l:'CROSS6'},
+    {x:0.0,y:0.0,l:'CROSS7'},
+    {x:0.0,y:0.3,l:'CRYPTO'},
+    {x:0.1,y:0.0,l:'CRYPTO'},
+    {x:0.0,y:0.0,l:'CRYPTO'},
+    {x:0.12,y:0.12,l:'D1'},
+    {x:0.0,y:-0.46,l:'D2'},
+    {x:0.0,y:0.09,l:'D3'},
+    {x:-0.65,y:-0.59,l:'D4'},
+    {x:-0.07,y:-0.13,l:'D5'},
+    {x:0.17,y:0.06,l:'D6'},
+    {x:0.1,y:0.0,l:'D7'},
+    {x:0.0,y:0.407,l:'D8'},
+    {x:0.1,y:0.1,l:'D9'},
+    {x:0.0,y:0.167,l:'DIST1'},
+    {x:0.0,y:0.0,l:'DIST5'},
+    {x:-0.367,y:0.1,l:'DIST6'},
+    {x:-0.88,y:-0.5,l:'GO1'},
+    {x:0.0,y:0.0,l:'GO2'},
+    {x:-0.4,y:-0.4,l:'INC10'},
+    {x:0.0,y:0.1,l:'INC1'},
+    {x:0.0,y:1.0,l:'INC2'},
+    {x:0.0,y:0.42,l:'INC4'},
+    {x:0.0,y:1.0,l:'INC5'},
+    {x:-0.08,y:0.0,l:'INC6'},
+    {x:-0.83,y:-0.83,l:'INC7'},
+    {x:-0.1,y:-0.1,l:'INC8'},
+    {x:-0.1,y:0.0,l:'INC8'},
+    {x:0.0,y:0.1,l:'INC9'},
+    {x:-0.25,y:-0.08,l:'INT1'},
+    {x:0.0,y:0.0,l:'INT2'},
+    {x:-0.7,y:-0.4,l:'INT3'},
+    {x:-0.17,y:0.0,l:'IR1'},
+    {x:-0.14,y:0.0,l:'IR2'},
+    {x:0.0,y:0.0,l:'IR3'},
+    {x:0.13,y:0.07,l:'IR4'},
+    {x:0.0,y:0.0,l:'IR5'},
+    {x:-0.13,y:0.75,l:'IR7'},
+    {x:-0.9,y:-1.0,l:'IR8'},
+    {x:0.87,y:0.0,l:'JS2'},
+    {x:0.733,y:0.767,l:'LH2'},
+    {x:0.0,y:0.05,l:'LH3'},
+    {x:0.29,y:0.0,l:'LH4'},
+    {x:-0.55,y:-0.36,l:'LH6'},
+    {x:-0.91,y:-0.82,l:'LH7'},
+    {x:0.25,y:0.75,l:'MULTI1'},
+    {x:-0.06,y:0.0,l:'MULTI2'},
+    {x:0.0,y:0.0,l:'MULTI2'},
+    {x:0.0,y:0.0,l:'MULTI3'},
+    {x:0.0,y:0.1,l:'MULTI4'},
+    {x:-0.033,y:0.033,l:'MULTI5'},
+    {x:0.0,y:0.0,l:'MULTI6'},
+    {x:0.0,y:0.0,l:'MULTI7'},
+    {x:0.0,y:0.0,l:'MULTI8'},
+    {x:0.0,y:-0.1,l:'NEG1'},
+    {x:0.667,y:0.333,l:'NEG2'},
+    {x:0.0,y:0.0,l:'NEG3'},
+    {x:0.0,y:0.1,l:'NEG4'},
+    {x:0.0,y:0.1,l:'NEG5'},
+    {x:-0.083,y:0.083,l:'O1'},
+    {x:-0.067,y:0.067,l:'O2'},
+    {x:0.0,y:-0.027,l:'O3'},
+    {x:0.0,y:0.023,l:'O4'},
+    {x:0.73,y:0.13,l:'O5'},
+    {x:0.0,y:0.0,l:'O7'},
+    {x:0.287,y:0.287,l:'O8'},
+    {x:0.0,y:0.6,l:'O9'},
+    {x:0.03,y:0.09,l:'P3'},
+    {x:-0.07,y:0.21,l:'P4'},
+    {x:-0.07,y:-0.07,l:'P5'},
+    {x:0.0,y:0.81,l:'P6'},
+    {x:0.0,y:1.0,l:'P7'},
+    {x:0.0,y:0.0,l:'P8'},
+    {x:0.0,y:0.03,l:'PIPE1'},
+    {x:-1.0,y:-0.92,l:'PIPE2'},
+    {x:0.0,y:0.0,l:'PIPE2'},
+    {x:-0.85,y:-0.62,l:'PIPE3'},
+    {x:0.0,y:1.0,l:'PIPE3'},
+    {x:0.0,y:0.07,l:'PIPE4'},
+    {x:-0.25,y:-0.25,l:'S2'},
+    {x:0.17,y:0.0,l:'S3'},
+    {x:-0.08,y:0.0,l:'S4'},
+    {x:0.067,y:0.0,l:'S5'},
+    {x:-0.62,y:-0.62,l:'S6'},
+    {x:0.0,y:0.05,l:'S7'},
+    {x:0.0,y:0.023,l:'SCALE1'},
+    {x:0.0,y:-0.2,l:'SEC2'},
+    {x:0.127,y:0.05,l:'SEC3'},
+    {x:-0.38,y:-0.31,l:'SEC4'},
+    {x:-0.36,y:0.64,l:'SEC5'},
+    {x:-0.08,y:-0.31,l:'SEC6'},
+    {x:-0.07,y:0.27,l:'SEC7'},
+    {x:0.25,y:0.09,l:'SEC8'},
+    {x:-0.77,y:-0.62,l:'SEC9'},
+    {x:-0.09,y:-0.09,l:'SPEC1'},
+    {x:-0.08,y:0.0,l:'SPEC2'},
+    {x:0.262,y:0.262,l:'SPEC3'},
+    {x:0.0,y:0.0,l:'SPEC4'},
+    {x:0.457,y:0.457,l:'SPEC5'},
+    {x:0.0,y:0.05,l:'SPEC6'},
+    {x:0.0,y:0.0,l:'SPEC7'},
+    {x:0.4,y:0.4,l:'SQL2'},
+    {x:0.033,y:0.123,l:'SYNTH1'},
+    {x:0.0,y:0.033,l:'TEST1'},
+    {x:-0.333,y:0.09,l:'TEST2'},
+    {x:0.03,y:0.03,l:'TEST3'},
+    {x:0.0,y:0.0,l:'TEST4'},
+    {x:-0.03,y:0.0,l:'TEST5'},
+    {x:-0.333,y:0.567,l:'TEST6'},
+    {x:0.0,y:0.733,l:'TEST7'},
+    {x:0.0,y:0.0,l:'TEST8'},
+    {x:-0.667,y:0.073,l:'TEST9'},
+    {x:0.0,y:0.0,l:'TRAP1'},
+    {x:0.2,y:0.2,l:'TRAP3'},
+    {x:-0.08,y:0.0,l:'TRAP5'},
+    {x:0.0,y:1.0,l:'TRAP6'},
+    {x:0.0,y:0.0,l:'TRAP7'},
+    {x:0.0,y:0.0,l:'TRAP8'},
+    {x:-0.033,y:0.0,l:'cross1'},
+    {x:0.111,y:0.0,l:'cross2'},
+    {x:0.0,y:0.0,l:'cross3'},
+    {x:0.0,y:0.0,l:'cross4'},
+    {x:0.0,y:0.0,l:'crypto'},
+    {x:0.0,y:0.0,l:'crypto'},
+    {x:-0.067,y:0.067,l:'crypto'},
+    {x:0.0,y:0.0,l:'crypto'},
+    {x:0.028,y:0.028,l:'dist1'},
+    {x:0.028,y:0.028,l:'dist2'},
+    {x:-0.389,y:-0.306,l:'dist3'},
+    {x:0.25,y:0.139,l:'dist4'},
+    {x:0.0,y:0.0,l:'trap1'},
+    {x:0.208,y:0.0,l:'trap2'},
+    {x:0.0,y:0.0,l:'trap3'},
+    {x:0.223,y:-0.027,l:'trap4'},
+    {x:-0.307,y:-0.357,l:'trap5'}
 ];
+
 
 function buildCharts() {
     const anth = { clay: '#d97757', blue: '#6a9bcc', sage: '#788c5d', charcoal: '#141413', stone: '#b0aea5', paper: '#e8e6dc', bone: '#faf9f5' };
