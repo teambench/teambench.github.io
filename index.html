@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TeamBench: Evaluating OS-Enforced Teamwork Among Heterogeneous LLM Agents</title>
-    <meta name="description" content="TeamBench is a benchmark of 931 verified tasks across software engineering, data science, and machine learning for evaluating multi-agent collaboration with OS-enforced role separation.">
-    <meta property="og:title" content="TeamBench: Evaluating Agent Collaboration via Software Engineering Tasks">
-    <meta property="og:description" content="931 verified tasks across software engineering, data science, and machine learning with OS-enforced role separation. 4,200+ runs across 18 models from 3 provider families.">
+    <title>TeamBench: A Multi-Agent Teamwork Benchmark with OS-Enforced Role Separation</title>
+    <meta name="description" content="TeamBench is a benchmark of 851 task templates expanding to 931 seeded evaluation instances across 19 base categories for evaluating multi-agent LLM coordination under operating-system-enforced Planner / Executor / Verifier role separation. NeurIPS 2026 Datasets and Benchmarks Track.">
+    <meta property="og:title" content="TeamBench: A Multi-Agent Teamwork Benchmark with OS-Enforced Role Separation">
+    <meta property="og:description" content="851 task templates / 931 instances. OS-enforced Planner-Executor-Verifier roles. Verifiers approve 49% of failing submissions. Submitted to NeurIPS 2026 D&B.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://teambench.github.io">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="TeamBench">
-    <meta name="twitter:description" content="The first structurally enforced multi-agent benchmark for software engineering.">
+    <meta name="twitter:title" content="TeamBench (NeurIPS 2026 D&B)">
+    <meta name="twitter:description" content="A multi-agent teamwork benchmark with OS-enforced Planner / Executor / Verifier role separation. 851 templates, 931 instances.">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -435,14 +435,36 @@
 
 <!-- Hero -->
 <div class="hero">
+    <div style="display:inline-block;padding:0.3rem 0.85rem;border:1px solid var(--border);border-radius:99px;font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:1.5rem;">NeurIPS 2026 &middot; Datasets and Benchmarks Track</div>
     <h1>TeamBench</h1>
-    <p class="subtitle">A benchmark of verified tasks across software engineering, data science, and machine learning with OS-enforced role separation for measuring agent collaboration benefits.</p>
-    
+    <p class="subtitle" style="font-size:1.05rem;max-width:720px;">A multi-agent teamwork benchmark with <strong>operating-system-enforced</strong> Planner / Executor / Verifier role separation. 851 task templates expand to 931 seeded evaluation instances across 19 base categories of software engineering, data engineering, distributed systems, security, and incident response.</p>
+    <div style="font-size:0.78rem;color:var(--text-muted);max-width:760px;margin:-1.25rem auto 2rem;line-height:1.8;">
+        Yubin Kim<sup>1,2</sup>, Chanwoo Park<sup>1</sup>, Taehan Kim<sup>4</sup>, Eugene Park<sup>1</sup>, Samuel Schmidgall<sup>3</sup>, Salman Rahman<sup>2</sup>, Chunjong Park<sup>3</sup>, Cynthia Breazeal<sup>1</sup>, Xin Liu<sup>2</sup>, Hamid Palangi<sup>2</sup>, Hae Won Park<sup>1</sup>, Daniel McDuff<sup>2</sup><br>
+        <span style="font-size:0.72rem;">&nbsp;<sup>1</sup>MIT &nbsp; <sup>2</sup>Google Research &nbsp; <sup>3</sup>Google DeepMind &nbsp; <sup>4</sup>Independent Researcher</span>
+    </div>
+
+    <div class="hero-actions" style="margin-bottom:2.5rem;">
+        <a class="btn-fill" href="https://github.com/ybkim95/TeamBench" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            Code
+        </a>
+        <a class="btn-ghost" href="https://huggingface.co/datasets/ybkim95/teambench" target="_blank">
+            <img class="ext-logo" src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HF">
+            Dataset
+        </a>
+        <a class="btn-ghost" href="https://huggingface.co/datasets/ybkim95/teambench/resolve/main/croissant.json" target="_blank">
+            Croissant 1.1
+        </a>
+        <a class="btn-ghost" href="https://teambench.github.io/human-eval/" target="_blank">
+            Human Eval
+        </a>
+    </div>
+
     <div class="stats-bar">
-        <div class="stat-item" style="cursor:pointer;" onclick="location.href='tasks.html'" title="Browse all tasks"><div class="stat-value">931</div><div class="stat-label">Tasks ↗</div></div>
-        <div class="stat-item"><div class="stat-value">21</div><div class="stat-label">Categories</div></div>
-        <div class="stat-item"><div class="stat-value">4,200+</div><div class="stat-label">Eval Runs</div></div>
-        <div class="stat-item"><div class="stat-value">18</div><div class="stat-label">Models</div></div>
+        <div class="stat-item" style="cursor:pointer;" onclick="location.href='tasks.html'" title="Browse all tasks"><div class="stat-value">851</div><div class="stat-label">Templates ↗</div></div>
+        <div class="stat-item"><div class="stat-value">931</div><div class="stat-label">Instances</div></div>
+        <div class="stat-item"><div class="stat-value">19</div><div class="stat-label">Categories</div></div>
+        <div class="stat-item"><div class="stat-value">5</div><div class="stat-label">Conditions</div></div>
     </div>
 </div>
 
@@ -457,7 +479,7 @@
         <div class="table-wrap" style="max-height:600px;overflow-y:auto;">
             <table>
                 <thead style="position:sticky;top:0;background:var(--bg-card);z-index:1;">
-                    <tr><th style="white-space:nowrap;">#</th><th>Model</th><th>Org</th><th>Oracle</th><th>Generator</th><th style="white-space:nowrap;">No Planner</th><th style="white-space:nowrap;">No Evaluator</th><th>Full</th><th>Uplift</th><th style="white-space:nowrap;">Date</th></tr>
+                    <tr><th style="white-space:nowrap;">#</th><th>Model</th><th>Org</th><th>Oracle</th><th>Executor</th><th style="white-space:nowrap;">No Planner</th><th style="white-space:nowrap;">No Verify</th><th>Full</th><th>Uplift</th><th style="white-space:nowrap;">Date</th></tr>
                 </thead>
                 <tbody>
                     <tr><td><span class="rank rank-gold">1</span> <img src="verified-icon.png" alt="" class="verified-icon" style="width:13px;height:13px;vertical-align:middle;opacity:0.6;margin-left:6px;"></td><td class="model-name">Claude Sonnet 4.6</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">21.4</td><td class="mono">17.9</td><td class="mono">35.7</td><td class="mono">35.7</td><td class="mono best">42.9</td><td class="mono">+21.5</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-04-06</td></tr>
@@ -525,8 +547,8 @@
 <!-- Tasks with expandable examples -->
 <section id="tasks">
     <div class="section-header fade-up">
-        <h2 class="section-title">931 Verified Tasks Across 21 Categories</h2>
-        <p class="section-desc">2,794 instances. Weighted to hard/expert difficulty (80%).</p>
+        <h2 class="section-title">851 Templates Across 19 Base Categories</h2>
+        <p class="section-desc">931 seeded evaluation instances. 161 originally-authored coordination-required templates, 650 GitHub-derived bug fixes, 30 UCI data-science tasks, 10 public post-mortems.</p>
     </div>
         
     
@@ -564,8 +586,8 @@
     <div class="arch-grid fade-up">
         <div class="arch-roles">
             <div class="role-card"><div class="role-num">1</div><div><h4>Planner</h4><p>Reads the full specification (spec.md). Decomposes requirements, identifies hidden constraints and edge cases, creates an execution plan. Cannot execute code or modify the workspace.</p></div></div>
-            <div class="role-card"><div class="role-num">2</div><div><h4>Generator</h4><p>Generates the implementation from the Planner's instructions. Runs commands and modifies workspace code. Cannot access the full specification.</p></div></div>
-            <div class="role-card"><div class="role-num">3</div><div><h4>Evaluator</h4><p>Evaluates compliance against requirements and writes attestation. Reads spec.md and workspace (read-only). Cannot modify the workspace.</p></div></div>
+            <div class="role-card"><div class="role-num">2</div><div><h4>Executor</h4><p>Generates the implementation from the Planner's instructions. Runs commands and modifies workspace code. Cannot access the full specification.</p></div></div>
+            <div class="role-card"><div class="role-num">3</div><div><h4>Verifier</h4><p>Evaluates compliance against requirements and writes attestation. Reads spec.md and workspace (read-only). Cannot modify the workspace.</p></div></div>
         </div>
         <div class="arch-text">
             <h3>Structural Enforcement, Not Prompt Compliance</h3>
@@ -573,7 +595,7 @@
             <ul class="feature-list">
                 <li><span class="dot"></span><span><strong>Information asymmetry by design</strong> &mdash; Specification contains critical details absent from the brief</span></li>
                 <li><span class="dot"></span><span><strong>Five ablation conditions</strong> &mdash; Systematically remove roles to isolate marginal contribution</span></li>
-                <li><span class="dot"></span><span><strong>Parameterized generators</strong> &mdash; 153 generators produce distinct instances from different seeds</span></li>
+                <li><span class="dot"></span><span><strong>Parameterized generators</strong> &mdash; every template has a deterministic seeded generator that emits byte-identical workspaces from a fixed integer seed</span></li>
                 <li><span class="dot"></span><span><strong>Partial scoring</strong> &mdash; Deterministic graders produce scores in [0, 1]</span></li>
             </ul>
             <div class="tni-box">
@@ -601,8 +623,8 @@
             <p class="demo-task-desc">Fix <strong>all</strong> security vulnerabilities in the authentication module. The specification lists 5 issues at varying severity — some subtle enough to be missed without careful spec analysis. Fixes must not introduce new regressions.</p>
             <div class="demo-tools-row">
               <span class="demo-tool-badge"><span class="role">Planner</span>read_file(spec.md)</span>
-              <span class="demo-tool-badge"><span class="role">Generator</span>edit_file · run_command · read_file(plan.md)</span>
-              <span class="demo-tool-badge"><span class="role">Evaluator</span>read_file · grep (read-only)</span>
+              <span class="demo-tool-badge"><span class="role">Executor</span>edit_file · run_command · read_file(plan.md)</span>
+              <span class="demo-tool-badge"><span class="role">Verifier</span>read_file · grep (read-only)</span>
             </div>
         </div>
         <div class="demo-tabs" id="demo-tabs">
@@ -631,65 +653,55 @@
         <p class="section-desc">Team benefit concentrates on the hardest tasks and weakest models.</p>
     </div>
     <div class="findings-grid fade-up">
-        <div class="card finding-card"><h3>The Equalizer Effect</h3><p>The weakest model (Claude Haiku 4.5) gains the most from team coordination, with +32.1% pass rate uplift — the largest gain across all tested models.</p><span class="finding-stat">+32.1% weakest model</span></div>
-        <div class="card finding-card"><h3>Planning Drives Value</h3><p>Planning adds +4.8% on average (p=0.02). The Planner's relay of specification details provides critical knowledge the Generator cannot access through its brief alone.</p><span class="finding-stat">+4.8% planning</span></div>
-        <div class="card finding-card"><h3>Evaluation Overhead</h3><p>LLM evaluators add no net value and hurt 31% of tasks through false rejection of valid work. No-Verify outperforms Full Team on 81.5% of tasks — the single strongest finding in the benchmark.</p><span class="finding-stat">81.5% tasks: No-Verify beats Full Team</span></div>
-        <div class="card finding-card"><h3>Hardest Tasks Benefit Most</h3><p>Bottom quintile tasks (oracle &lt; 22%) gain +15.3% from the full team. Easy tasks show negative uplift. (driven primarily by the planning component; full three-role team shows smaller gains due to evaluation overhead)</p><span class="finding-stat">+15.3% on Q1</span></div>
-        <div class="card finding-card"><h3>Generator Bottleneck</h3><p>Swapping in a stronger Generator boosts score by +0.126 avg — more than any other role upgrade.</p><span class="finding-stat">+0.126 avg score</span></div>
-        <div class="card finding-card"><h3>Adversarial Tasks Amplify Teamwork</h3><p>TRAP tasks have the highest team benefit. The Planner catches spec contradictions the Generator never sees.</p><span class="finding-stat">TNI = 0.93</span></div>
+        <div class="card finding-card"><h3>Verifier False-Accept</h3><p>On grader-failing runs in the 27-configuration role-mixing pool, LLM Verifiers approve <strong>49%</strong> of submissions that fail the deterministic grader. Removing the Verifier improves mean partial score in the reference ablation. The Verifier is the binding constraint, not the Planner.</p><span class="finding-stat">49% false-accept</span></div>
+        <div class="card finding-card"><h3>Prompt-Only vs Enforced</h3><p>Prompt-only and sandbox-enforced teams reach statistically indistinguishable pass rates, but prompt-only runs produce <strong>3.6x more</strong> cases where the Verifier rewrites the Executor's code. Pass rate alone hides role collapse.</p><span class="finding-stat">3.6x role collapse</span></div>
+        <div class="card finding-card"><h3>Conditional Team Value</h3><p>Team uplift is concentrated where Solo struggles. Lowest Solo-score quintile gains <strong>+15.7 points</strong>; the top quintile loses points to coordination overhead. Mean team-vs-Solo uplift across the full 155-task reference pool is +0.5 points (p = 0.20).</p><span class="finding-stat">+15.7 pp on Q1</span></div>
+        <div class="card finding-card"><h3>Planner Helps on Hard Tasks</h3><p>Adding the Planner to the No-Plan team raises mean partial score by <strong>+2.4 points</strong>, concentrated on tasks whose specifications contain decision rules the Executor cannot infer from the brief or workspace alone.</p><span class="finding-stat">+2.4 pp planning</span></div>
+        <div class="card finding-card"><h3>27-Config Role-Mixing</h3><p>Mixed-provider teams improve cost-performance. PGEAVA (Google Planner / Anthropic Executor / Anthropic Verifier) reaches <strong>26.7%</strong> at $20.52, beating the all-Anthropic team (22.7%, $39.58) by +4 points at roughly half the cost.</p><span class="finding-stat">PGEAVA: 26.7%</span></div>
+        <div class="card finding-card"><h3>Human Pilot Mirrors Findings</h3><p>40 sessions, 21 tasks, 18 distinct participants under matched role separation. Solo participants work through tasks directly. Hybrid sessions often collapse into quick approval. Human teams spend more effort coordinating missing information across roles. MIT COUHES exempt determination.</p><span class="finding-stat">40 sessions</span></div>
     </div>
 </section>
 
 <hr class="divider">
 
-<!-- Heterogeneous Teams -->
+<!-- Role-Mixing 27-Configuration Grid -->
 <section id="hetero">
     <div class="section-header fade-up">
-        <h2 class="section-title">Heterogeneous Agents</h2>
-        <p class="section-desc">Assigning stronger models to specific roles (TeamBench-Mini subset, seed 0).</p>
+        <h2 class="section-title">27-Configuration Role-Mixing</h2>
+        <p class="section-desc">Every assignment of three providers to three roles &mdash; Anthropic, Google, OpenAI &mdash; with one compact frontier model per family. 27 configs &times; 25 stratified tasks &times; 3 seeds = 2,025 deduplicated runs.</p>
     </div>
     <div class="lb-wrapper fade-up">
         <table>
             <thead>
-                <tr><th>Configuration</th><th>Planner</th><th>Generator</th><th>Evaluator</th><th>Avg. Score</th><th>Pass Rate</th></tr>
+                <tr><th>Configuration</th><th>Planner</th><th>Executor</th><th>Verifier</th><th>Pass Rate</th><th>Cost (USD)</th></tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="model-name">Baseline (homogeneous)</td>
-                    <td>G3.1 Lite</td><td>G3.1 Lite</td><td>G3.1 Lite</td>
-                    <td class="mono">0.597</td><td class="mono">0.0%</td>
+                    <td class="model-name">PGEAVA (mixed)</td>
+                    <td>Google</td><td>Anthropic</td><td>Anthropic</td>
+                    <td class="mono best">26.7%</td><td class="mono">$20.52</td>
                 </tr>
                 <tr>
-                    <td class="model-name">Generator upgrade (GPT-5-Mini)</td>
-                    <td>G3.1 Lite</td><td class="best">GPT-5-Mini</td><td>G3.1 Lite</td>
-                    <td class="mono best">0.702</td><td class="mono">7.1%</td>
+                    <td class="model-name">All-Anthropic</td>
+                    <td>Anthropic</td><td>Anthropic</td><td>Anthropic</td>
+                    <td class="mono">22.7%</td><td class="mono">$39.58</td>
                 </tr>
                 <tr>
-                    <td class="model-name">Generator upgrade (G3 Flash)</td>
-                    <td>G3.1 Lite</td><td class="best">G3 Flash</td><td>G3.1 Lite</td>
-                    <td class="mono best">0.723</td><td class="mono best">10.7%</td>
+                    <td class="model-name">POEOVA (mixed)</td>
+                    <td>OpenAI</td><td>OpenAI</td><td>Anthropic</td>
+                    <td class="mono">22.7%</td><td class="mono best">$10.98</td>
                 </tr>
                 <tr>
-                    <td class="model-name">Planner upgrade (GPT-5-Mini)</td>
-                    <td class="best">GPT-5-Mini</td><td>G3.1 Lite</td><td>G3.1 Lite</td>
-                    <td class="mono">0.642</td><td class="mono">10.7%</td>
-                </tr>
-                <tr>
-                    <td class="model-name">Planner upgrade (G3 Flash)</td>
-                    <td class="best">G3 Flash</td><td>G3.1 Lite</td><td>G3.1 Lite</td>
-                    <td class="mono">0.597</td><td class="mono">0.0%</td>
-                </tr>
-                <tr>
-                    <td class="model-name">Evaluator upgrade (G3 Flash)</td>
-                    <td>G3.1 Lite</td><td>G3.1 Lite</td><td class="best">G3 Flash</td>
-                    <td class="mono">0.615</td><td class="mono">7.1%</td>
+                    <td class="model-name">All-OpenAI</td>
+                    <td>OpenAI</td><td>OpenAI</td><td>OpenAI</td>
+                    <td class="mono">18.7%</td><td class="mono best">$2.09</td>
                 </tr>
             </tbody>
         </table>
     </div>
     <div style="max-width:700px;margin:1.5rem auto 0;text-align:center;">
         <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">
-            <strong>Key insight:</strong> Upgrading the <strong>Generator</strong> yields the largest gains (+0.126 avg score), confirming that implementation capability is the primary bottleneck. Planner upgrades help with pass rate but less with partial scores. Evaluator upgrades show modest improvement, consistent with the finding that evaluation adds limited value.
+            <strong>Key insight:</strong> PGEAVA outperforms the all-Anthropic team by 4 points at roughly half the cost. The Anthropic Executor marginal is about 3 points higher than alternatives; the OpenAI Verifier has the highest Verifier marginal. Planner CIs overlap across all three families. Fine-grained configuration ranks are unstable across seeds (Spearman 0.09 to 0.28); we report pooled role marginals rather than exact rank order.
         </p>
     </div>
 </section>
@@ -700,7 +712,7 @@
 <section id="results">
     <div class="section-header fade-up">
         <h2 class="section-title">Five Conditions to Decompose Team Value</h2>
-        <p class="section-desc">No-Verify and Full Team tie on average (0.592), with No-Verify outperforming Full Team on most individual tasks — indicating the Evaluator role adds overhead rather than correctness.</p>
+        <p class="section-desc">No-Verify and Full Team tie on average (0.592), with No-Verify outperforming Full Team on most individual tasks — indicating the Verifier role adds overhead rather than correctness.</p>
     </div>
         
 <div class="charts-grid fade-up">
@@ -759,20 +771,22 @@
         <div class="card" style="margin-bottom:1rem;">
             <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:0.75rem;">Quick Start</h3>
             <div style="font-family:'Geist Mono',monospace;font-size:0.8rem;line-height:2;background:var(--bg);padding:1rem 1.25rem;border-radius:8px;border:1px solid var(--border);overflow-x:auto;">
-                <div style="color:var(--text-muted);"># Install</div>
-                <div>pip install teambench</div>
+                <div style="color:var(--text-muted);"># Clone the repository</div>
+                <div>git clone https://github.com/ybkim95/TeamBench.git &amp;&amp; cd TeamBench</div>
+                <div>pip install -e .</div>
                 <br>
-                <div style="color:var(--text-muted);"># Run on the 28-task Mini subset</div>
-                <div>teambench run --model your-model --tasks mini --seed 0</div>
+                <div style="color:var(--text-muted);"># Set provider keys (see .env.example)</div>
+                <div>export ANTHROPIC_API_KEY=...  OPENAI_API_KEY=...  GEMINI_API_KEY=...</div>
                 <br>
-                <div style="color:var(--text-muted);"># Run full 931-task evaluation</div>
-                <div>teambench run --model your-model --tasks all --seed 0</div>
+                <div style="color:var(--text-muted);"># Run a single task under the 5-condition ablation</div>
+                <div>python -m harness.ablation --task DIST1_queue_race --model gemini-3-flash-preview --seed 0</div>
                 <br>
-                <div style="color:var(--text-muted);"># Grade results</div>
-                <div>teambench grade --run-dir results/</div>
+                <div style="color:var(--text-muted);"># Run the LB100 stratified leaderboard subset</div>
+                <div>bash scripts/run_all_opensource_100_ablation.sh</div>
                 <br>
-                <div style="color:var(--text-muted);"># Use a framework adapter (AutoGen, CrewAI, LangGraph)</div>
-                <div>teambench run --model your-model --adapter autogen --tasks all --seed 0</div>
+                <div style="color:var(--text-muted);"># Compute TNI and paper tables</div>
+                <div>python -m harness.compute_tni     --runs-dir shared/runs/example</div>
+                <div>python -m harness.paper_tables    --out shared/paper/</div>
             </div>
         </div>
         <div class="card" style="margin-bottom:1rem;">
@@ -781,7 +795,7 @@
                 To add your model to the leaderboard, submit a Pull Request to the
                 <a href="https://github.com/ybkim95/TeamBench" target="_blank" style="color:var(--text);text-decoration:underline;">TeamBench repository</a>
                 with your results JSON file in <code style="font-family:'Geist Mono',monospace;font-size:0.8rem;padding:0.15rem 0.4rem;background:var(--bg-card);border:1px solid var(--border);border-radius:3px;">shared/ablation_results/</code>.
-                We recommend evaluating on the <strong>TeamBench-Mini</strong> TeamBench-Mini subset with all 5 ablation conditions for comparability.
+                For full leaderboard comparability, evaluate on the 90-task stratified subset (TeamBench-Verified covers 57 of 90 tasks that pass the four-pillar audit) with all 5 ablation conditions.
             </p>
         </div>
     </div>
@@ -796,11 +810,14 @@
     </div>
     <div class="fade-up" style="max-width:700px;margin:0 auto;">
         <div style="position:relative;">
-            <pre id="bibtex-block" style="font-family:'Geist Mono',monospace;font-size:0.78rem;line-height:1.7;background:var(--bg-card);padding:1.25rem 1.5rem;border-radius:10px;border:1px solid var(--border);overflow-x:auto;white-space:pre-wrap;">@article{kim2025teambench,
-  title={TeamBench: Evaluating OS-Enforced Teamwork Among Heterogeneous LLM Agents},
-  author={Kim, Yubin},
-  journal={arXiv preprint},
-  year={2025}
+            <pre id="bibtex-block" style="font-family:'Geist Mono',monospace;font-size:0.78rem;line-height:1.7;background:var(--bg-card);padding:1.25rem 1.5rem;border-radius:10px;border:1px solid var(--border);overflow-x:auto;white-space:pre-wrap;">@inproceedings{kim2026teambench,
+  title     = {TeamBench: A Multi-Agent Teamwork Benchmark with OS-Enforced Role Separation},
+  author    = {Kim, Yubin and Park, Chanwoo and Kim, Taehan and Park, Eugene and
+               Schmidgall, Samuel and Rahman, Salman and Park, Chunjong and
+               Breazeal, Cynthia and Liu, Xin and Palangi, Hamid and
+               Park, Hae Won and McDuff, Daniel},
+  booktitle = {NeurIPS 2026 Datasets and Benchmarks Track},
+  year      = {2026}
 }</pre>
             <button onclick="navigator.clipboard.writeText(document.getElementById('bibtex-block').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy BibTeX',1500)})" style="position:absolute;top:0.75rem;right:0.75rem;padding:0.35rem 0.75rem;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text-secondary);font-family:'Geist',sans-serif;font-size:0.72rem;font-weight:600;cursor:pointer;transition:all 0.2s;">Copy BibTeX</button>
         </div>
@@ -818,7 +835,7 @@
         <div class="cat-grid" id="faq-grid" style="grid-template-columns:1fr;">
             <div class="cat-item">
                 <div class="cat-header" onclick="this.parentElement.classList.toggle('open')">
-                    <div class="cat-left"><span class="cat-name">Why only one team decomposition (Planner-Generator-Evaluator)?</span></div>
+                    <div class="cat-left"><span class="cat-name">Why only one team decomposition (Planner-Executor-Verifier)?</span></div>
                     <div class="cat-right"><svg class="cat-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
                 </div>
                 <div class="cat-body"><p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">TeamBench is evaluation infrastructure, not a deployment prescription. The three-role decomposition represents one natural factorization of understanding, implementation, and validation. We additionally evaluate four alternative topologies (Verify-First, Iterative, Dual-Exec, Self-Check) in a topology ablation. Future versions will add multi-round dialogue and router-worker patterns as first-class evaluation modes.</p></div>
@@ -842,14 +859,14 @@
                     <div class="cat-left"><span class="cat-name">How contamination-resistant are the parameterized generators?</span></div>
                     <div class="cat-right"><svg class="cat-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
                 </div>
-                <div class="cat-body"><p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">Each of the 153 generators randomizes surface parameters (variable names, config values, API field names, bug locations) while preserving structural complexity. Seeds 0-2 are used for public evaluation; seeds 3+ are reserved for hidden holdout. A model that memorizes seed-0 solutions gains no advantage on seed-3 instances because the specific values, names, and locations differ. The 11 static GitHub tasks cannot be parameterized but serve as real-world anchors.</p></div>
+                <div class="cat-body"><p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">Every template ships with a deterministic seeded generator that emits byte-identical workspaces from a fixed integer seed. Generators randomize surface parameters (variable names, config values, API field names, bug locations) while preserving structural complexity. Seeds 0&ndash;4 are used for public evaluation. <strong>Seeds 5 and above are reserved for the hidden leaderboard refresh</strong>; the specific values, names, and locations under those seeds have never been publicly evaluated, so a model that memorizes seed-0 solutions gains no advantage. A handful of GitHub-derived templates without seed parameterization serve as real-world anchors.</p></div>
             </div>
             <div class="cat-item">
                 <div class="cat-header" onclick="this.parentElement.classList.toggle('open')">
                     <div class="cat-left"><span class="cat-name">Can labs optimize on the Mini subset to inflate leaderboard scores?</span></div>
                     <div class="cat-right"><svg class="cat-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
                 </div>
-                <div class="cat-body"><p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">The Mini subset is balanced across all 21 categories and uses parameterized generators. Optimizing for 28 specific task structures is unlikely to transfer to the full 931-task benchmark. For high-stakes comparisons, we recommend the full evaluation or the hidden-seed track (seeds 3+), where the specific task instances have never been publicly evaluated.</p></div>
+                <div class="cat-body"><p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">The Mini subset is balanced across the 21 refined categories and uses parameterized generators. Optimizing for ~28 specific task structures is unlikely to transfer to the full 851-template / 931-instance benchmark. For high-stakes comparisons, we recommend the full evaluation or the hidden-seed track (seeds 5+), where the specific task instances have never been publicly evaluated.</p></div>
             </div>
         </div>
     </div>
@@ -863,12 +880,12 @@
 
 <footer>
     <div class="footer-inner">
-        <span>TeamBench &copy; 2025 &mdash; Yubin Kim, MIT</span>
+        <span>TeamBench &copy; 2026 &mdash; Yubin Kim, Chanwoo Park, Taehan Kim, Eugene Park, Samuel Schmidgall, Salman Rahman, Chunjong Park, Cynthia Breazeal, Xin Liu, Hamid Palangi, Hae Won Park, Daniel McDuff. MIT &middot; Google Research &middot; Google DeepMind. Released under the MIT license.</span>
         <div class="footer-links">
             <a href="https://github.com/ybkim95/TeamBench" target="_blank">GitHub</a>
             <a href="https://huggingface.co/datasets/ybkim95/teambench" target="_blank">HuggingFace</a>
-            <a href="#" onclick="return false;">Paper (TBA)</a>
-            <a href="mailto:ybkim95@mit.edu">Contact</a>
+            <a href="https://huggingface.co/datasets/ybkim95/teambench/resolve/main/croissant.json" target="_blank">Croissant</a>
+            <a href="mailto:ybkim95@media.mit.edu">Contact</a>
         </div>
     </div>
 </footer>
@@ -1173,7 +1190,7 @@ function buildCharts() {
                 }
             },
             scales:{
-                x:{title:{display:true,text:'Evaluation Value (Full \u2212 No Evaluator)',font:{size:10,weight:'bold'}},min:-1.1,max:1.1,grid:{color:c.grid},ticks:{stepSize:0.5,font:{size:10}}},
+                x:{title:{display:true,text:'Evaluation Value (Full \u2212 No Verify)',font:{size:10,weight:'bold'}},min:-1.1,max:1.1,grid:{color:c.grid},ticks:{stepSize:0.5,font:{size:10}}},
                 y:{title:{display:true,text:'Planning Value (Full \u2212 No Planner)',font:{size:10,weight:'bold'}},min:-1.1,max:1.1,grid:{color:c.grid},ticks:{stepSize:0.5,font:{size:10}}}
             }
         }
@@ -1354,7 +1371,7 @@ const DEMO_CONDS = {
     stats:{toolCalls:7,agentTurns:1,rounds:1,fixed:'2/5'},
     bottleneck:'No spec \u2014 can only fix what is visible in code',
     metrics:{'Condition':'Restricted (no spec, 1 pass)','Score':'0.40 / 1.00','Vulnerabilities fixed':'2 of 5','Why it fails':'Brief mentions SQL+passwords only; CSRF, rate limiting, session fixation absent'},
-    insight:'Without spec access the agent can only fix what is visible in the code. Three of the five vulnerabilities are implicit requirements in the spec \u2014 the Generator guesses wrong on two of them.',
+    insight:'Without spec access the agent can only fix what is visible in the code. Three of the five vulnerabilities are implicit requirements in the spec \u2014 the Executor guesses wrong on two of them.',
     agents:[{badge:'★',title:'AGENT (RESTRICTED)',inactive:false,artifact:null,
       tags:[['spec.md','off'],['workspace','on'],['all tools','on']],
       lines:[
@@ -1374,7 +1391,7 @@ const DEMO_CONDS = {
     stats:{toolCalls:17,agentTurns:4,rounds:2,fixed:'4/5'},
     bottleneck:'No spec analysis \u2014 generator guesses wrong on CSRF detail in round 2',
     metrics:{'Condition':'No Plan (Exec + Verify, multi-turn)','Score':'0.80 / 1.00','Round 1 fixes':'3 of 5','Round 2 fixes':'1 more \u2014 evaluator guided','Still missing':'CSRF (\u00a74.3) \u2014 generator guessed wrong'},
-    insight:'Without a Planner reading the spec, the Generator misses the CSRF requirement in round 1. The Evaluator catches it, but the Generator round-2 fix is incomplete \u2014 it adds token generation but not validation.',
+    insight:'Without a Planner reading the spec, the Executor misses the CSRF requirement in round 1. The Verifier catches it, but the Executor round-2 fix is incomplete \u2014 it adds token generation but not validation.',
     rounds:[
       {label:'Round 1',feedbackNote:null,agents:[
         {badge:'1',title:'PLANNER',inactive:true,artifact:null,tags:[['spec.md','on']],lines:[]},
@@ -1396,7 +1413,7 @@ const DEMO_CONDS = {
             ['tool','write_file("attestation.json")'],['result','↳ {"verdict":"PARTIAL","missing":["csrf","rate_limit"]}'],
           ]},
       ]},
-      {label:'Round 2',feedbackNote:'Evaluator flagged: CSRF (§4.3), rate limiting (§5.1)',agents:[
+      {label:'Round 2',feedbackNote:'Verifier flagged: CSRF (§4.3), rate limiting (§5.1)',agents:[
         {badge:'2',title:'GENERATOR',inactive:false,artifact:null,
           tags:[['attestation.json','on'],['workspace','on']],
           lines:[
@@ -1418,12 +1435,12 @@ const DEMO_CONDS = {
   full:{key:'full',verdict:'pass',score:1.00,isMultiTurn:true,
     stats:{toolCalls:23,agentTurns:5,rounds:2,fixed:'5/5'},
     bottleneck:null,
-    metrics:{'Condition':'Full Team, Multi-turn (2 rounds)','Score':'1.00 / 1.00','vs Oracle / 1-round':'+0.40 uplift','Key mechanism':'Evaluator feedback \u2192 Generator round 2'},
-    insight:'Round 1 produces the same result as the single-pass team. The difference: Evaluator\'s attestation.json is fed back to the Generator in round 2. Two additional fixes, full score.',
+    metrics:{'Condition':'Full Team, Multi-turn (2 rounds)','Score':'1.00 / 1.00','vs Oracle / 1-round':'+0.40 uplift','Key mechanism':'Verifier feedback \u2192 Executor round 2'},
+    insight:'Round 1 produces the same result as the single-pass team. The difference: Verifier\'s attestation.json is fed back to the Executor in round 2. Two additional fixes, full score.',
     rounds:[
       {label:'Round 1',feedbackNote:null,agents:[
         {badge:'1',title:'PLANNER',inactive:false,tags:[['spec.md','on']],
-          artifact:{label:'→ plan.md (sent to Generator)',lines:['§2.1 SQL injection — HIGH','§2.2 Session fixation — HIGH','§2.3 Plaintext passwords — HIGH','§4.3 CSRF token — MEDIUM','§5.1 Rate limiting — MEDIUM']},
+          artifact:{label:'→ plan.md (sent to Executor)',lines:['§2.1 SQL injection — HIGH','§2.2 Session fixation — HIGH','§2.3 Plaintext passwords — HIGH','§4.3 CSRF token — MEDIUM','§5.1 Rate limiting — MEDIUM']},
           lines:[
             ['tool','read_file("spec.md")'],
             ['result','↳ 5 vulnerabilities across §2, §4, §5'],
@@ -1454,7 +1471,7 @@ const DEMO_CONDS = {
             ['result','↳ {"verdict":"PARTIAL","missing":["csrf","rate_limit"]}'],
           ]},
       ]},
-      {label:'Round 2',feedbackNote:'Evaluator flagged: CSRF token (§4.3), rate limiting (§5.1)',agents:[
+      {label:'Round 2',feedbackNote:'Verifier flagged: CSRF token (§4.3), rate limiting (§5.1)',agents:[
         {badge:'2',title:'GENERATOR',inactive:false,artifact:null,
           tags:[['attestation.json','on'],['workspace','on']],
           lines:[
@@ -1510,7 +1527,7 @@ function _buildRound(container,round,ri){
   if(round.feedbackNote){
     const fb=document.createElement('div');fb.className='round-feedback';fb.id='rfb-'+ri;
     fb.style.opacity='0';fb.style.transition='opacity 0.5s';
-    fb.innerHTML=`<div class="round-feedback-label">↩ Evaluator Feedback</div>${round.feedbackNote}`;
+    fb.innerHTML=`<div class="round-feedback-label">↩ Verifier Feedback</div>${round.feedbackNote}`;
     container.appendChild(fb);
   }
   // Build horizontal grid
