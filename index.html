@@ -447,7 +447,7 @@
             Dataset
         </a>
         <a class="btn-ghost" href="https://teambench.github.io/human-eval/" target="_blank">
-            <span style="font-size:1rem;line-height:1;">👤💻 + 🤖</span>&nbsp;Human Eval
+            <span style="font-size:1rem;line-height:1;">💻</span>&nbsp;Human Eval
         </a>
     </div>
 
@@ -470,34 +470,27 @@
         <div class="table-wrap" style="max-height:600px;overflow-y:auto;">
             <table>
                 <thead style="position:sticky;top:0;background:var(--bg-card);z-index:1;">
-                    <tr><th style="white-space:nowrap;">#</th><th>Model</th><th>Org</th><th>Oracle</th><th>Restricted</th><th style="white-space:nowrap;">No Plan</th><th style="white-space:nowrap;">No Verify</th><th>Full</th><th>Uplift</th><th style="white-space:nowrap;">Date</th></tr>
+                    <tr><th style="white-space:nowrap;">#</th><th>Model</th><th>Org</th><th>Solo</th><th>Restricted</th><th style="white-space:nowrap;">No Plan</th><th style="white-space:nowrap;">No Eval</th><th>Full</th><th style="white-space:nowrap;">Date</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td><span class="rank rank-gold">1</span></td><td class="model-name">Gemma 4 31B</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">21.4</td><td class="mono">32.9</td><td class="mono">35.6</td><td class="mono">24.0</td><td class="mono best">36.4</td><td class="mono">+14.9</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
-                    <tr><td><span class="rank" style="background:linear-gradient(135deg,#c0c0c0,#a0a0a0);color:#000;">2</span></td><td class="model-name">GPT-5.4 Mini</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">18.9</td><td class="mono">23.3</td><td class="mono">24.4</td><td class="mono">24.4</td><td class="mono best">30.0</td><td class="mono">+11.1</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
-                    <tr><td><span class="rank" style="background:linear-gradient(135deg,#cd7f32,#b06a28);color:#fff;">3</span></td><td class="model-name">Gemini 3.1 Pro</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">14.6</td><td class="mono">20.2</td><td class="mono">19.2</td><td class="mono">26.1</td><td class="mono best">28.4</td><td class="mono">+13.8</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
-                    <tr><td><span class="rank">4</span></td><td class="model-name">Claude Sonnet 4.6</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">7.8</td><td class="mono">27.8</td><td class="mono">22.7</td><td class="mono">15.8</td><td class="mono best">28.2</td><td class="mono">+20.5</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
-                    <tr><td><span class="rank">5</span></td><td class="model-name">GPT-5.4</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">12.2</td><td class="mono">34.8</td><td class="mono">23.6</td><td class="mono">38.9</td><td class="mono best">27.8</td><td class="mono">+15.6</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
-                    <tr><td><span class="rank">6</span></td><td class="model-name">Claude Haiku 4.5</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">12.2</td><td class="mono">28.9</td><td class="mono">20.0</td><td class="mono">11.8</td><td class="mono best">25.6</td><td class="mono">+13.3</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
-                    <tr><td><span class="rank">7</span></td><td class="model-name">GPT-5.4 Nano</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">4.4</td><td class="mono">18.0</td><td class="mono">10.5</td><td class="mono">19.1</td><td class="mono best">25.0</td><td class="mono">+20.6</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
-                    <tr><td><span class="rank">8</span></td><td class="model-name">Gemini 3 Flash</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">12.2</td><td class="mono">15.6</td><td class="mono">8.9</td><td class="mono">27.8</td><td class="mono best">24.4</td><td class="mono">+12.2</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
-                    <tr><td><span class="rank">9</span></td><td class="model-name">Gemini 3.1 Lite</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">4.5</td><td class="mono">14.4</td><td class="mono">10.0</td><td class="mono">18.0</td><td class="mono best">15.9</td><td class="mono">+11.4</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
-                    <tr><td><span class="rank">10</span></td><td class="model-name">Claude Opus 4.7</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">20.0</td><td class="mono">23.3</td><td class="mono">31.1</td><td class="mono">33.3</td><td class="mono best">15.7</td><td class="mono">-4.3</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
-                    <tr><td><span class="rank">11</span></td><td class="model-name">GPT-5 Nano</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">5.6</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td><td class="mono best">6.7</td><td class="mono">+1.2</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
-                    <tr><td><span class="rank">12</span></td><td class="model-name">Qwen3 14B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">3.3</td><td class="mono">2.2</td><td class="mono">2.2</td><td class="mono">1.1</td><td class="mono best">2.2</td><td class="mono">-1.1</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
-                    <tr><td><span class="rank">13</span></td><td class="model-name">GPT-OSS 20B</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">6.7</td><td class="mono">12.2</td><td class="mono">8.9</td><td class="mono">7.8</td><td class="mono best">1.3</td><td class="mono">-5.3</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
-                    <tr><td><span class="rank">14</span></td><td class="model-name">Qwen3 32B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">3.3</td><td class="mono">1.1</td><td class="mono">5.6</td><td class="mono best">1.1</td><td class="mono">+1.1</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
-                    <tr><td><span class="rank">15</span></td><td class="model-name">GPT-OSS 120B</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">2.2</td><td class="mono">0.0</td><td class="mono">1.1</td><td class="mono">10.0</td><td class="mono best">0.0</td><td class="mono">-2.2</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
-                    <tr><td><span class="rank">16</span></td><td class="model-name">Qwen3 4B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">1.1</td><td class="mono">—</td><td class="mono">1.1</td><td class="mono">0.0</td><td class="mono best">0.0</td><td class="mono">-1.1</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
-                    <tr><td><span class="rank">17</span></td><td class="model-name">Qwen3 8B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">1.1</td><td class="mono">4.4</td><td class="mono">1.1</td><td class="mono">3.3</td><td class="mono best">0.0</td><td class="mono">-1.1</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
-                    <tr><td><span class="rank">18</span></td><td class="model-name">Gemini 2.5 Pro</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">0.0</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td><td class="mono best">—</td><td class="mono">—</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
-                    <tr><td><span class="rank">19</span></td><td class="model-name">Qwen3 30B A3B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">4.5</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td><td class="mono best">—</td><td class="mono">—</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
-                    <tr><td><span class="rank">20</span></td><td class="model-name">Qwen3.5 0.8B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">0.0</td><td class="mono">0.0</td><td class="mono">—</td><td class="mono">—</td><td class="mono best">—</td><td class="mono">—</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank rank-gold">1</span></td><td class="model-name">Claude Opus 4.7</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">35.6</td><td class="mono">33.3</td><td class="mono">35.6</td><td class="mono">33.3</td><td class="mono best">37.8</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank" style="background:linear-gradient(135deg,#c0c0c0,#a0a0a0);color:#000;">2</span></td><td class="model-name">GPT-5.4 Mini</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono best">33.3</td><td class="mono">23.3</td><td class="mono">25.6</td><td class="mono">24.4</td><td class="mono">28.9</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank" style="background:linear-gradient(135deg,#cd7f32,#b06a28);color:#fff;">3</span></td><td class="model-name">Claude Haiku 4.5</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">12.2</td><td class="mono best">31.1</td><td class="mono">18.9</td><td class="mono">1.1</td><td class="mono">28.9</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">4</span></td><td class="model-name">Gemini-3.1 Pro</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">27.8</td><td class="mono">22.2</td><td class="mono">16.7</td><td class="mono">25.6</td><td class="mono best">28.9</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">5</span></td><td class="model-name">Claude Sonnet 4.6</td><td><span class="family-tag"><img src="anthropic-logo.svg" alt="">Anthropic</span></td><td class="mono">7.8</td><td class="mono best">27.8</td><td class="mono">10.0</td><td class="mono">6.7</td><td class="mono best">27.8</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">6</span></td><td class="model-name">GPT-5.4</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono">12.2</td><td class="mono best">35.6</td><td class="mono">23.3</td><td class="mono">34.4</td><td class="mono">27.8</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">7</span></td><td class="model-name">Gemma 4 31B</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono best">27.8</td><td class="mono">25.6</td><td class="mono">24.4</td><td class="mono">20.0</td><td class="mono">22.2</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">8</span></td><td class="model-name">Gemini-3 Flash</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">13.3</td><td class="mono">18.9</td><td class="mono">14.4</td><td class="mono best">27.8</td><td class="mono">25.6</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">9</span></td><td class="model-name">Gemini-3.1 Flash Lite</td><td><span class="family-tag"><img src="google-logo.png" alt="">Google</span></td><td class="mono">5.6</td><td class="mono best">21.1</td><td class="mono">8.9</td><td class="mono">17.8</td><td class="mono">17.8</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">10</span></td><td class="model-name">gpt-oss-20b</td><td><span class="family-tag"><img src="openai-logo.svg" alt="" class="logo-invert">OpenAI</span></td><td class="mono best">17.8</td><td class="mono">17.8</td><td class="mono">12.2</td><td class="mono">7.8</td><td class="mono">2.2</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">11</span></td><td class="model-name">Qwen 3 14B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono best">5.6</td><td class="mono">2.2</td><td class="mono">2.2</td><td class="mono">1.1</td><td class="mono">2.2</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">12</span></td><td class="model-name">Qwen 3 32B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono best">5.6</td><td class="mono">3.3</td><td class="mono">0.0</td><td class="mono">5.6</td><td class="mono">1.1</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
+                    <tr><td><span class="rank">13</span></td><td class="model-name">Qwen 3 8B</td><td><span class="family-tag"><img src="qwen-logo.png" alt="">Alibaba</span></td><td class="mono">2.2</td><td class="mono best">5.6</td><td class="mono">1.1</td><td class="mono">3.3</td><td class="mono">0.0</td><td style="font-size:0.7rem;color:var(--text-muted);">2026-05-06</td></tr>
                 </tbody>
             </table>
         </div>
         <div style="padding:0.75rem 1rem;font-size:0.75rem;color:var(--text-muted);border-top:1px solid var(--border);">
-            20 models &mdash; TeamBench-90 leaderboard, seed 0, pass rate (%) &mdash; sorted by Full Team. TeamBench-Verified (57 of 90 tasks) ships alongside the full LB90.
+            13 models &mdash; TeamBench-90, pass rate (%), sorted by max(Solo, Full). Bold cell marks the highest condition per row, matching Table tab:lb90-leaderboard in the paper. Pass rate uses the attestation-promotion rule.
         </div>
     </div>
 </section>
@@ -656,38 +649,50 @@
 <section id="hetero">
     <div class="section-header fade-up">
         <h2 class="section-title">27-Configuration Role-Mixing</h2>
-        <p class="section-desc">Every assignment of three providers to three roles &mdash; Anthropic, Google, OpenAI &mdash; with one compact frontier model per family. 27 configs &times; 25 stratified tasks &times; 3 seeds = 2,025 deduplicated runs.</p>
+        <p class="section-desc">Every assignment of three providers to three roles &mdash; Anthropic, Google, OpenAI &mdash; with one compact frontier model per family. 27 configs &times; 25 stratified tasks &times; 3 seeds = 2,025 deduplicated runs. Source: paper Table~\ref{tab:rolemix-full}.</p>
     </div>
     <div class="lb-wrapper fade-up">
-        <table>
-            <thead>
-                <tr><th>Configuration</th><th>Planner</th><th>Executor</th><th>Verifier</th><th>Pass Rate</th><th>Cost (USD)</th></tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="model-name">PGEAVA (mixed)</td>
-                    <td>Google</td><td>Anthropic</td><td>Anthropic</td>
-                    <td class="mono best">26.7%</td><td class="mono">$20.52</td>
-                </tr>
-                <tr>
-                    <td class="model-name">All-Anthropic</td>
-                    <td>Anthropic</td><td>Anthropic</td><td>Anthropic</td>
-                    <td class="mono">22.7%</td><td class="mono">$39.58</td>
-                </tr>
-                <tr>
-                    <td class="model-name">POEOVA (mixed)</td>
-                    <td>OpenAI</td><td>OpenAI</td><td>Anthropic</td>
-                    <td class="mono">22.7%</td><td class="mono best">$10.98</td>
-                </tr>
-                <tr>
-                    <td class="model-name">All-OpenAI</td>
-                    <td>OpenAI</td><td>OpenAI</td><td>OpenAI</td>
-                    <td class="mono">18.7%</td><td class="mono best">$2.09</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-wrap" style="max-height:600px;overflow-y:auto;">
+            <table>
+                <thead style="position:sticky;top:0;background:var(--bg-card);z-index:1;">
+                    <tr><th>#</th><th>Code</th><th>Planner</th><th>Executor</th><th>Verifier</th><th>Pass</th><th>Partial</th><th>Cost</th><th>Pass/$</th><th>Turns</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><span class="rank">1</span></td><td class="mono" style="font-size:0.78rem;">PGEAVA</td><td>Google</td><td>Anthropic</td><td>Anthropic</td><td class="mono best">26.7%</td><td class="mono">0.695</td><td class="mono">$20.52</td><td class="mono">0.013</td><td class="mono">54.1</td></tr>
+                    <tr><td><span class="rank">2</span></td><td class="mono" style="font-size:0.78rem;">POEOVA</td><td>OpenAI</td><td>OpenAI</td><td>Anthropic</td><td class="mono">22.7%</td><td class="mono">0.679</td><td class="mono">$10.98</td><td class="mono">0.021</td><td class="mono">30.9</td></tr>
+                    <tr><td><span class="rank">3</span></td><td class="mono" style="font-size:0.78rem;">PGEAVO</td><td>Google</td><td>Anthropic</td><td>OpenAI</td><td class="mono">22.7%</td><td class="mono">0.672</td><td class="mono">$11.77</td><td class="mono">0.019</td><td class="mono">49.8</td></tr>
+                    <tr><td><span class="rank">4</span></td><td class="mono" style="font-size:0.78rem;">PAEAVA</td><td>Anthropic</td><td>Anthropic</td><td>Anthropic</td><td class="mono">22.7%</td><td class="mono">0.639</td><td class="mono">$39.58</td><td class="mono">0.006</td><td class="mono">54.3</td></tr>
+                    <tr><td><span class="rank">5</span></td><td class="mono" style="font-size:0.78rem;">POEGVG</td><td>OpenAI</td><td>Google</td><td>Google</td><td class="mono">21.3%</td><td class="mono">0.612</td><td class="mono">$3.73</td><td class="mono">0.057</td><td class="mono">36.2</td></tr>
+                    <tr><td><span class="rank">6</span></td><td class="mono" style="font-size:0.78rem;">PAEAVO</td><td>Anthropic</td><td>Anthropic</td><td>OpenAI</td><td class="mono">21.3%</td><td class="mono">0.650</td><td class="mono">$29.88</td><td class="mono">0.007</td><td class="mono">45.0</td></tr>
+                    <tr><td><span class="rank">7</span></td><td class="mono" style="font-size:0.78rem;">POEGVO</td><td>OpenAI</td><td>Google</td><td>OpenAI</td><td class="mono">20.0%</td><td class="mono">0.600</td><td class="mono">$2.99</td><td class="mono">0.067</td><td class="mono">31.3</td></tr>
+                    <tr><td><span class="rank">8</span></td><td class="mono" style="font-size:0.78rem;">PAEOVO</td><td>Anthropic</td><td>OpenAI</td><td>OpenAI</td><td class="mono">20.0%</td><td class="mono">0.639</td><td class="mono">$9.53</td><td class="mono">0.021</td><td class="mono">37.2</td></tr>
+                    <tr><td><span class="rank">9</span></td><td class="mono" style="font-size:0.78rem;">POEOVO</td><td>OpenAI</td><td>OpenAI</td><td>OpenAI</td><td class="mono">18.7%</td><td class="mono">0.592</td><td class="mono">$2.09</td><td class="mono best">0.089</td><td class="mono">25.2</td></tr>
+                    <tr><td><span class="rank">10</span></td><td class="mono" style="font-size:0.78rem;">PGEOVO</td><td>Google</td><td>OpenAI</td><td>OpenAI</td><td class="mono">18.7%</td><td class="mono">0.627</td><td class="mono">$2.36</td><td class="mono">0.079</td><td class="mono">38.3</td></tr>
+                    <tr><td><span class="rank">11</span></td><td class="mono" style="font-size:0.78rem;">PAEGVO</td><td>Anthropic</td><td>Google</td><td>OpenAI</td><td class="mono">18.7%</td><td class="mono">0.583</td><td class="mono">$12.45</td><td class="mono">0.015</td><td class="mono">46.7</td></tr>
+                    <tr><td><span class="rank">12</span></td><td class="mono" style="font-size:0.78rem;">PAEGVA</td><td>Anthropic</td><td>Google</td><td>Anthropic</td><td class="mono">18.7%</td><td class="mono">0.618</td><td class="mono">$21.62</td><td class="mono">0.009</td><td class="mono">51.7</td></tr>
+                    <tr><td><span class="rank">13</span></td><td class="mono" style="font-size:0.78rem;">POEAVO</td><td>OpenAI</td><td>Anthropic</td><td>OpenAI</td><td class="mono">17.3%</td><td class="mono">0.448</td><td class="mono">$6.15</td><td class="mono">0.028</td><td class="mono">19.9</td></tr>
+                    <tr><td><span class="rank">14</span></td><td class="mono" style="font-size:0.78rem;">POEAVG</td><td>OpenAI</td><td>Anthropic</td><td>Google</td><td class="mono">17.3%</td><td class="mono">0.466</td><td class="mono">$6.99</td><td class="mono">0.025</td><td class="mono">23.5</td></tr>
+                    <tr><td><span class="rank">15</span></td><td class="mono" style="font-size:0.78rem;">PAEGVG</td><td>Anthropic</td><td>Google</td><td>Google</td><td class="mono">17.3%</td><td class="mono">0.605</td><td class="mono">$13.34</td><td class="mono">0.013</td><td class="mono">50.9</td></tr>
+                    <tr><td><span class="rank">16</span></td><td class="mono" style="font-size:0.78rem;">PAEAVG</td><td>Anthropic</td><td>Anthropic</td><td>Google</td><td class="mono">17.3%</td><td class="mono">0.646</td><td class="mono">$29.48</td><td class="mono">0.006</td><td class="mono">51.6</td></tr>
+                    <tr><td><span class="rank">17</span></td><td class="mono" style="font-size:0.78rem;">PGEGVO</td><td>Google</td><td>Google</td><td>OpenAI</td><td class="mono">16.0%</td><td class="mono">0.557</td><td class="mono">$3.67</td><td class="mono">0.044</td><td class="mono">45.3</td></tr>
+                    <tr><td><span class="rank">18</span></td><td class="mono" style="font-size:0.78rem;">PAEOVA</td><td>Anthropic</td><td>OpenAI</td><td>Anthropic</td><td class="mono">16.0%</td><td class="mono">0.602</td><td class="mono">$18.31</td><td class="mono">0.009</td><td class="mono">44.9</td></tr>
+                    <tr><td><span class="rank">19</span></td><td class="mono" style="font-size:0.78rem;">PGEOVG</td><td>Google</td><td>OpenAI</td><td>Google</td><td class="mono">14.7%</td><td class="mono">0.559</td><td class="mono">$3.33</td><td class="mono">0.044</td><td class="mono">45.7</td></tr>
+                    <tr><td><span class="rank">20</span></td><td class="mono" style="font-size:0.78rem;">PGEAVG</td><td>Google</td><td>Anthropic</td><td>Google</td><td class="mono">14.7%</td><td class="mono">0.496</td><td class="mono">$8.13</td><td class="mono">0.018</td><td class="mono">35.6</td></tr>
+                    <tr><td><span class="rank">21</span></td><td class="mono" style="font-size:0.78rem;">PAEOVG</td><td>Anthropic</td><td>OpenAI</td><td>Google</td><td class="mono">14.7%</td><td class="mono">0.617</td><td class="mono">$10.87</td><td class="mono">0.013</td><td class="mono">43.9</td></tr>
+                    <tr><td><span class="rank">22</span></td><td class="mono" style="font-size:0.78rem;">POEAVA</td><td>OpenAI</td><td>Anthropic</td><td>Anthropic</td><td class="mono">14.7%</td><td class="mono">0.437</td><td class="mono">$12.41</td><td class="mono">0.012</td><td class="mono">24.2</td></tr>
+                    <tr><td><span class="rank">23</span></td><td class="mono" style="font-size:0.78rem;">PGEGVG</td><td>Google</td><td>Google</td><td>Google</td><td class="mono">13.3%</td><td class="mono">0.570</td><td class="mono">$4.98</td><td class="mono">0.027</td><td class="mono">54.6</td></tr>
+                    <tr><td><span class="rank">24</span></td><td class="mono" style="font-size:0.78rem;">POEGVA</td><td>OpenAI</td><td>Google</td><td>Anthropic</td><td class="mono">13.3%</td><td class="mono">0.399</td><td class="mono">$7.98</td><td class="mono">0.017</td><td class="mono">24.5</td></tr>
+                    <tr><td><span class="rank">25</span></td><td class="mono" style="font-size:0.78rem;">POEOVG</td><td>OpenAI</td><td>OpenAI</td><td>Google</td><td class="mono">12.0%</td><td class="mono">0.602</td><td class="mono">$2.66</td><td class="mono">0.045</td><td class="mono">29.5</td></tr>
+                    <tr><td><span class="rank">26</span></td><td class="mono" style="font-size:0.78rem;">PGEOVA</td><td>Google</td><td>OpenAI</td><td>Anthropic</td><td class="mono">10.7%</td><td class="mono">0.317</td><td class="mono">$7.43</td><td class="mono">0.014</td><td class="mono">32.0</td></tr>
+                    <tr><td><span class="rank">27</span></td><td class="mono" style="font-size:0.78rem;">PGEGVA</td><td>Google</td><td>Google</td><td>Anthropic</td><td class="mono">10.7%</td><td class="mono">0.371</td><td class="mono">$8.11</td><td class="mono">0.013</td><td class="mono">37.0</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="padding:0.75rem 1rem;font-size:0.75rem;color:var(--text-muted);border-top:1px solid var(--border);">
+            Bold pass marks the top configuration (PGEAVA, 26.7%); bold pass/$ marks the most cost-efficient (POEOVA, 0.089). Pass rate is paired across 75 runs per row.
+        </div>
     </div>
-    <div style="max-width:700px;margin:1.5rem auto 0;text-align:center;">
+    <div style="max-width:760px;margin:1.5rem auto 0;text-align:center;">
         <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;">
             <strong>Key insight:</strong> PGEAVA outperforms the all-Anthropic team by 4 points at roughly half the cost. The Anthropic Executor marginal is about 3 points higher than alternatives; the OpenAI Verifier has the highest Verifier marginal. Planner CIs overlap across all three families. Fine-grained configuration ranks are unstable across seeds (Spearman 0.09 to 0.28); we report pooled role marginals rather than exact rank order.
         </p>
@@ -868,7 +873,7 @@
             <sup>4</sup>Independent Researcher
         </div>
         <div style="margin-top:1.5rem;font-size:0.78rem;color:var(--text-muted);">
-            Correspondence: <a href="mailto:ybkim95@media.mit.edu" style="color:var(--text-secondary);text-decoration:underline;">ybkim95@media.mit.edu</a>
+            Correspondence: <a href="mailto:ybkim95@mit.edu" style="color:var(--text-secondary);text-decoration:underline;">ybkim95@mit.edu</a>
         </div>
     </div>
 </section>
@@ -886,7 +891,7 @@
             <a href="https://github.com/ybkim95/TeamBench" target="_blank">GitHub</a>
             <a href="https://huggingface.co/datasets/ybkim95/teambench" target="_blank">HuggingFace</a>
             <a href="https://huggingface.co/datasets/ybkim95/teambench/resolve/main/croissant.json" target="_blank">Croissant</a>
-            <a href="mailto:ybkim95@media.mit.edu">Contact</a>
+            <a href="mailto:ybkim95@mit.edu">Contact</a>
         </div>
     </div>
 </footer>
@@ -1065,22 +1070,22 @@ function buildCharts() {
     Chart.defaults.plugins.datalabels = { display: false };
 
     charts.category = new Chart(document.getElementById('chart-category'), {
-        type:'bar', data:{ labels:['Multi-lang.','Integration','Incident','Long-Hor.','Operations','Testing','Policy','Negotiation','Spec.','SWE','Adversarial','Pipeline','Code Rev.','Info. Retr.','Cross-Sys.','Security','Data Eng.','Distributed'], datasets:[{data:[0.74,0.50,0.44,0.38,0.35,0.35,0.22,0.21,0.13,0.05,0.04,0.03,0.01,0.00,0.00,-0.01,-0.01,-0.10],backgroundColor:ctx=>ctx.raw>=0?c.bar:c.neg,borderRadius:3,barThickness:14}] },
+        type:'bar', data:{ labels:['Pipeline','Multi-lang.','Info. Retr.','Long-Hor.','Incident','Code Rev.','Security','Distributed','SWE','Spec.','Cross-Sys.','Adversarial','Operations','Policy','Data Eng.','Testing'], datasets:[{data:[-0.27,-0.128,-0.119,-0.096,-0.086,-0.049,-0.049,-0.047,-0.046,-0.027,0.00,0.00,0.009,0.126,0.147,0.285],backgroundColor:ctx=>ctx.raw>=0?c.bar:c.neg,borderRadius:3,barThickness:14}] },
         options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'Uplift: '+(ctx.raw>=0?'+':'')+ctx.raw.toFixed(2)}}},scales:{x:{grid:{color:c.grid},ticks:{font:{size:10}}},y:{grid:{display:false},ticks:{font:{size:9}}}}}
     });
 
     charts.models = new Chart(document.getElementById('chart-models'), {
-        type:'bar', data:{ labels:['Gemma 4 31B','GPT5.4 Mini','G3.1 Pro','Sonnet 4.6','GPT5.4','Haiku 4.5'], datasets:[{label:'Oracle',data:[21.4, 18.9, 14.6, 7.8, 12.2, 12.2],backgroundColor:c.barAlt,borderRadius:3,barThickness:16},{label:'Full Team',data:[36.4, 30.0, 28.4, 28.2, 27.8, 25.6],backgroundColor:c.bar,borderRadius:3,barThickness:16}] },
+        type:'bar', data:{ labels:['Opus 4.7','GPT5.4 Mini','Haiku 4.5','G3.1 Pro','Sonnet 4.6','GPT5.4'], datasets:[{label:'Solo',data:[35.6, 33.3, 12.2, 27.8, 7.8, 12.2],backgroundColor:c.barAlt,borderRadius:3,barThickness:16},{label:'Full Team',data:[37.8, 28.9, 28.9, 28.9, 27.8, 27.8],backgroundColor:c.bar,borderRadius:3,barThickness:16}] },
         options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{boxWidth:10,padding:12,font:{size:10}}}},scales:{x:{grid:{display:false},ticks:{font:{size:9}}},y:{grid:{color:c.grid},ticks:{callback:v=>v+'%',font:{size:10}}}}}
     });
 
     charts.ablation = new Chart(document.getElementById('chart-ablation'), {
-        type:'bar', data:{ labels:['Oracle','Restricted','No Plan','No Eval','Full Team'], datasets:[{data:[0.542,0.533,0.509,0.59,0.535],backgroundColor:[c.barAlt,c.barAlt,c.neg,c.bar,c.bar],borderRadius:4,barThickness:36}] },
-        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{min:0.45,max:0.62,grid:{color:c.grid},ticks:{font:{size:10}}}}}
+        type:'bar', data:{ labels:['Oracle','Restricted','No Plan','No Eval','Full Team'], datasets:[{data:[0.549,0.542,0.523,0.601,0.546],backgroundColor:[c.barAlt,c.barAlt,c.neg,c.bar,c.bar],borderRadius:4,barThickness:36}] },
+        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{min:0.5,max:0.62,grid:{color:c.grid},ticks:{font:{size:10}}}}}
     });
 
     charts.quintile = new Chart(document.getElementById('chart-quintile'), {
-        type:'bar', data:{ labels:['Q1 (Hardest)','Q2','Q3','Q4','Q5 (Easiest)'], datasets:[{data:[0.1664,0.1031,-0.0879,-0.1162,-0.0929],backgroundColor:ctx=>ctx.raw>=0?c.bar:c.neg,borderRadius:4,barThickness:32}] },
+        type:'bar', data:{ labels:['Q1 (Hardest)','Q2','Q3','Q4','Q5 (Easiest)'], datasets:[{data:[0.157,0.08800000000000001,-0.068,-0.10099999999999999,-0.09],backgroundColor:ctx=>ctx.raw>=0?c.bar:c.neg,borderRadius:4,barThickness:32}] },
         options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:c.grid},ticks:{callback:v=>(v>=0?'+':'')+(v*100).toFixed(1)+'%',font:{size:10}}}}}
     });
 
